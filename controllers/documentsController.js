@@ -1,16 +1,16 @@
 const api = require("../core/api");
 
-const balanceController = {
-    getBalance: async (req, res, next) => {
+const documentsController = {
+    getDocuments: async (req, res, next) => {
 
         const config = {
             authorization: req.headers.authorization
         }
           
-        let request = await api("GET", "/balance", {}, config)
+        let request = await api("GET", "/documents", {}, config)
         
         res.send(request.data)
     }
 }
 
-module.exports = balanceController;
+module.exports = documentsController;

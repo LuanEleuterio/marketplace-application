@@ -1,0 +1,12 @@
+.form-partner {
+    display: flex;
+    flex-wrap: wrap;
+    width: 363px;
+    margin: 0 auto;
+}
+
+.form-partner label,
+input,
+select {
+    width: 100%;
+}

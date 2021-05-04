@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>Integração com a Sandbox da Juno</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="../css/style.css" />
+        <link rel="stylesheet" href="../css/partner.css" />
+    </head>
+    <body>
+        <header class="header">
+            <h1>Registration - Loja Luan</h1>
+        </header>
+        <main>
+            <form action="" method='POST' class="form-partner">
+                <label for="name">Name:</label>
+                <input type="text" name="name" id="name" required>
+                <label for="cpf">CPF:</label>
+                <input type="text" name="cpf" id="cpf" required>
+                <label for="email">Email:</label>
+                <input type="email" name="email" id="email" required>
+                <label for="dtnasc">Data Nascimento:</label>
+                <input type="date" name="dtnasc" id="dtnasc" required>
+                <label for="phone">Telefone:</label>
+                <input type="text" name="phone" id="phone" required>
+                <label for="businessArea">Área de Negócio:</label>
+                <select name="businessArea" id="businessArea">
+                    <%if(data.businessAreas !== undefined){%>
+                        <% for( let area of data.businessAreas ) {%>
+                            <option value='<%= area.code %>'><%= area.activity %> - <%= area.category %></option>
+                        <%}%>
+                    <%}%>   
+                </select>
+                <label for="lineBusiness">Linha de Negócio:</label>
+                <input type="text" name="lineBusiness" id="line-business" required>
+                <label for="mothersName">Nome da Mãe:</label>
+                <input type="text" name="mothersName" id="mother-name" required>
+                <label for="rendaMensal">Renda Mensal:</label>
+                <input type="number" name="rendaMensa" id="renda-mensal" required>
+                <label for="street">Rua:</label>
+                <input type="text" name="street" id="street" required>
+                <label for="numberHouse">Numero Residência:</label>
+                <input type="text" name="numberHouse" id="number-house" required>
+                <label for="city">Cidade:</label>
+                <input type="text" name="city" id="city" required>
+                <label for="state">UF:</label>
+                <input type="text" name="state" id="state" required>
+                <label for="cep">CEP:</label>
+                <input type="text" name="cep" id="cep" required>
+                <label for="bankNumber">Banco Numero:</label>
+                <select name="bankNumber" id="bankNumber">
+                    <%if(data.banks !== undefined){%>
+                        <% for( let bank of data.banks ) {%>
+                            <option value='<%= bank.number %>'><%= bank.number %> - <%= bank.name %></option>
+                        <%}%>
+                    <%}%>   
+                </select>
+                <label for="bankAgency">Agência:</label>
+                <input type="text" name="bankAgency" id="bank-agency" required>
+                <label for="bankAccount">Conta:</label>
+                <input type="text" name="bankAccount" id="bank-account" required>
+                <label for="accountType">Tipo de Conta:</label>
+                <input type="text" name="accountType" id="account-type" required>
+                <label for="nameOwner">Nome Titular:</label>
+                <input type="text" name="nameOwner" id="name-owner" required>
+                <label for="cpfOwner">CPF Titular:</label>
+                <input type="text" name="cpfOwner" id="cpf-owner" required>
+
+                <label for="password">Password:</label>
+                <input type="password" name="password" id="password" required>
+                <button type="button" id="btn-send-partner">Enviar</button>
+            </form> 
+            <h2 id="subtitulo" style="margin: 60px 0; text-align: center"></h2>
+        </main>
+        <script type="module" src="js/registerPartner.js"></script>
+    </body>
+</html>

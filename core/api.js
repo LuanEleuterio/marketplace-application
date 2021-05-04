@@ -1,10 +1,13 @@
 const axios = require("axios")
 
 module.exports = async (method, url, data = {}, config = {}) => {
+    let header = {}
+
+    config?.authorization ? header["Authorization"] = config.authorization : null
    
     const request = await axios.create({
         baseURL: `http://localhost:8080`,
-        headers: config
+        headers: header
     })
 
     let instance;
@@ -20,6 +23,6 @@ module.exports = async (method, url, data = {}, config = {}) => {
 
     return instance(url, data, config)
     .catch(err => {
-        console.log(err)
+        return err.response
     })
 }

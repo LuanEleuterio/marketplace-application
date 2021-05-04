@@ -2,18 +2,16 @@ const api = require("../core/api")
 
 const authenticateController = {
     getAuth: async (req, res, next) => {
-        const body = req.body
+        try{
+            const body = req.body
 
-        let request = await api("POST", "/auth", body)
-
-        //console.log(request)
-        
-        res.send(request.data)
-        //res.render("home", {"obj": "Ola"})
-   
-        
+            let request = await api("POST", "/auth", body)
+                     
+            res.send(request.data)
+        }catch(err){
+            res.send(err)
+        }
     }
 } 
-
 
 module.exports = authenticateController
