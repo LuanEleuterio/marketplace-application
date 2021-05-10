@@ -1,8 +1,9 @@
 const email = document.querySelector("#email-login")
 const password = document.querySelector("#password-login")
 const btnLogin = document.querySelector("#btn-login")
+const radioLogin = document.getElementsByName('login')
 
-function registerUser(data) {
+function login(data) {
     
     try {
         fetch("http://localhost:8081/auth",{
@@ -26,10 +27,19 @@ function registerUser(data) {
 
 btnLogin.addEventListener("click", (e) => {
     e.preventDefault()
+    let userOrPartner;
 
+    for( let i = 0; i< radioLogin.length; i++){
+        if(radioLogin[i].checked){
+            userOrPartner = radioLogin[i].value;
+            break;
+        }
+    }
     const body = {
         email:`${email.value}`,
-        password:`${password.value}`
-    }
-    registerUser(body)
+        password:`${password.value}`,
+        userOrPartner: userOrPartner
+    };
+
+    login(body);
 })

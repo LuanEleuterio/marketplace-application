@@ -6,7 +6,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
 
-require("./routes/index")(app);
+require("./routes/index.router")(app);
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');

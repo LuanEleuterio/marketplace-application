@@ -1,4 +1,4 @@
-const partnerController = require("../controllers/partnerController");
+const partnerController = require("../controllers/partner.controller");
 
 module.exports = (app) => {
     app.post("/register-partner", partnerController.register);

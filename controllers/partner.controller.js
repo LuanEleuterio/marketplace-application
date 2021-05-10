@@ -1,5 +1,5 @@
 const api = require("../core/api");
-const bankAndBusinessController = require("./bankAndBusinessController")
+const gatewayController = require("./gateway.controller")
 
 const partnerController = {
     register: async (req, res, next) => {
@@ -8,8 +8,8 @@ const partnerController = {
         return res.send(request.data)
     },
     renderRegister: async (req, res, next) => {
-        const bankAndBusiness = await bankAndBusinessController.getBankAndBusiness()
-
+        const bankAndBusiness = await gatewayController.getBankAndBusiness()
+        
         res.render("registerPartner", {data: bankAndBusiness})
     }
 }

@@ -22,8 +22,14 @@
                 <input type="password" name="password" id="password" required>
                 <button type="button" id="btn-send">Enviar</button>
             </form>
-            <h2>Login User</h2>
+            <h2>Login</h2>
             <form action="" method='POST'>
+                <p>Você é:</p>
+                <input type="radio" id="user" name="login" value="USER" checked>
+                <label for="user">Usuário</label><br>
+                <input type="radio" id="partner" name="login" value="PARTNER">
+                <label for="partner">Parceiro</label><br>   
+
                 <label for="email">Email:</label>
                 <input type="email" name="email" id="email-login" required>
                 <label for="password">Password:</label>
@@ -49,14 +55,10 @@
             <h2>Consultar Saldo</h2>
             <button type="button" id="btn-saldo">Saldo</button>
         </main>
-        <script type="module" src="js/registerUser.js"></script>
-        <script type="module" src="js/registerPartner.js"></script>
-        <script type="module" src="js/loginUser.js"></script>
-        <script type="module" src="js/charge.js"></script>
-        <script type="module" src="js/balance.js"></script>
         <script type="text/javascript" src="https://sandbox.boletobancario.com/boletofacil/wro/direct-checkout.min.js"></script>
-        <script type="module" src="js/payment.js"></script>
-        <script type="module" src="js/documents.js"></script>
-        <script type="module" src="js/tokenization.js"></script>
+        <script type="module" src="js/financial.js"></script>
+        <script type="module" src="js/authenticate.js"></script>
+        <script type="module" src="js/partner.js"></script>
+        <script type="module" src="js/user.js"></script>
     </body>
 </html>
