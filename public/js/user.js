@@ -1,7 +1,5 @@
-const fullName = document.querySelector("#fullname")
-const email = document.querySelector("#email")
-const password = document.querySelector("#password")
-const btnSend = document.querySelector("#btn-send")
+const btnSendUser = document.querySelector("#btn-send-user")
+const btnProfileVerCards = document.querySelector('#btn-profile-ver-cards')
 
 function registerUser(data) {
     
@@ -25,13 +23,58 @@ function registerUser(data) {
     }
 }
 
-btnSend.addEventListener("click", (e) => {
-    e.preventDefault()
+if(btnSendUser != undefined){
+    const fullName = document.querySelector("#fullname")
+    const email = document.querySelector("#email")
+    const password = document.querySelector("#password")
+    const cpf = document.querySelector('#cpf')
+    const dtNasc = document.querySelector('#dtnasc')
+    const phone = document.querySelector('#phone')
+    const street = document.querySelector('#street')
+    const numberHouse = document.querySelector('#number-house')
+    const city = document.querySelector('#city')
+    const uf = document.querySelector('#state')
+    const cep = document.querySelector('#cep')
 
-    const body = {
-        name: `${fullName.value}`,
-        email:`${email.value}`,
-        password:`${password.value}`
-    }
-    registerUser(body)
-})
+    btnSendUser.addEventListener("click", (e) => {
+        e.preventDefault()
+
+        const body = {
+            name: fullName.value,
+            email: email.value,
+            password: password.value,
+            document: cpf.value,
+            dtnasc: dtNasc.value,
+            phone: phone.value,
+            address: {
+                street: street.value,
+                number: numberHouse.value,
+                city: city.value,
+                state: uf.value,
+                postCode: cep.value
+            }
+        }
+
+        registerUser(body)
+    })
+}
+
+if(location.pathname == '/profile'){
+    window.addEventListener("load", (e) =>{
+        try {
+            fetch("http://localhost:8081/orders",{
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            }).catch((err) => console.log(err));
+        } catch (err) { 
+            console.log(err);
+        }
+    })
+}
+
+if(btnProfileVerCards != undefined) {
+    btnProfileVerCards.addEventListener('click', () =>{
+        window.location.href = '/user/profile/cards'
+    })
+}

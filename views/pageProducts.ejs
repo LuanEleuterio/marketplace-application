@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>Marketplace Luan - Produtos</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="../css/style.css" />
+    </head>
+    <body>
+        <header class="header">
+            <h1>Marketplace Luan - Produtos</h1>
+        </header>
+        <main class="container">
+            <div class="produtos-list">
+                <% if(products.length > 0) {%>
+                    <% for(let product of products){ %>
+                        <div class="produto-item">
+                            <div class="img-produto">
+                                <img
+                                    src="<%=product.img_url%>"
+                                    alt=""
+                                />
+                            </div>
+                            <h2><%=product.name%></h2>
+                            <p class="descricao">
+                                <%=product.description%>
+                            </p>
+                            <div class="price-buy">
+                                <p class="preco">R$ <%=product.price%></p>
+                                <button class="btn-comprar" type="button" data-id="<%=product._id%>">
+                                    Comprar
+                                </button>
+                            </div>
+                        </div>
+                    <%}%>
+                <%}%>    
+            </div>
+        </main>
+    </body>
+</html>

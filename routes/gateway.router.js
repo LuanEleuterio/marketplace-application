@@ -7,7 +7,10 @@ module.exports = (app) => {
     app.get("/business-areas", gatewayController.getBusiness);
     app.get("/bank-business", gatewayController.getBankAndBusiness);
 
-    app.post("/charge", gatewayController.createCharge);
+    app.post("/documents", gatewayController.sendDocuments);
+    app.post("/order", gatewayController.createOrder);
     app.post("/payment", gatewayController.sendPayment);
     app.post("/tokenization", gatewayController.createTokenCard);
+
+    app.put("/order/cancel/:orderId", gatewayController.cancelOrder)
 }

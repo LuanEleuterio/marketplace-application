@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>Integração com a Sandbox da Juno</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="../css/user.css" />
+    </head>
+    <body>
+        <header class="header">
+            <h1>Cadastros de Usuário - Loja Luan</h1>
+        </header>
+        <main>
+            <form action="" method='POST' class="form-user">
+                <label for="name">Nome Completo:</label>
+                <input type="text" name="name" id="fullname" required>
+                <label for="cpf">CPF:</label>
+                <input type="text" name="cpf" id="cpf" required>
+                <label for="email">Email:</label>
+                <input type="email" name="email" id="email" required>
+                <label for="dtnasc">Data Nascimento:</label>
+                <input type="date" name="dtnasc" id="dtnasc" required>
+                <label for="phone">Telefone:</label>
+                <input type="text" name="phone" id="phone" required>
+                <label for="street">Rua:</label>
+                <input type="text" name="street" id="street" required>
+                <label for="numberHouse">Número Residência:</label>
+                <input type="text" name="numberHouse" id="number-house" required>
+                <label for="city">Cidade:</label>
+                <input type="text" name="city" id="city" required>
+                <label for="state">UF:</label>
+                <input type="text" name="state" id="state" required>
+                <label for="cep">CEP:</label>
+                <input type="text" name="cep" id="cep" required>
+                <label for="password">Password:</label>
+                <input type="password" name="password" id="password" required>
+                <button type="button" id="btn-send-user">Enviar</button>
+            </form> 
+        </main>
+        <script src="js/user.js"></script>
+    </body>
+</html>

@@ -1,0 +1,7 @@
+.option-sign {
+    margin: 0 auto;
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    gap: 10px;
+}

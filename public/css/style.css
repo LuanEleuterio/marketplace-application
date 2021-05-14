@@ -65,6 +65,7 @@ img {
 .img-produto img {
     margin: 0 auto;
     border-radius: 10px;
+    height: 135px;
 }
 
 .descricao {

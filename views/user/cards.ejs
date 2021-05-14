@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Marketplace - Profile Info</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet'  href='/css/user.css'>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap"
+        rel="stylesheet"
+    />
+</head>
+<body>
+    <main class="container">
+        <div>
+            <div class="itens-cards">
+                <% if(cards.length > 0) {
+                    for( let card of cards){ %>
+                        <div class="cards">
+                            <div class="card-info">
+                                <div>
+                                    <p>(CRÉDITO) Cartão terminado em</p>
+                                    <span><%=card.last4CardNumber%></span>
+                                </div>
+                                <div>
+                                    <p>Expira em</p>
+                                    <span><%=card.expirationMonth%>/<%=card.expirationYear%></span>
+                                </div>
+                            </div>
+                            <div class="card-info-owner">
+                                <div class="card-owner">
+                                    <div>
+                                        <p>Nome no cartão</p>
+                                        <span class="name-owner"><%=card.customer.name%></span>
+                                    </div>
+                                    <div>
+                                        <button class="btn-edit-card btn-card">Editar</button>
+                                        <button class="btn-delete-card btn-card">Excluir</button>
+                                    </div>
+                                </div>
+                                <div class="card-owner-address">
+                                    <p>Endereço de cobrança</p>
+                                    <p><%=card.customer.address.street%></p>
+                                    <p><%=card.customer.address.city%>, <%=card.customer.address.state%> - <%=card.customer.address.postCode%></p>
+                                    <p><%=card.customer.phone%></p>
+                                </div>
+                            </div>
+                        </div>
+                    <%}
+                }%>
+            </div>
+        </div>
+    </main>
+    <script src="/js/user.js"></script>
+</body>
+</html>

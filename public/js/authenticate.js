@@ -13,11 +13,23 @@ function login(data) {
             },
             body: JSON.stringify(data)
         })
-            .then(res => res.json())
+            .then(res => {
+                if(!res.ok){    
+                    throw Error(res.statusText)
+                }else{
+                    return res.json()
+                }
+            })
             .then(res => {
                 console.log(res)
-                localStorage.setItem("user-id", res.user._id)
                 localStorage.setItem("token", res.token)
+
+                if(res.type === "USER"){
+                    localStorage.setItem("user-id", res.user._id)
+                    window.location.href = '/list-products'
+                }else{
+                    localStorage.setItem("partner-id", res.user._id)
+                }
             })
             .catch((err) => console.log(err));
     } catch (err) { 

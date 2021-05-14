@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Marketplace - Profile User</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet'  href='/css/user.css'>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap"
+        rel="stylesheet"
+    />
+</head>
+<body>
+    <main class="container">
+        <div class="box-user">
+            <h2>Informações da conta</h2>
+            <div class="user-data">
+                <div class="box-data">
+                    <div>
+                        <p>Nome:</p>
+                        <span><%=user.name%></span>
+                    </div>
+                    <button>Editar</button>
+                </div>
+                <div class="box-data">
+                    <div>
+                        <p>E-mail:</p>
+                        <p><%=user.email%></p>
+                    </div>
+                    <button>Editar</button>
+                </div>
+                <div class="box-data">
+                    <div>
+                        <p>Número de telefone celular:</p>
+                        <p><%=user.phone%></p>
+                    </div>
+                    <button>Editar</button>
+                </div>
+                <div class="box-data">
+                    <div>
+                        <p>CPF:</p>
+                        <p><%=user.document%></p>
+                    </div>
+                    <button>Editar</button>
+                </div>
+                <div class="box-data">
+                    <div>
+                        <p>Endereço:</p>
+                        <p><%=user.address.street%>, <%=user.address.number%></p>
+                        <p><%=user.address.city%>, <%=user.address.state%> - <%=user.address.postCode%></p>
+                    </div>
+                    <button>Editar</button>
+                </div>
+                <div class="box-data">
+                    <div>
+                        <p style="margin: 10px 0">Cartões</p>
+                    </div>
+                    <button id="btn-profile-ver-cards">Ver</button>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="/js/user.js"></script>
+</body>
+</html>
