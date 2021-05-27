@@ -21,14 +21,19 @@ function login(data) {
                 }
             })
             .then(res => {
-                console.log(res)
                 localStorage.setItem("token", res.token)
 
                 if(res.type === "USER"){
-                    localStorage.setItem("user-id", res.user._id)
-                    window.location.href = '/list-products'
+                    localStorage.setItem("user-id", res.userId)
+                    window.location.href = '/products'
                 }else{
-                    localStorage.setItem("partner-id", res.user._id)
+                    localStorage.setItem("partner-id", res.userId)
+                    if(res.signUpCompleted && res.hasJunoAccount){
+                        window.location.href = '/partner/financial'
+                    }else{
+                        window.location.href = '/partner/profile'
+                    }
+                    
                 }
             })
             .catch((err) => console.log(err));
@@ -47,6 +52,7 @@ btnLogin.addEventListener("click", (e) => {
             break;
         }
     }
+    
     const body = {
         email:`${email.value}`,
         password:`${password.value}`,

@@ -5,62 +5,260 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Marketplace - Profile Partner</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet'  href='./css/partner.css'>
     <link
         href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap"
         rel="stylesheet"
     />
+    <link rel='stylesheet'  href='/css/partner.css'>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous"> 
 </head>
 <body>
-    <main class="container">
-        <div class="box-user">
-            <h2>Informações da conta</h2>
-            <div class="user-data">
+    <%- include('../../views/partials/headerPartner') %>
+    <main class="container container-partner">
+        <div class="box-partner">
+            <div class="row col-12 mb-3">
+                <h2 class="col-9">Informações da conta
+                    <%if(!partner.signUpCompleted){%>
+                        <span class="ms-4 fs-6" style="color:#dc3545">É necessário completar o cadastro para vender na plataforma</span>
+                    <%}else if(!partner.hasJunoAccount){%>
+                        <span class="ms-4 fs-6" style="color:#dc3545">É necessário ter uma conta Juno para vender na plataforma</span>
+                    <%}%>
+                </h2>
+                <button class="btn btn-warning col-3" id="btn-update-partner">Alterar dados</button>
+            </div>
+            <div class="partner-data">
                 <div class="box-data">
                     <div>
-                        <p>Nome:</p>
-                        <span><%=user.name%></span>
+                        <p>Nome da Loja:</p>
+                        <span><%=partner.name%></span>
                     </div>
-                    <button>Editar</button>
+                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#collapseName" aria-expanded="false" aria-controls="collapseExample">
+                        Editar
+                    </button>
+                    <div class="collapse" id="collapseName">
+                        <form>
+                            <input class="form-control mt-3" type="text" name="name" id="name" value="<%=partner.name%>" placeholder="Novo nome">
+                        </form>
+                    </div>
                 </div>
                 <div class="box-data">
                     <div>
                         <p>E-mail:</p>
-                        <p><%=user.email%></p>
+                        <p><%=partner.email%></p>
                     </div>
-                    <button>Editar</button>
+                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#collapseEmail" aria-expanded="false" aria-controls="collapseExample">
+                        Editar
+                    </button>
+                    <div class="collapse" id="collapseEmail">
+                        <form>
+                            <input class="form-control mt-3" type="text" name="email" id="email" value="<%=partner.email%>" placeholder="Novo E-mail">
+                        </form>
+                    </div>
                 </div>
                 <div class="box-data">
                     <div>
                         <p>Número de telefone celular:</p>
-                        <p><%=user.phone%></p>
+                        <p><%=partner.phone%></p>
                     </div>
-                    <button>Editar</button>
+                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#collapsePhone" aria-expanded="false" aria-controls="collapseExample">
+                        Editar
+                    </button>
+                    <div class="collapse" id="collapsePhone">
+                        <form>
+                            <input class="form-control mt-3" type="text" name="phone" id="phone" value="<%=partner.phone%>" placeholder="Novo Telefone">
+                        </form>
+                    </div>
                 </div>
                 <div class="box-data">
                     <div>
                         <p>CPF:</p>
-                        <p><%=user.document%></p>
+                        <p>
+                            <%if(!partner.signUpCompleted){%>
+                                <span class="ms-5 fs-6" style="color:#dc3545">Fornececer dado</span>
+                            <%}else{%>
+                                <%=partner.document%>
+                            <%}%>
+                        </p>
                     </div>
-                    <button>Editar</button>
+                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#collapseDocument" aria-expanded="false" aria-controls="collapseExample">
+                        Editar
+                    </button>
+                    <div class="collapse" id="collapseDocument">
+                        <form>
+                            <input class="form-control mt-3" type="text" name="document" value="<%=partner.document%>" id="document" placeholder="CPF">
+                        </form>
+                    </div>
+                </div>
+                <div class="box-data">
+                    <div>
+                        <p>Négocio:</p>
+                        <%if(!partner.signUpCompleted){%>
+                            <span class="ms-5 fs-6" style="color:#dc3545">Fornececer dado</span>
+                        <%}else{%>
+                            <p>Linha de Negócio: <%=partner.linesOfBusiness%> </p>
+                            <p>Código: <%=partner.businessArea%></p>
+                        <%}%>
+                    </div>
+                    <button class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#collapseBusiness" aria-expanded="false" aria-controls="collapseBusiness">Editar</button>
+
+                    <div class="collapse" id="collapseBusiness">
+                        <form class="row col">
+                            <div class="col-8">
+                                <input class="form-control mt-3" type="text" name="cep" id="linesOfBusiness" placeholder="Linha de Negocio">
+                            </div>
+                        </form>
+                    </div>
+                </div> 
+                <div class="box-data bank">
+                    <div>
+                        <p>Dados Bancários:</p>
+                        <%if(!partner.signUpCompleted){%>
+                            <span class="ms-5 fs-6" style="color:#dc3545">Fornececer dado</span>
+                        <%}else{%>
+                            <div class="col-12 mb-2">
+                                <span>Banco: <%=partner.bankAccount.bankNumber%></span>
+                                <span class="ms-4">Agência: <%=partner.bankAccount.agencyNumber%></span>
+                                <span class="ms-4">Conta: <%=partner.bankAccount.accountNumber%></span>
+                                <span class="ms-4">Tipo de conta: <%=partner.bankAccount.accountType%></span>
+                            </div>
+                            <div class="col-12">
+                                <span>Titular: <%=partner.bankAccount.accountHolder.name%></span>
+                                <span class="ms-4">CPF Titular: <%=partner.bankAccount.accountHolder.document%></span>
+                            </div>
+                        <%}%>
+                    </div>
+                    <button class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#collapseBank" aria-expanded="false" aria-controls="collapseBank">Editar</button>
+                    <div class="collapse" id="collapseBank">
+                        <form class="row col">
+                            <div class="col-4 mt-3">
+                                <select class="form-select" name="bankNumber" id="bankNumber">
+                                    <%if(bankAndBusiness !== undefined){%>
+                                        <% for( let bank of bankAndBusiness.banks ) {%>
+                                            <option value='<%= bank.number %>'><%= bank.number %> - <%= bank.name %></option>
+                                        <%}%>
+                                    <%}%>   
+                                </select>
+                            </div>
+                            <div class="col-4">
+                                <input class="form-control mt-3" type="text" name="cep" id="agencyBank" placeholder="Agência">
+                            </div>
+                            <div class="col-4">
+                                <input class="form-control mt-3" type="text" name="cep" id="accountBank" placeholder="Conta">
+                            </div>
+                            <div class="col-4">
+                                <input class="form-control mt-3" type="text" name="cep" id="ownerBank" placeholder="Titular">
+                            </div>
+                            <div class="col-4">
+                                <input class="form-control mt-3" type="text" name="cep" id="cpfOwner" placeholder="CPF Titular">
+                            </div>
+                        </form>
+                    </div>
                 </div>
                 <div class="box-data">
                     <div>
                         <p>Endereço:</p>
-                        <p><%=user.address.street%>, <%=user.address.number%></p>
-                        <p><%=user.address.city%>, <%=user.address.state%> - <%=user.address.postCode%></p>
+                        <p><%=partner.address.street%>, <%=partner.address.number%></p>
+                        <p><%=partner.address.city%>, <%=partner.address.state%> - <%=partner.address.postCode%></p>
                     </div>
-                    <button>Editar</button>
-                </div>
-                <div class="box-data">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#collapseAddress" aria-expanded="false" aria-controls="collapseExample">
+                        Editar
+                    </button>
+                    <div class="collapse" id="collapseAddress">
+                        <form class="row col">
+                            <div id="emailHelp" class="form-text">Não é necessário preencher todos os campos, somente o que será alterado.</div>
+                            <div class="col-3">
+                                <input class="form-control mt-3" type="text" name="cep" id="cep" value="<%=partner.address.postCode%>" placeholder="CEP">
+                            </div>
+                            <div class="col-9">
+                                <input class="form-control mt-3" type="text" name="street" id="street" value="<%=partner.address.street%>" placeholder="Rua">
+                            </div>
+                            <div class="col-4">
+                                <input class="form-control mt-3" type="text" name="numberHouse" id="numberHouse" value="<%=partner.address.number%>" placeholder="Numero Residência">
+                            </div>
+                            <div class="col-6">
+                                <input class="form-control mt-3" type="text" name="city" id="city" value="<%=partner.address.city%>" placeholder="Cidade">
+                            </div>
+                            <div class="col-2">
+                                <input class="form-control mt-3" type="text" name="state" id="state" value="<%=partner.address.state%>" placeholder="UF">
+                            </div>
+                        </form>
+                    </div>
+                </div> 
+            </div>
+            <h2>Conta Juno</h2>
+            <div class="partner-data partner-document">
+                <div class="box-data juno-account">
                     <div>
-                        <p style="margin: 10px 0">Cartões</p>
+                        <p>Conta Juno:</p>
+                        <%if(partner.hasJunoAccount){%>
+                            <div class="col-12 mb-2">
+                                <span>Tipo da conta: <%=partner.junoAccount.type%></span>
+                                <span class="ms-4">Tipo de pessoa: <%=partner.junoAccount.personType%></span>
+                                <span class="ms-4"> Status: <%=partner.junoAccount.status%></span>
+                            </div>
+                            <div class="col-12">
+                                <span>Número da conta: <%=partner.junoAccount.accountNumber%></span>
+                                <span class="ms-4">Criada em: <%=partner.junoAccount.createdAt.substr(0,10)%></span>
+                            </div>
+                        <%}else{%>
+                            <span class="ms-5 fs-6" style="color:#dc3545">Complete o cadastro para obter uma conta Juno</span>
+                        <%}%>  
                     </div>
-                    <button id="btn-profile-ver-cards">Ver</button>
+                    <%if(!partner.hasJunoAccount && partner.signUpCompleted){%>
+                        <button class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#collapseJuno" aria-expanded="false" aria-controls="collapseJuno">Editar</button>
+                    <%}else{%> 
+                        <button class="btn btn-outline-secondary" disabled>Editar</button>
+                    <%}%>  
+
+                    <div class="collapse" id="collapseJuno">
+                        <form class="row col">
+                            <div class="col-6 mt-3">
+                                <select class="form-select" name="businessArea" id="businessArea">
+                                    <%if(bankAndBusiness !== undefined){%>
+                                        <% for( let area of bankAndBusiness.businessAreas ) {%>
+                                            <option value='<%= area.code %>'><%= area.activity %> - <%= area.category %></option>
+                                        <%}%>
+                                    <%}%>   
+                                </select>
+                            </div>
+                            <div class="col-4">
+                                <input class="form-control mt-3" type="number" name="rendaMensal" id="rendaMensal" placeholder="Renda Mensal">
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-4">
+                                    <label lass="form-label" for="dtnasc">Data de Nasc.</label>
+                                    <input class="form-control" type="date" name="dtnasc" id="dtnasc" placeholder="Data de Nasc">
+                                </div>
+                                <div class="col-4 col-4 align-self-end">
+                                    <input class="form-control mt-3" type="text" name="motherName" id="motherName" placeholder="Nome da Mãe">
+                                </div>
+                                <div class="col-4 align-self-end">
+                                    <button class="btn btn-primary" id="btn-send-juno">Cadastrar conta</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
+            <%if(partner.hasJunoAccount){%>
+                <h2>Documentos</h2>
+                <div class="partner-data partner-document">
+                    <% for(let document of documents ){%>
+                        <div class="box-data">
+                            <div>
+                                <p>Documento:</p>
+                                <span><%=document.description%></span>
+                                <p>Status de Aprovação: <%=document.approvalStatus%></p>
+                            </div>
+                            <button class="btn btn-outline-secondary">Enviar</button>
+                        </div>
+                    <%}%>
+                </div>
+            <%}%>
         </div>
     </main>
-    <script src="js/partner.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+    <script type="module" src="/js/partner.js"></script>
+    <script src="/js/utils/viacep.js"></script>
 </body>
 </html>

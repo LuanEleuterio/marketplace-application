@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Marketplace - Profile Partner</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap"
+        rel="stylesheet"
+    />
+    <link rel='stylesheet'  href='/css/partner.css'>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous"> 
+</head>
+<body>
+    <%- include('../../views/partials/headerPartner') %>
+    <main class="container container-partner">
+        <div class="box-partner">
+            <div class="row col-12 mb-3">
+                <h2 class="col-9">Informações da conta</h2>
+                <button data-prod-id="<%=product._id%>" class="btn btn-warning col-3" id="btn-update-product">Alterar dados</button>
+            </div>
+            <div class="partner-data">
+                <div class="box-data">
+                    <div>
+                        <p>Nome do Produto:</p>
+                        <span><%=product.name%></span>
+                    </div>
+                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#collapseName" aria-expanded="false" aria-controls="collapseName">
+                        Editar
+                    </button>
+                    <div class="collapse" id="collapseName">
+                        <form>
+                            <input class="form-control mt-3" type="text" name="name" id="nameProd" placeholder="Novo nome" value="<%=product.name%>">
+                        </form>
+                    </div>
+                </div>
+                <div class="box-data">
+                    <div>
+                        <p>Descrição</p>
+                        <p><%=product.description%></p>
+                    </div>
+                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#collapseEmail" aria-expanded="false" aria-controls="collapseExample">
+                        Editar
+                    </button>
+                    <div class="collapse" id="collapseEmail">
+                        <form>
+                            <input class="form-control mt-3" type="text" name="email" id="descriptionProd" placeholder="Nova Descrição" value="<%=product.description%>">
+                        </form>
+                    </div>
+                </div>
+                <div class="box-data">
+                    <div>
+                        <p>URL da Imagem:</p>
+                        <p><%=product.img_url%></p>
+                    </div>
+                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#collapseImg" aria-expanded="false" aria-controls="collapseImg">
+                        Editar
+                    </button>
+                    <div class="collapse" id="collapseImg">
+                        <form>
+                            <input class="form-control mt-3" type="text" name="imgUrl" id="imgUrl" placeholder="Nova imagem" value="<%=product.img_url%>">
+                        </form>
+                    </div>
+                </div>
+                <div class="box-data">
+                    <div>
+                        <p>Preço:</p>
+                        <p><%=product.price%></p>
+                    </div>
+                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#collapsePrice" aria-expanded="false" aria-controls="collapsePrice">
+                        Editar
+                    </button>
+                    <div class="collapse" id="collapsePrice">
+                        <form>
+                            <input class="form-control mt-3" type="number" name="price" id="price" placeholder="Preço" value="<%=product.price%>">
+                        </form>
+                    </div>
+                </div>
+                <div class="box-data">
+                    <div>
+                        <p>Quantidade:</p>
+                        <p><%=product.qtd%></p>
+                    </div>
+                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#collapseQtd" aria-expanded="false" aria-controls="collapseQtd">
+                        Editar
+                    </button>
+                    <div class="collapse" id="collapseQtd">
+                        <form>
+                            <input class="form-control mt-3" type="number" name="quantity" id="quantity" placeholder="Quantidade" value="<%=product.qtd%>">
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <h2>Detalhes</h2>
+            <div class="partner-data partner-document">
+                <div class="box-data">
+                    <div>
+                        <p>Marca:</p>
+                        <p><%=product.details.marca%></p>
+                    </div>
+                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#collapseMarca" aria-expanded="false" aria-controls="collapseMarca">
+                        Editar
+                    </button>
+                    <div class="collapse" id="collapseMarca">
+                        <form>
+                            <input class="form-control mt-3" type="text" name="marca" id="marca" placeholder="Marca" value="<%=product.details.marca%>">
+                        </form>
+                    </div>
+                </div>
+                <div class="box-data">
+                    <div>
+                        <p>Fabricante:</p>
+                        <p><%=product.details.manufacturer%></p>
+                    </div>
+                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#collapseManufacturer" aria-expanded="false" aria-controls="collapseManufacturer">
+                        Editar
+                    </button>
+                    <div class="collapse" id="collapseManufacturer">
+                        <form>
+                            <input class="form-control mt-3" type="text" name="manufacturer" id="manufacturer" placeholder="Fabricante" value="<%=product.details.manufacturer%>">
+                        </form>
+                    </div>
+                </div>
+                <div class="box-data">
+                    <div>
+                        <p>Modelo:</p>
+                        <p><%=product.details.model%></p>
+                    </div>
+                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#collapseModel" aria-expanded="false" aria-controls="collapseModel">
+                        Editar
+                    </button>
+                    <div class="collapse" id="collapseModel">
+                        <form>
+                            <input class="form-control mt-3" type="text" name="model" id="model" placeholder="Modelo" value="<%=product.details.model%>">
+                        </form>
+                    </div>
+                </div>
+                <div class="box-data">
+                    <div>
+                        <p>Cor:</p>
+                        <p><%=product.details.color%></p>
+                    </div>
+                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#collapseColor" aria-expanded="false" aria-controls="collapseColor">
+                        Editar
+                    </button>
+                    <div class="collapse" id="collapseColor">
+                        <form>
+                            <input class="form-control mt-3" type="text" name="color" id="color" placeholder="Cor" value="<%=product.details.color%>">
+                        </form>
+                    </div>
+                </div>
+                <div class="box-data">
+                    <div>
+                        <p>Capacidade:</p>
+                        <p><%=product.details.capacity%></p>
+                    </div>
+                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#collapseCapacity" aria-expanded="false" aria-controls="collapseCapacity">
+                        Editar
+                    </button>
+                    <div class="collapse" id="collapseCapacity">
+                        <form>
+                            <input class="form-control mt-3" type="text" name="capacity" id="capacity" placeholder="Capacidade" value="<%=product.details.capacity%>">
+                        </form>
+                    </div>
+                </div>
+                <div class="box-data">
+                    <div>
+                        <p>Peso:</p>
+                        <p><%=product.details.weight%></p>
+                    </div>
+                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#collapseWeight" aria-expanded="false" aria-controls="collapseWeight">
+                        Editar
+                    </button>
+                    <div class="collapse" id="collapseWeight">
+                        <form>
+                            <input class="form-control mt-3" type="number" name="weight" id="weight" placeholder="Peso" value="<%=product.details.weight%>">
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+            <h2>Dimensões</h2>
+            <div class="partner-data partner-document">
+                <div class="box-data">
+                    <div>
+                        <p>Altura:</p>
+                        <p><%=product.details.dimension.height%></p>
+                    </div>
+                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#collapseHeight" aria-expanded="false" aria-controls="collapseHeight">
+                        Editar
+                    </button>
+                    <div class="collapse" id="collapseHeight">
+                        <form>
+                            <input class="form-control mt-3" type="number" name="heightProd" id="heightProd" placeholder="Altura" value="<%=product.details.dimension.height%>">
+                        </form>
+                    </div>
+                </div>
+                <div class="box-data">
+                    <div>
+                        <p>Largura:</p>
+                        <p><%=product.details.dimension.width%></p>
+                    </div>
+                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#collapseWidht" aria-expanded="false" aria-controls="collapseWidht">
+                        Editar
+                    </button>
+                    <div class="collapse" id="collapseWidht">
+                        <form>
+                            <input class="form-control mt-3" type="number" name="widthProd" id="widthProd" placeholder="Largura" value="<%=product.details.dimension.width%>">
+                        </form>
+                    </div>
+                </div>
+                <div class="box-data">
+                    <div>
+                        <p>Comprimento:</p>
+                        <p><%=product.details.dimension.comprimento%></p>
+                    </div>
+                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#collapseComprimento" aria-expanded="false" aria-controls="collapseComprimento">
+                        Editar
+                    </button>
+                    <div class="collapse" id="collapseComprimento">
+                        <form>
+                            <input class="form-control mt-3" type="number" name="comprimentoProd" id="comprimentoProd" placeholder="Comprimento" value="<%=product.details.dimension.comprimento%>">
+                        </form>
+                    </div>
+                </div>                
+            </div>
+        </div>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+    <script type="module" src="/js/partner.js"></script>
+</body>
+</html>

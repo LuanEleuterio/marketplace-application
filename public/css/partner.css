@@ -1,12 +1,248 @@
+body {
+    padding: 0px;
+    margin: 0px;
+    font-family: "Roboto", Georgia, "Times New Roman", Times, serif;
+    box-sizing: border-box;
+}
+
+.off {
+    display: none;
+}
+
+/* FORM */
 .form-partner {
     display: flex;
     flex-wrap: wrap;
-    width: 363px;
     margin: 0 auto;
+    margin-top: 20px;
+    padding: 20px 15px;
+
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-shadow: 0px 0px 10px 3px rgba(0, 0, 0, 0.1);
 }
 
 .form-partner label,
 input,
 select {
     width: 100%;
+}
+
+.container-partner {
+    margin: 0 auto;
+    padding: 30px 0;
+}
+
+.form-user {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.form-user label,
+input {
+    width: 100%;
+}
+
+.form-inputs {
+    margin: 0 auto;
+    margin-bottom: 20px;
+}
+
+/* PROFILE ORDERS*/
+
+.order {
+    /*display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 2fr;
+    justify-content: space-evenly;*/
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.order-info {
+    /*display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    column-gap: 20px;
+    justify-content: space-between;
+    align-items: center;*/
+
+    display: flex;
+    padding: 15px;
+    border-bottom: 1px solid #ccc;
+    background-color: rgba(204, 204, 204, 0.3);
+}
+
+.order-info > div {
+    display: block;
+    flex-wrap: wrap;
+}
+
+.order-info > div > p {
+    margin: 0;
+    font-size: 0.875em;
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.order-info > div > span {
+    margin: 0;
+
+    font-size: 0.875em;
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+/* ORDER PRODUCT */
+
+.order-info-product {
+    padding: 15px;
+}
+
+.product-sold > span:first-child {
+    font-weight: bold;
+    margin: 0 0 15px 0;
+}
+
+.order-info-product-img {
+    width: 80px;
+}
+
+.order-info-product-img img {
+    display: block;
+    width: 100%;
+}
+
+.prod-partner-info p {
+    margin: 0 0 5px 10px;
+}
+
+.product-info {
+    border-bottom: 1px solid #ccc;
+}
+
+.customer-infos > p:first-child {
+    font-weight: bold;
+}
+
+.customer-infos > p {
+    margin: 0 0 5px 0;
+}
+
+/* PROFILE DATA*/
+.box-partner {
+    margin: 0 auto;
+}
+
+.partner-data {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.box-data {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    column-gap: 10px;
+
+    border-bottom: 1px solid #ccc;
+    padding: 15px;
+}
+
+.box-data:last-child {
+    border: none;
+}
+
+.box-data > div p {
+    margin: 0 0 10px 0;
+}
+
+.box-data > div p:first-child {
+    font-weight: bold;
+}
+
+.box-data > button {
+    cursor: pointer;
+    height: 2.5em;
+    padding: 5px 15px;
+    border-radius: 2px;
+    font-weight: bold;
+
+    align-self: center;
+}
+
+.partner-document p:first-child {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+/* FINANCIAL */
+
+.partner-financial {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.box-financial {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 15px;
+}
+
+.box-financial > div p {
+    margin: 0 0 10px 0;
+}
+
+.box-financial > div p:first-child {
+    font-weight: bold;
+}
+
+/* CADASTRO PRODUTOS*/
+.products {
+    padding: 0;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.product-info {
+    padding: 15px;
+    border-bottom: 1px solid #ccc;
+    background-color: #faf8f9;
+}
+
+.product {
+    margin-bottom: 20px;
+}
+
+.product-details {
+    display: flex;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: rgba(204, 204, 204, 0.3);
+}
+
+.product-details > div {
+    display: block;
+    flex-wrap: wrap;
+}
+
+.product-details > div > p {
+    margin: 0;
+    font-size: 0.875em;
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.product-details > div > span {
+    margin: 0;
+
+    font-size: 0.875em;
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.5);
 }

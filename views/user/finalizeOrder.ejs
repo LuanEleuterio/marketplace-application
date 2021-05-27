@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Marketplace - Profile Info</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous"> 
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap"
+        rel="stylesheet"
+    />
+    <link rel='stylesheet'  href='/css/includes/header.css'>
+    <link rel='stylesheet'  href='/css/user.css'>
+
+</head>
+<body>
+    <%- include('../../views/partials/header') %>
+    <main class="container container-user">
+        <nav aria-label="breadcrumb" class="row">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="/products">Home</a></li>
+              <li class="breadcrumb-item"><a href="/user/carrinho">Carrinho</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Finalizar Compra</li>
+            </ol>
+        </nav>
+
+        <h3 class="row">Confira e finalize seu pedido</h3>
+        <div class="row mt-3 justify-content-between">
+            <div class="col-9">
+                <div class="row col-12 info-order-finalize p-3">
+                    <div class="col-4">
+                        <p class="h6">Endereço de entrega</p>
+                        <div class="col-12">
+                            <p class="mb-0 fs-7"><%=user.name%></p>
+                            <p class="mb-0 fs-7"><%=user.address.street%>, <%=user.address.number%></p>
+                            <p class="mb-0 fs-7"><%=user.address.city%> - <%=user.address.state%></p>
+                            <p class="mb-0 fs-7"><%=user.address.postCode%></p>
+                            <p class="mb-0 fs-7">Telefone: <%=user.phone%></p>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="col-12 mb-3">
+                            <p class="h6">Forma de pagamento</p>
+                            <div class="col-12">
+                                <div class="form-check">
+                                    <input class="form-check-input" name="pay-method" value="BOLETO" type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked>
+                                    <label class="form-check-label" for="flexRadioDefault1">
+                                      Boleto
+                                    </label>
+                                  </div>
+                                  <div class="form-check">
+                                    <input class="form-check-input" name="pay-method" value="CREDIT_CARD" type="radio" name="flexRadioDefault" id="flexRadioDefault2"
+                                    data-bs-toggle="collapse" href="#collapseCards" role="radio" aria-expanded="true" aria-controls="collapseCards">
+                                    <label class="form-check-label" for="flexRadioDefault2">
+                                      Cartão de Crédito
+                                    </label>
+                                  </div>
+                                  <div class="collapse" id="collapseCards">
+                                    <select class="form-select" name="cards" id="cards">
+                                        <%if(cards !== undefined){%>
+                                            <% for( let card of cards ) {%>
+                                                <option value='<%=card._id %>'>Final <%=card.last4CardNumber%></option>
+                                            <%}%>
+                                        <%}%>   
+                                    </select>
+                                  </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <p class="h6">Endereço de cobrança </p>
+                            <div class="col-12">
+                                <p class="mb-0 fs-7"><%=user.name%></p>
+                                <p class="mb-0 fs-7"><%=user.address.street%>, <%=user.address.number%></p>
+                                <p class="mb-0 fs-7"><%=user.address.city%> - <%=user.address.state%>, <%=user.address.postCode%></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="col-12">
+                            <p class="h6">Cupom de Desconto</p>
+                            <div class="row col-12">
+                                <div class="col-8">
+                                    <input class="form-control" type="text" name="cupom" id="cupom" disabled>
+                                </div>
+                                <div class="col-4">
+                                    <button class="btn btn-secondary" disabled>Aplicar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row col-12 mt-3 info-order-product justify-content-center">
+                    <%for(let product of products) {%>
+                        <div class="row product-item-finalize"
+                        data-prod-id="<%=product._id%>" data-prod-qtd="<%=product.qtd%>" 
+                        data-prod-frete="<%=product.shipping.cResultado.Servicos.cServico.Valor._text%>">
+                            <div class="col-12 mb-2">
+                                <p class="h6 delivery-finalize">
+                                    Entrega em: <%=product.shipping.cResultado.Servicos.cServico.PrazoEntrega._text%> dia(s) úteis
+                                    - Frete: R$ <%=product.shipping.cResultado.Servicos.cServico.Valor._text%>
+                                </p>
+                            </div>
+                            <div class="col-2 info-order-img">
+                                <img src="<%=product.img_url%>" alt="">
+                            </div>
+                            <div class="col-6">
+                                <p class="h6"><%=product.name%></p>
+                                <div class="col-12">
+                                    <p class="mb-2  h6 product-price-finalize">R$ <%=product.price%></p>
+                                    <p class="mb-0 fs-7">Quantidade: <%=product.qtd%></p>
+                                    <p class="mb-0 fs-7">Vendido por: <%=product.partner.name%></p>
+                                </div>
+                            </div>
+                        </div>
+                    <%}%>
+                </div>
+            </div>
+            <div class="col-3 order-confirm p-3">
+                <div class="col-12 mb-3">
+                    <button class="col-12 btn btn-warning" id="btn-confirm-order">
+                        <span class="btn-send-order">Confirmar pedido</span>
+                        <div class="spinner-border text-light btn-order-spinner off" role="status">
+                            <span class="visually-hidden">Processando</span>
+                        </div>
+                    </button>
+                </div>
+                <div class="col-12 text-center">
+                    <p class="termos-finalize">Ao fazer seu pedido, você concorda com as Condições de Uso da LuanEletro. 
+                        Por favor verifique a Notificação de Privacidade, Notificação de Cookies 
+                        e a Notificação de Anúncios Baseados em Interesse.</p>
+                </div>
+                <div class="col-12">
+                    <p class="col-12 h6">Resumo do pedido</p>
+                    <div class="order-values col-12">
+                        <p class="col-12 mb-0">Itens:	R$ <%=subtotal%></p>
+                        <p class="col-12 mb-0">Frete e manuseio:	R$ <%=totalFrete.toFixed(2)%></p>
+                    </div>
+                    <hr/>
+
+                    <p class="col-12 h5 total-order-finalize">Total do pedido:	R$ <%=totalOrder%></p>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+    <script type="module" src="/js/user.js"></script>
+</body>
+</html>

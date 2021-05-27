@@ -5,74 +5,104 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <title>Integração com a Sandbox da Juno</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap"
+            rel="stylesheet"
+        />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
         <link rel="stylesheet" href="../css/style.css" />
         <link rel="stylesheet" href="../css/partner.css" />
+        
     </head>
     <body>
-        <header class="header">
-            <h1>Registration - Loja Luan</h1>
-        </header>
-        <main>
-            <form action="" method='POST' class="form-partner">
-                <label for="name">Name:</label>
-                <input type="text" name="name" id="name" required>
-                <label for="cpf">CPF:</label>
-                <input type="text" name="cpf" id="cpf" required>
-                <label for="email">Email:</label>
-                <input type="email" name="email" id="email" required>
-                <label for="dtnasc">Data Nascimento:</label>
-                <input type="date" name="dtnasc" id="dtnasc" required>
+        <form action="" method='POST' class="row col-6 form-partner">
+            <div class="row d-flex justify-content-center mb-3">
+                <a class="navbar-brand me-0 text-center col-6" href="/">
+                    <i class="fas fa-shopping-bag fa-lg"></i> LuanEletro
+                </a>
+                <h3 class="text-center mt-2">Cadastro de Parceiro</h3>
+            </div>
+            <div class="col-12 form-inputs">
+                <label for="name">Nome da Loja:</label>
+                <input class="form-control" type="text" name="name" id="name" required>
+            </div>
+            <div class="col-7 form-inputs">
+                <label for="email">E-mail:</label>
+                <input class="form-control" type="email" name="email" id="email" placeholder="example@example.com" required>
+            </div>
+            <div class="col-5 form-inputs">
                 <label for="phone">Telefone:</label>
-                <input type="text" name="phone" id="phone" required>
-                <label for="businessArea">Área de Negócio:</label>
-                <select name="businessArea" id="businessArea">
-                    <%if(data.businessAreas !== undefined){%>
-                        <% for( let area of data.businessAreas ) {%>
-                            <option value='<%= area.code %>'><%= area.activity %> - <%= area.category %></option>
-                        <%}%>
-                    <%}%>   
-                </select>
-                <label for="lineBusiness">Linha de Negócio:</label>
-                <input type="text" name="lineBusiness" id="line-business" required>
-                <label for="mothersName">Nome da Mãe:</label>
-                <input type="text" name="mothersName" id="mother-name" required>
-                <label for="rendaMensal">Renda Mensal:</label>
-                <input type="number" name="rendaMensa" id="renda-mensal" required>
-                <label for="street">Rua:</label>
-                <input type="text" name="street" id="street" required>
-                <label for="numberHouse">Numero Residência:</label>
-                <input type="text" name="numberHouse" id="number-house" required>
-                <label for="city">Cidade:</label>
-                <input type="text" name="city" id="city" required>
-                <label for="state">UF:</label>
-                <input type="text" name="state" id="state" required>
+                <input class="form-control" type="text" name="phone" id="phone" placeholder="(99) 99999-9999" required>
+            </div>
+            <div class="col-3 form-inputs">
                 <label for="cep">CEP:</label>
-                <input type="text" name="cep" id="cep" required>
-                <label for="bankNumber">Banco Numero:</label>
-                <select name="bankNumber" id="bankNumber">
-                    <%if(data.banks !== undefined){%>
-                        <% for( let bank of data.banks ) {%>
-                            <option value='<%= bank.number %>'><%= bank.number %> - <%= bank.name %></option>
-                        <%}%>
-                    <%}%>   
-                </select>
-                <label for="bankAgency">Agência:</label>
-                <input type="text" name="bankAgency" id="bank-agency" required>
-                <label for="bankAccount">Conta:</label>
-                <input type="text" name="bankAccount" id="bank-account" required>
-                <label for="accountType">Tipo de Conta:</label>
-                <input type="text" name="accountType" id="account-type" disabled>
-                <label for="nameOwner">Nome Titular:</label>
-                <input type="text" name="nameOwner" id="name-owner" required>
-                <label for="cpfOwner">CPF Titular:</label>
-                <input type="text" name="cpfOwner" id="cpf-owner" required>
-
-                <label for="password">Password:</label>
-                <input type="password" name="password" id="password" required>
-                <button type="button" id="btn-send-partner">Enviar</button>
-            </form> 
-            <h2 id="subtitulo" style="margin: 60px 0; text-align: center"></h2>
-        </main>
-        <script type="module" src="js/partner.js"></script>
+                <input class="form-control" type="text" name="cep" id="cep" required>
+            </div>
+            <div class="col-9 form-inputs">
+                <label for="street">Rua:</label>
+                <input class="form-control" type="text" name="street" id="street" required>
+            </div>
+            <div class="col-3 form-inputs">
+                <label for="numberHouse">Numero:</label>
+                <input class="form-control" type="text" name="numberHouse" id="number-house" required>
+            </div>
+            <div class="col-3 form-inputs">
+                <label for="state">UF:</label>
+                <input class="form-control" type="text" name="state" id="state" required>
+            </div>
+            <div class="col-6 form-inputs">
+                <label for="city">Cidade:</label>
+                <input class="form-control" type="text" name="city" id="city" required>
+            </div>
+            <!--
+            <label for="dtnasc">Data Nascimento:</label>
+            <input type="date" name="dtnasc" id="dtnasc" required>
+            <label for="cpf">CPF:</label>
+            <input type="text" name="cpf" id="cpf" required>
+            <label for="businessArea">Área de Negócio:</label>
+            <select name="businessArea" id="businessArea">
+                <%if(data !== undefined){%>
+                    <% for( let area of data.businessAreas ) {%>
+                        <option value='<%= area.code %>'><%= area.activity %> - <%= area.category %></option>
+                    <%}%>
+                <%}%>   
+            </select>
+            <label for="lineBusiness">Linha de Negócio:</label>
+            <input type="text" name="lineBusiness" id="line-business" required>
+            <label for="mothersName">Nome da Mãe:</label>
+            <input type="text" name="mothersName" id="mother-name" required>
+            <label for="rendaMensal">Renda Mensal:</label>
+            <input type="number" name="rendaMensa" id="renda-mensal" required>
+            <label for="bankNumber">Banco Numero:</label>
+            <select name="bankNumber" id="bankNumber">
+                <%if(data !== undefined){%>
+                    <% for( let bank of data.banks ) {%>
+                        <option value='<%= bank.number %>'><%= bank.number %> - <%= bank.name %></option>
+                    <%}%>
+                <%}%>   
+            </select>
+            <label for="bankAgency">Agência:</label>
+            <input type="text" name="bankAgency" id="bank-agency" required>
+            <label for="bankAccount">Conta:</label>
+            <input type="text" name="bankAccount" id="bank-account" required>
+            <label for="accountType">Tipo de Conta:</label>
+            <input type="text" name="accountType" id="account-type" disabled>
+            <label for="nameOwner">Nome Titular:</label>
+            <input type="text" name="nameOwner" id="name-owner" required>
+            <label for="cpfOwner">CPF Titular:</label>
+            <input type="text" name="cpfOwner" id="cpf-owner" required>
+            -->
+            <div class="col-12 form-inputs">
+                <label for="password">Senha:</label>
+                <input class="form-control" type="password" name="password" id="password" required>
+            </div>
+            <div class="row form-inputs">
+                <button type="button" class="btn btn-primary" id="btn-send-partner">Enviar</button>
+            </div>
+        </form> 
+        <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" data-auto-a11y="true"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+        <script type="module" src="/js/partner.js"></script>
+        <script type="module" src="/js/utils/viacep.js"></script>
     </body>
 </html>

@@ -1,0 +1,26 @@
+<h4>Produtos</h4>
+<% if(products.length > 0) {
+    for( let product of products){ %>
+        <%if(product.active) {%>
+            <div class="product col-6">
+                <div class="col-12 product-details">
+                    <div class="col-4 me-2">
+                        <p>NOME</p>
+                        <span><%=product.name%></span>
+                    </div>
+                    <div class="col-4">
+                        <p>QUANTIDADE</p>
+                        <span><%=product.qtd%></span>
+                    </div>
+                    <div class="col-2">
+                        <a class="btn btn-primary" href="/product/edit/<%=product._id%>">Editar</a>
+                    </div>
+                    
+                    <div class="col-2">
+                        <button data-prod-id="<%=product._id%>" class="btn btn-danger btn-delete-prod">Excluir</button>
+                    </div>
+                </div>
+            </div>
+       <%}
+    }
+}%>

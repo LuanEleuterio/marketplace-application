@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Marketplace - Profile Info</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet'  href='/css/partner.css'>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap"
+        rel="stylesheet"
+    />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous"> 
+</head>
+<body>
+    <%- include('../../views/partials/headerPartner') %>
+    <main class="container container-partner">
+        <div>
+            <div class="itens-order">
+                <% if(orders.length > 0) {
+                    for( let order of orders){ %>
+                        <div class="order">
+                            <div class="col-12 order-info">
+                                <div class="col-2">
+                                    <p>VENDA REALIZADA</p>
+                                    <span><%=order.createdAt.substr(0,10)%></span>
+                                </div>
+                                <div class="col-2">
+                                    <p>STATUS</p>
+                                    <span><%=order.status%></span>
+                                </div>
+                                <div class="col-3">
+                                    <p>PEDIDO Nº</p>
+                                    <span><%=order._id%></span>
+                                </div>
+
+                                <div class="col-5 align-self-center text-end">
+                                    <button class="btn btn-primary" type="button" 
+                                        data-bs-toggle="collapse" 
+                                        data-bs-target="#order-info-<%=order._id.substr(19)%>" aria-expanded="false" 
+                                        aria-controls="order-info-<%=order._id.substr(19)%>">
+                                        <i class="fas fa-angle-down"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="order-info-product collapse" id="order-info-<%=order._id.substr(19)%>" >
+                                <% for(detail of order.details) {%>
+                                    <div class="col-12 d-flex product-info">
+                                        <div class="product-sold col-4">
+                                            <span>Produto vendido </span>
+                                            <span><%=detail.product.name%></span>
+                                            <div>
+                                                <p></p>
+                                                <div class="order-info-product-img">
+                                                    <img src="<%=detail.product.img_url%>" alt="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="customer-infos col-2">
+                                            <p>Detalhes</p>
+                                            <p class="col-12">Valor: <span>R$ <%= detail.product.price * detail.amount%></span></p>
+                                            <p class="col-12">Frete: <span>R$ <%= detail.shippingValue%></span></p>
+                                        </div>
+                                        <div class="customer-infos col-3">
+                                            <p>Informações do comprador </p>
+                                            <p><%=order.customer.name%></p>
+                                            <p><%=order.customer.email%></p>
+                                            <p><%=order.customer.phone%></p>
+                                        </div>
+                                        <div class="customer-infos col-3">
+                                            <p>Endereço de envio </p>
+                                            <p><%=order.customer.address.street%>, <%=order.customer.address.number%></p>
+                                            <p><%=order.customer.address.city%>, <%=order.customer.address.state%> - <%=order.customer.address.postCode%></p>
+                                        </div>
+                                    </div>
+                                <%}%>
+                            </div>
+                        </div>
+                    <%}
+                }%>
+            </div>
+        </div>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+    <script src="js/user.js"></script>
+</body>
+</html>

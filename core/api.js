@@ -5,6 +5,7 @@ module.exports = async (method, url, data = {}, config = {}) => {
 
     config?.authorization ? header["Authorization"] = config.authorization : null
     //https://luaneletro-marketplace.herokuapp.com
+    //http://localhost:8080
     const request = await axios.create({
         baseURL: `http://localhost:8080`,
         headers: header

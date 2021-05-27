@@ -5,98 +5,70 @@ const gatewayRepository = {
         const config = {
             authorization: req.headers.authorization
         }    
-        try{
-            let request = await api("GET", "/balance", {}, config) 
-            return request.data
-        } catch(err){
-            return err
-        }
+        let request = await api("GET", `/balance`, {}, config) 
+        return request.data
     },
     listBanks: async (req, res, next) => {
-        try{
-            let request = await api("GET", "/banks")
-            return request.data
-        } catch(err){
-            return err
-        }
+        let request = await api("GET", "/banks")
+        return request.data
     },
     listBusiness: async (req, res, next) => {
-        try{
-            let request = await api("GET", "/business-areas")
-            return request.data
-        } catch(err){
-            return err
-        }
+        let request = await api("GET", "/business-areas")
+        return request.data
     },
     listBankAndBusiness: async (req, res, next) => {
         let bankAndBusiness = {}
-        try{
-            let requestBank = await api("GET", "/banks")
-            let requestBusiness = await api("GET", "/business-areas")
 
-            bankAndBusiness.banks = requestBank.data._embedded.banks
-            bankAndBusiness.businessAreas = requestBusiness.data._embedded.businessAreas
+        let requestBank = await api("GET", "/banks")
+        let requestBusiness = await api("GET", "/business-areas")
 
-            return bankAndBusiness
-        } catch(err){
-            return err
-        }
+        bankAndBusiness.banks = requestBank.data._embedded.banks
+        bankAndBusiness.businessAreas = requestBusiness.data._embedded.businessAreas
+
+        return bankAndBusiness
     },
     listDocuments: async (req, res, next) => {
         const config = {
             authorization: req.headers.authorization
         }
-        try{
-            let request = await api("GET", "/documents", {}, config)              
-            return request.data
-        }catch(err){
-            return err
-        }
+        let request = await api("GET", "/documents", {}, config)              
+        return request.data
     },
-    createOrder: async (req, res, next) => {
+    createCharge: async (req, res, next) => {
         const config = {
             authorization: req.headers.authorization
         }
-        try{
-            let request = await api("POST", "/charge", req.body, config)            
-            return request.data
-        }catch(err){
-            return errW
-        }
+        let request = await api("POST", "/charge", req.body, config)            
+        return request.data
     },
-    cancelOrder: async (req, res, next) => {
+    cancelCharge: async (req, res, next) => {
         const config = {
             authorization: req.headers.authorization
         }
-        try{
-            let request = await api("PUT", `/order/cancel/${req.params.orderId}`, {}, config)            
-            return request.data
-        }catch(err){
-            return err
-        }
+        let request = await api("PUT", `/charge/cancel/${req.params.orderId}`, {}, config)            
+        return request.data
     },
     sendPayment: async (req, res, next) => {
         const config = {
             authorization: req.headers.authorization
         }
-        try{
-            let request = await api("POST", "/payment", req.body, config)               
-            return request.data
-        }catch(err){
-            return err
-        }
+        let request = await api("POST", "/payment", req.body, config)               
+        return request.data
     },
     createTokenCard: async (req, res, next) => {
         const config = {
             authorization: req.headers.authorization
         }
-        try{
-            let request = await api("POST", "/tokenization", req.body, config)            
-            return request.data
-        }catch(err){
-            return err
+        let request = await api("POST", "/tokenization", req.body, config)            
+        return request.data
+    },
+    createDigitalAccount: async (req, res, next) =>{ 
+        const config = {
+            authorization: req.headers.authorization
         }
-    }  
+        let request = await api("POST", "/digital-account", req.body, config)            
+        return request.data
+    }
 } 
 
 module.exports = gatewayRepository

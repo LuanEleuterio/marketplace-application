@@ -2,25 +2,35 @@ const api = require('../core/api')
 
 const authenticateRepository = {
     auth: async (req, res, next) => {
-        try{
-            const body = req.body
+        const body = req.body
 
-            let request = await api("POST", "/auth", body)
-            
-            if(request.data?.error){
-                res.status(request.status).send(request.data)
-            }
+        let request = await api("POST", "/auth", body)
+        
+        if(request.data?.error){
+            return request.data.error
+        }
 
-            res.cookie('token', request.data.token, {
+        res.cookie('token', request.data.token, {
+            maxAge: 86400 * 1000, // 24 hours
+            httpOnly: true, // http only, prevents JavaScript cookie access
+            secure: true // cookie must be sent over https / ssl
+        });
+
+        if(request.data.userOrPartner === "USER"){
+            res.cookie('user-id', request.data.userId, {
                 maxAge: 86400 * 1000, // 24 hours
                 httpOnly: true, // http only, prevents JavaScript cookie access
                 secure: true // cookie must be sent over https / ssl
             });
-
-            res.send(request.data)
-        }catch(err){
-            res.send(err)
+        }else{
+            res.cookie('partner-id', request.data.userId, {
+                maxAge: 86400 * 1000, // 24 hours
+                httpOnly: true, // http only, prevents JavaScript cookie access
+                secure: true // cookie must be sent over https / ssl
+            });
         }
+
+        return request.data
     }
 }
 

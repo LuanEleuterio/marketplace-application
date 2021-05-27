@@ -41,6 +41,7 @@ const gatewayController = {
             res.send(err)
         }
     },
+    
     sendDocuments: async (req, res, next) => {
         try{
             let documents = await gatewayRepository.listDocuments(req, res, next)              
@@ -49,15 +50,15 @@ const gatewayController = {
             res.send(err)
         }
     },
-    createOrder: async (req, res, next) => {
+    createCharge: async (req, res, next) => {
         try{
-            let charge = await gatewayRepository.createOrder(req, res, next)        
+            let charge = await gatewayRepository.createCharge(req, res, next)        
             res.send(charge)
         }catch(err){
             res.send(err)
         }
     },
-    cancelOrder: async (req, res, next) => {
+    cancelCharge: async (req, res, next) => {
         try{
             let canceledOrder = await gatewayRepository.cancelOrder(req, res, next)        
             res.json(canceledOrder)
@@ -79,6 +80,14 @@ const gatewayController = {
             res.json(card)
         }catch(err){
             res.json(err)
+        }
+    },
+    createDigitalAccount: async (req, res, next) => {
+        try{
+            let digitalAccount = await gatewayRepository.createDigitalAccount(req, res, next)  
+            res.json(digitalAccount)
+        }catch(err){
+            res.json(err.stack)
         }
     }
 }

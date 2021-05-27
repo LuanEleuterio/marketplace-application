@@ -6,41 +6,42 @@
         <title>Marketplace Luan - Produtos</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous"> 
         <link
             href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap"
             rel="stylesheet"
         />
-        <link rel="stylesheet" href="../css/style.css" />
+        <link rel='stylesheet'  href='/css/includes/header.css'>
+        <link rel="stylesheet" href="/css/style.css" />
     </head>
     <body>
-        <header class="header">
-            <h1>Marketplace Luan - Produtos</h1>
-        </header>
+        <%- include('../views/partials/header') %>
         <main class="container">
             <div class="produtos-list">
                 <% if(products.length > 0) {%>
                     <% for(let product of products){ %>
-                        <div class="produto-item">
-                            <div class="img-produto">
-                                <img
-                                    src="<%=product.img_url%>"
-                                    alt=""
-                                />
-                            </div>
-                            <h2><%=product.name%></h2>
-                            <p class="descricao">
-                                <%=product.description%>
-                            </p>
-                            <div class="price-buy">
-                                <p class="preco">R$ <%=product.price%></p>
-                                <button class="btn-comprar" type="button" data-id="<%=product._id%>">
-                                    Comprar
-                                </button>
-                            </div>
-                        </div>
+                        <%if(product.active){%>
+                            <a href="/product/details/<%= product._id%>" class="prod-item-a produto-item">
+                                <div class="img-produto">
+                                    <img
+                                        src="<%=product.img_url%>"
+                                        alt=""
+                                    />
+                                </div>
+                                <h2><%=product.name%></h2>
+                                <div class="row col-12 price-buy mb-2">
+                                    <span class="col-2">Por </span>
+                                    <span class="preco col-10 mb-0">R$ <%=product.price%></span> 
+                                </div>
+                                <p class="descricao">
+                                    <%=product.description%>
+                                </p>
+                            </a>
+                        <%}%>
                     <%}%>
                 <%}%>    
             </div>
         </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
     </body>
 </html>
