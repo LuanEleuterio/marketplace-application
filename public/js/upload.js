@@ -1,7 +1,7 @@
 const config = {
     region: "fra1",
-    accessKeyId: "JAWQOEO5LOUYSPCUOP3A",
-    secretAccessKey: "BfEQ6BgoUuT7e84bl/gDPQVHGnQZYBw/jGD/8K8mTnQ",
+    accessKeyId: "JE4PE7IFQLMCDPQC5KWV",
+    secretAccessKey: "yusXKShcL7AjwGDLsxPw0V32rnED8AJX+VmVz81HIjw",
     bucketName: "luaneletro-marketplace"
 }
 
@@ -20,7 +20,6 @@ document.addEventListener("DOMContentLoaded", (e) => {
     
 })
 
-
 const upload = async (field) =>{
     return new Promise((resolve, reject) => {
         const files = document.getElementById(field).files
@@ -37,7 +36,7 @@ const upload = async (field) =>{
             Key: key,
             Body: file,
             ACL: 'public-read',
-            ContentType: file.type
+            ContentType: file.type,
         })
         .send((err, res) => {
             resolve(res)
