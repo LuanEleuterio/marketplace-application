@@ -14,7 +14,7 @@ module.exports = (app) => {
 
     app.delete("/product/:productId", ProductController.delete);
 
-    app.get("/products", ProductController.renderProducts);
+    //app.get("/products", ProductController.renderProducts);
     app.post("/product", ProductController.create);
     app.put("/product", ProductController.update);  
 };

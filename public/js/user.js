@@ -23,7 +23,7 @@ function registerUser(data) {
                 console.log(res)
                 localStorage.setItem("user-id", res.userId)
                 localStorage.setItem("token", res.token)
-                window.location.href = '/products'
+                window.location.href = '/'
             })
             .catch((err) => console.log(err));
     } catch (err) { 

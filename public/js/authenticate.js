@@ -19,7 +19,7 @@ async function login(data) {
 
         if(res.type === "USER"){
             localStorage.setItem("user-id", res.userId)
-            window.location.href = '/products'
+            window.location.href = '/'
         }else{
             localStorage.setItem("partner-id", res.userId)
             if(res.signUpCompleted && res.hasJunoAccount){
@@ -86,7 +86,7 @@ const auth = {
                 localStorage.removeItem('token')
                 localStorage.removeItem('partner-id')
                 localStorage.removeItem('user-id')
-                window.location.href = "/products"
+                window.location.href = "/"
             })
         }
     }
