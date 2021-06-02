@@ -6,27 +6,55 @@
                 <a class="navbar-brand" href="/products">
                     <i class="fas fa-shopping-bag fa-lg"></i> LuanEletro
                 </a>
-
-                <div class="collapse navbar-collapse d-flex justify-content-end " id="navbarSupportedContent">
+                <% if(!logged){%>
                     <ul class="navbar-nav header-menu">
-                        <li class="nav-item"><a href="/user/carrinho">Carrinho</a></li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Minha Conta
+                                Empresa
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="/user/profile">Perfil</a></li>
-                                <li><a class="dropdown-item" href="/user/orders">Meus Pedidos</a></li>
-                                <li><a class="dropdown-item" href="/user/cards">Cartões</a></li>
+                                <li><a class="dropdown-item" href="/auth">Entrar</a></li>
+                                <li><a class="dropdown-item" href="/partner/register">Cadastrar-se</a></li>
                             </ul>
                         </li>
+                    </ul>
+                <%}%>
+                <div class="collapse navbar-collapse d-flex justify-content-end " id="navbarSupportedContent">
+                    <ul class="navbar-nav header-menu">
+                        <% if(logged){%>
+                            <li class="nav-item"><a href="/product/carrinho">Carrinho</a></li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Minha Conta
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href="/user/profile">Perfil</a></li>
+                                    <li><a class="dropdown-item" href="/user/orders">Meus Pedidos</a></li>
+                                    <li><a class="dropdown-item" href="/user/cards">Cartões</a></li>
+                                </ul>
+                            </li>
+                        <%}else{%>  
+                            <li><a class="nav-item btn btn-outline-secondary" href="/auth">Entrar</a></li>
+                            <li><a class="nav-item btn btn-outline-secondary ms-3" href="/user/register">Cadastrar</a></li>
+                        <%}%>  
                     </ul>
                     <form class="d-flex ms-5">
                         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                         <button class="btn btn-outline-success" type="submit">Search</button>
                     </form>
+                    <% if(logged) {%>
+                        <button class="btn btn-outline-secondary ms-3" id="btn-logout">Sair</button>
+                    <%}%>  
                 </div>
             </div>
         </nav>
     </div>
 </header>
+<%if(!logged){%>
+    <div class="container-fluid sell-luaneletro">
+        <div class="col-12 text-center p-2">
+            <span class="light">Quer vender na LuanEletro?</span>
+            <a class="btn btn-success ms-1" href="/partner/register">Clique aqui</a>    
+        </div>
+    </div>
+<%}%>

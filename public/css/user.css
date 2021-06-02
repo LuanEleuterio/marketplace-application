@@ -235,9 +235,6 @@ input {
 }
 
 .box-data {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-
     border-bottom: 1px solid #ccc;
     padding: 15px;
 }
@@ -375,4 +372,12 @@ input {
 .product-item-finalize:last-child {
     border: 0;
     margin-bottom: 0;
+}
+
+/* TOAST CARRINHO*/
+
+.toast-carrinho {
+    position: absolute;
+    top: 59px;
+    left: 38%;
 }

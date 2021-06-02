@@ -10,52 +10,70 @@ const { totalSold } = require("../helpers/financial.helper")
 
 const partnerController = {
     create: async (req, res, next) => {
-        let parter = await partnerRepository.register(req, res, next)
-        return res.json(parter)
+        let parter = await partnerRepository.register(req.body)
+
+        res.cookie('token', parter.data.token, {
+            maxAge: 86400 * 1000, // 24 hours
+            httpOnly: true, // http only, prevents JavaScript cookie access
+            secure: true // cookie must be sent over https / ssl
+        });
+
+        res.cookie('partner-id', parter.data.partnerId, {
+            maxAge: 86400 * 1000, // 24 hours
+            httpOnly: true, // http only, prevents JavaScript cookie access
+            secure: true // cookie must be sent over https / ssl
+        });
+        
+        return res.json(parter.data)
     },
 
     update: async (req, res, next) => {
-        let parter = await partnerRepository.updatePartner(req, res, next)
-        return res.json(parter)
+        let parter = await partnerRepository.update(req.headers.authorization, req.body)
+        return res.json(parter.data)
     },
     
-    renderRegister: async (req, res, next) => {
-        //const bankAndBusiness = await gatewayRepository.listBankAndBusiness(req, res, next)    
-        res.render("partner/registerPartner", {data: undefined})
+    renderRegister: async (req, res, next) => {   
+        res.render("partner/registerPartner", {
+            layout: "layouts/default"
+        })
     },
 
     renderProfile: async (req, res, next) => {
-        let token = req.cookies['token']
-        req.headers.authorization = `Bearer ${token}`
+        let token = `Bearer ${req.cookies['token']}` 
+        let bankAndBusiness = {}
 
-        const partner = await partnerRepository.listPartner(req, res, next)
-        const bankAndBusiness = await gatewayRepository.listBankAndBusiness(req, res, next)    
+        const partner = await partnerRepository.list(token)
+        const banks = await gatewayRepository.listBanks()    
+        const business = await gatewayRepository.listBusiness()  
 
+        bankAndBusiness.banks = banks.data._embedded.banks
+        bankAndBusiness.businessAreas = business.data._embedded.businessAreas
+        
         let documents
-
-        if(partner.signUpCompleted && partner.hasJunoAccount){
-            data = await gatewayRepository.listDocuments(req, res, next)
+        
+        if(partner.data.partner.signUpCompleted && partner.data.partner.hasJunoAccount){
+            data = await gatewayRepository.listDocuments(token)
             documents = data._embedded.documents
         }
 
         res.render("partner/profile", {
-            partner: partner, 
+            layout: 'layouts/partner',
+            partner: partner.data.partner, 
             documents,
             bankAndBusiness
         })
     },
 
     renderFinancial: async (req, res, next) => {
+        let token = `Bearer ${req.cookies['token']}`
+
         const dataFinancial = {
             totalSold: 0,
             expectedSalesValues: 0,
             sales: {}
         } 
 
-        let token = `Bearer ${req.cookies['token']}`
-        req.headers.authorization = token
-
-        const balance = await gatewayRepository.balance(req, res, next)
+        const balance = await gatewayRepository.balance(token)
         const orders = await orderRepository.listByPartner(token)
         
         let sales = {}
@@ -81,10 +99,13 @@ const partnerController = {
         dataFinancial.sales.canceledSales = canceledSales
         dataFinancial.totalSold = totalSold
         dataFinancial.expectedSalesValues = expectedSalesValues
-        dataFinancial.juno = balance
+        dataFinancial.juno = balance.data
 
         
-        res.render("partner/financial", {financial: dataFinancial})
+        res.render("partner/financial", {
+            layout: 'layouts/partner',
+            financial: dataFinancial
+        })
     },
 }
 

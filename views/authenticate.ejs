@@ -16,68 +16,72 @@
             crossorigin="anonymous"
         />
         <link rel="stylesheet" href="/css/authorization.css" />
+        <link rel="stylesheet" href="/css/processing.css" />
     </head>
     <body>
-        <form action="" method="POST" class="row col-4 mt-6 d-flex justify-content-center form-login">
-            <div class="row d-flex justify-content-center mb-5">
-                <a class="navbar-brand me-0 text-center col-6" href="/">
-                    <i class="fas fa-shopping-bag fa-lg"></i> LuanEletro
-                </a>
-           </div>
+        <%- include('../views/partials/processing') %>
+        <main class="main">
+            <form action="" method="POST" class="row col-4 mt-6 d-flex justify-content-center form-login">
+                <div class="row d-flex justify-content-center mb-5">
+                    <a class="navbar-brand me-0 text-center col-6" href="/">
+                        <i class="fas fa-shopping-bag fa-lg"></i> LuanEletro
+                    </a>
+            </div>
 
-            <div class="row">
-                <div class="col-12 d-flex align-items-center">
-                    <p class="col-form-label col-3">Eu sou:</p>
-                    <div class="col-4">
-                        <input class="form-check-input" type="radio" id="user" name="login" value="USER" checked/>
-                        <label for="user">Usuário</label><br />
+                <div class="row">
+                    <div class="col-12 d-flex align-items-center">
+                        <p class="col-form-label col-3">Eu sou:</p>
+                        <div class="col-4">
+                            <input class="form-check-input" type="radio" id="user" name="login" value="USER" checked/>
+                            <label for="user">Usuário</label><br />
+                        </div>
+                        <div class="col-4">
+                            <input class="form-check-input" type="radio" id="partner" name="login" value="PARTNER"/>
+                            <label for="partner">Parceiro</label><br />
+                        </div>
                     </div>
-                    <div class="col-4">
-                        <input class="form-check-input" type="radio" id="partner" name="login" value="PARTNER"/>
-                        <label for="partner">Parceiro</label><br />
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <label class="col-form-label col-2" for="email">Email:</label>
+                        <input
+                            class="form-control"
+                            type="email"
+                            name="email"
+                            id="email-login"
+                            required
+                        />
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <label class="col-form-label col-2" for="email">Email:</label>
-                    <input
-                        class="form-control"
-                        type="email"
-                        name="email"
-                        id="email-login"
-                        required
-                    />
+                <div class="row">
+                    <div class="col-12">
+                        <label class="col-form-label col-2" for="password">Password:</label>
+                        <input
+                            class="form-control"
+                            type="password"
+                            name="password"
+                            id="password-login"
+                            required
+                        />
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <label class="col-form-label col-2" for="password">Password:</label>
-                    <input
-                        class="form-control"
-                        type="password"
-                        name="password"
-                        id="password-login"
-                        required
-                    />
+                <div class="row mt-2">
+                    <a href="#" class="btn-link">Esqueci a senha</a>
                 </div>
-            </div>
-            <div class="row mt-2">
-                <a href="#" class="btn-link">Esqueci a senha</a>
-            </div>
-            <div class="row mt-3">
-                <div class="col-12">
-                    <button class="btn btn-primary col-12" type="button" id="btn-login">
-                        Entrar
-                    </button>
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <button class="btn btn-primary col-12" type="button" id="btn-login">
+                            Entrar
+                        </button>
+                    </div>
                 </div>
-            </div>
-        </form>
-
+            </form>
+        </main>
         <script
             src="https://use.fontawesome.com/releases/v5.15.3/js/all.js"
             data-auto-a11y="true"
         ></script>
-        <script src="js/authenticate.js"></script>
+        <script type="module" src="/js/utils/processSpinner.js"></script>
+        <script type="module" src="/js/authenticate.js"></script>
     </body>
 </html>

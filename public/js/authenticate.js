@@ -1,63 +1,95 @@
-const email = document.querySelector("#email-login")
-const password = document.querySelector("#password-login")
-const btnLogin = document.querySelector("#btn-login")
-const radioLogin = document.getElementsByName('login')
+import processing from "./utils/processSpinner.js"
 
-function login(data) {
+async function login(data) {
     
     try {
-        fetch("http://localhost:8081/auth",{
+        const result = await  fetch("https://luaneletro.shop/auth",{
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
         })
-            .then(res => {
-                if(!res.ok){    
-                    throw Error(res.statusText)
-                }else{
-                    return res.json()
-                }
-            })
-            .then(res => {
-                localStorage.setItem("token", res.token)
+        
+        if(!result.ok) throw new Error('Falha ao tentar entrar! Tente novamente')
 
-                if(res.type === "USER"){
-                    localStorage.setItem("user-id", res.userId)
-                    window.location.href = '/products'
-                }else{
-                    localStorage.setItem("partner-id", res.userId)
-                    if(res.signUpCompleted && res.hasJunoAccount){
-                        window.location.href = '/partner/financial'
-                    }else{
-                        window.location.href = '/partner/profile'
-                    }
-                    
-                }
-            })
-            .catch((err) => console.log(err));
+        let res = await result.json()
+
+        localStorage.setItem("token", res.token)
+
+        if(res.type === "USER"){
+            localStorage.setItem("user-id", res.userId)
+            window.location.href = '/products'
+        }else{
+            localStorage.setItem("partner-id", res.userId)
+            if(res.signUpCompleted && res.hasJunoAccount){
+                window.location.href = '/partner/financial'
+            }else{
+                window.location.href = '/partner/profile'
+            }
+        }
+        
     } catch (err) { 
-        console.log(err);
+        alert(err.message);
     }
 }
 
-btnLogin.addEventListener("click", (e) => {
-    e.preventDefault()
-    let userOrPartner;
+const auth = {
+    init: () => {
+        auth.login()
+        auth.logout()
+    },
 
-    for( let i = 0; i< radioLogin.length; i++){
-        if(radioLogin[i].checked){
-            userOrPartner = radioLogin[i].value;
-            break;
+    login: () => {
+        const btnLogin = document.querySelector("#btn-login")
+        if(btnLogin != undefined){
+            btnLogin.addEventListener("click", async (e) => {
+                e.preventDefault()
+
+                const radioLogin = document.getElementsByName('login')
+                const email = document.querySelector("#email-login")
+                const password = document.querySelector("#password-login")
+                let userOrPartner;
+            
+                processing.init()
+            
+                for( let i = 0; i< radioLogin.length; i++){
+                    if(radioLogin[i].checked){
+                        userOrPartner = radioLogin[i].value;
+                        break;
+                    }
+                }
+                
+                const body = {
+                    email:`${email.value}`,
+                    password:`${password.value}`,
+                    userOrPartner: userOrPartner
+                };
+            
+                await login(body);
+            
+                processing.finalize()
+            })
+        }
+    },
+
+    logout: () =>{
+        const btnLogout = document.querySelector('#btn-logout')
+
+        if(btnLogout != undefined){
+            btnLogout.addEventListener('click', async (e) => {
+                Cookies.remove('partner-id')
+                Cookies.remove('user-id')
+                Cookies.remove('_luaneletro-logged')
+                Cookies.remove('token')
+      
+                localStorage.removeItem('token')
+                localStorage.removeItem('partner-id')
+                localStorage.removeItem('user-id')
+                window.location.href = "/products"
+            })
         }
     }
-    
-    const body = {
-        email:`${email.value}`,
-        password:`${password.value}`,
-        userOrPartner: userOrPartner
-    };
+}
 
-    login(body);
-})
+window.addEventListener("DOMContentLoaded", auth.init)

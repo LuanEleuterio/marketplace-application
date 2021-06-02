@@ -1,6 +1,9 @@
 const viacep = {
     init: () => {
-        document.querySelector("#cep").addEventListener('blur', viacep.checkCEP)
+        const cep = document.querySelector("#cep")
+        
+        if(cep != undefined)
+            document.querySelector("#cep").addEventListener('blur', viacep.checkCEP)
     },
 
     checkCEP: async () => {

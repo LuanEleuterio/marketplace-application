@@ -5,14 +5,14 @@ const orderRepository = {
         const config = {
             authorization: token
         }
-
-        console.log(body)
-
         return await api("POST", "/order", body, config)
     },
 
-    cancel: async (token, orderId) => {
-
+    cancel: async (token, body) => {
+        const config = {
+            authorization: token
+        }
+        return await api("PUT", "/order/cancel", body, config)
     },
     
     listByUser: async (token) => {

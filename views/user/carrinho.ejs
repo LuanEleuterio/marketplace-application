@@ -1,103 +1,77 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>LuanEletro - Detalhes do Produto</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous"> 
-    <link
-    href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap"
-    rel="stylesheet"
-    />
-    <link rel='stylesheet'  href='/css/includes/header.css'>
-    <link rel='stylesheet' type='text/css' media='screen' href='/css/user.css'>
-    <link rel='stylesheet' type='text/css' media='screen' href='/css/carrinho.css'>
-</head>
-<body>
-    <%- include('../../views/partials/header') %>
-    <main class="container mt-4 mb-4">
-        <nav aria-label="breadcrumb" class="row">
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="/products">Home</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Carrinho</li>
-            </ol>
-        </nav>
+<main class="container mt-4 mb-4">
+    <nav aria-label="breadcrumb" class="row">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/products">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Carrinho</li>
+        </ol>
+    </nav>
 
-        <h3 class="row">Carrinho de Compras</h3>
-        <div class="row mt-3 justify-content-between">
-            <div class="col-8 products-carrinho">
-                <% if(products != undefined){
-                    if(products.noItens){%>
-                        <div class="row col-12 me-0 ms-0 text-center product-carrinho">
-                            <h4><%=products.msg%></h4>
-                        </div>
-                    <%}else{
-                        for( let product of products) {%>
-                            <div data-prod-id="<%=product._id%>" class="row col-12 me-0 ms-0 product-carrinho">
-                                <div class="col-2">
-                                    <div class="img-product">
-                                        <img class="img-thumbnail" src="<%=product.img_url%>" alt="">
-                                    </div>
-                                </div>
-                                <div class="col-7">
-                                    <a href="/product/details/<%=product._id%>" class="h5">
-                                        <%=product.name%>
-                                    </a>
-                                    <p class="mb-1 mt-2 storage">Em estoque</p>
-                                    <div class="col-12">
-                                        <span class="me-1">Vendido por</span>
-                                        <span class="partner-name"><%=product.partner.name%></span>
-                                    </div>
-                                    <div class="row col-12 mt-2 align-items-center">
-                                        <span class="col-3">Quantidade</span>
-                                        <div class="col-3">
-                                            <select data-prodid="<%=product._id.substr(19)%>" 
-                                                id="quantity-product-<%=product._id.substr(19)%>" class="form-select quantity-product" 
-                                                aria-label="Default select example">
-                                                <% for( let i = 1; i <= product.qtd; i++) {
-                                                    if(i === 1) {%>
-                                                    <option value="<%=i%>" selected><%=i%></option>
-                                                    <% continue }%>
-                                                    <option value="<%=i%>"><%=i%></option>
-                                                <%}%>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 mt-2">
-                                        <button 
-                                            data-prodid='<%=product._id%>' 
-                                            id="btn-remove-carrinho-<%=product._id.substr(19)%>" 
-                                            class="btn btn-danger btn-sm btn-remove-carrinho">Remover</button>
-                                    </div>
-                                </div>
-                                <div class="col-3 align-items-center text-end">
-                                    <span class="mb-0">Preço </span>
-                                    <p data-value="<%=product.price%>" 
-                                        id="price-product-<%=product._id.substr(19)%>" 
-                                        class="h5 price-product">R$ <%=product.price%></p>
+    <h3 class="row">Carrinho de Compras</h3>
+    <div class="row mt-3 justify-content-between">
+        <div class="col-8 products-carrinho">
+            <% if(products != undefined){
+                if(products.noItens){%>
+                    <div class="row col-12 me-0 ms-0 text-center product-carrinho">
+                        <h4><%=products.msg%></h4>
+                    </div>
+                <%}else{
+                    for( let product of products) {%>
+                        <div data-prod-id="<%=product._id%>" class="row col-12 me-0 ms-0 product-carrinho">
+                            <div class="col-2">
+                                <div class="img-product">
+                                    <img class="img-thumbnail" src="<%=viewHelper.showImage(product.img_url)%>" alt="">
                                 </div>
                             </div>
-                        <%}%> 
-                    <%}%>   
-               <%}%> 
-            </div>
-            <%if(!products.noItens){%>
-                <div class="col-3 subtotal">
-                    <h4>Subtotal: </h4>
-                    <span id="subtotal" class="h5"></span>
-                    <div class="col-12 mt-4">
-                        <button id="btn-finalize-order" class="btn btn-success col-12">Fechar pedido</button>
-                    </div>
-                </div>
-            <%}%>
+                            <div class="col-7">
+                                <a href="/product/details/<%=product._id%>" class="h5">
+                                    <%=product.name%>
+                                </a>
+                                <p class="mb-1 mt-2 storage">Em estoque</p>
+                                <div class="col-12">
+                                    <span class="me-1">Vendido por</span>
+                                    <span class="partner-name"><%=product.partner.name%></span>
+                                </div>
+                                <div class="row col-12 mt-2 align-items-center">
+                                    <span class="col-3">Quantidade</span>
+                                    <div class="col-3">
+                                        <select data-prodid="<%=product._id.substr(19)%>" 
+                                            id="quantity-product-<%=product._id.substr(19)%>" class="form-select quantity-product" 
+                                            aria-label="Default select example">
+                                            <% for( let i = 1; i <= product.qtd; i++) {
+                                                if(i === 1) {%>
+                                                <option value="<%=i%>" selected><%=i%></option>
+                                                <% continue }%>
+                                                <option value="<%=i%>"><%=i%></option>
+                                            <%}%>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12 mt-2">
+                                    <button 
+                                        data-prodid='<%=product._id%>' 
+                                        id="btn-remove-carrinho-<%=product._id.substr(19)%>" 
+                                        class="btn btn-danger btn-sm btn-remove-carrinho">Remover</button>
+                                </div>
+                            </div>
+                            <div class="col-3 align-items-center text-end">
+                                <span class="mb-0">Preço </span>
+                                <p data-value="<%=product.price%>" 
+                                    id="price-product-<%=product._id.substr(19)%>" 
+                                    class="h5 price-product">R$ <%=product.price%></p>
+                            </div>
+                        </div>
+                    <%}%> 
+                <%}%>   
+            <%}%> 
         </div>
-    </main> 
-
-    <%- include('../../views/partials/footer') %>
-    <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" data-auto-a11y="true"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
-    <script src="/js/carrinho.js"></script>
-</body>
-</html>
+        <%if(!products.noItens){%>
+            <div class="col-3 subtotal">
+                <h4>Subtotal: </h4>
+                <span id="subtotal" class="h5"></span>
+                <div class="col-12 mt-4">
+                    <button id="btn-finalize-order" class="btn btn-success col-12">Fechar pedido</button>
+                </div>
+            </div>
+        <%}%>
+    </div>
+</main> 

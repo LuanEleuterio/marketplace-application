@@ -3,26 +3,48 @@ const partnerRepository = require('../repositories/partner.repository')
 
 const userController = {
     create: async (req, res, next) => {
-        let user = await userRepository.register(req, res, next)
-        return res.json(user)
+        let user = await userRepository.register(req.body)
+
+        res.cookie('token', user.data.token, {
+            maxAge: 86400 * 1000,
+        });
+
+        res.cookie('user-id', user.data._id, {
+            maxAge: 86400 * 1000
+        });
+
+        return res.json(user.data)
     },
     update: async (req, res, next) => {
-        let token = req.cookies['token']
-        req.headers.authorization = `Bearer ${token}`
+        let token = `Bearer ${req.cookies['token']}`
 
-        let user = await userRepository.updateUser(req, res, next)
+        let user = await userRepository.update(token, req.body)
 
-        return res.json(user)
+        return res.json(user.data)
     },
     renderRegister: async (req, res, next) => {
-        res.render("user/registerUser")
+        res.render("user/registerUser",{
+            layout: "layouts/default"
+        })
     },
     renderProfile: async (req, res, next) => {
-        let token = req.cookies['token']
-        req.headers.authorization = `Bearer ${token}`
-        let user = await userRepository.listUser(req, res, next)
+        let token = `Bearer ${req.cookies['token']}`
+        let data = req.cookies['_luaneletro-logged']
+        let logged = false
 
-        res.render("user/profile", {user: user.user})
+        data = data == undefined ? false : JSON.parse(data)
+
+        if(data === true){
+            logged = true
+        }
+
+        let user = await userRepository.list(token)
+
+        res.render("user/profile", {
+            layout: "layouts/user",
+            user: user.data.user, 
+            logged
+        })
     },
 }
 

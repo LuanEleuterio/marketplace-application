@@ -3,7 +3,7 @@
         <div class="row m-0 ms-0 products">
             <div class="row ms-0 col-12 product-info">
                 <div class="col-8 align-self-center">
-                    <h4 class="mb-0">Editar Produto</h4>
+                    <h4 class="mb-0">Cadastrar um novo Produto</h4>
                 </div>
             </div>
             <form class="row col justify-content-center">
@@ -11,54 +11,66 @@
                     <div class="row col-8 p-4">
                         <div class="row">
                             <div class="col-12 mb-2">
-                                <input class="form-control" type="text" name="nameProd" id="nameProd" value="<%=product.name%>" placeholder="Nome do Produto">
+                                <input class="form-control" type="text" name="nameProd" id="nameProd" placeholder="Nome do Produto">
                             </div>
                             <div class="col-6 mb-2">
-                                <input class="form-control" type="number" name="price" id="price" value="<%=product.price%>" placeholder="Preço">
+                                <input class="form-control" type="number" name="price" id="price" placeholder="Preço">
                             </div>
                             <div class="col-6">
-                                <input class="form-control" type="number" min="1" name="quantity" id="quantity" value="<%=product.qtd%>" placeholder="Quant. em Estoque">
+                                <input class="form-control" type="number" min="1" name="quantity" id="quantity" placeholder="Quant. em Estoque">
                             </div>
                         </div>
                         <div class="row mt-2">
                             <h5 class="col-12">Descrição</h5>
                             <div class="col-12">
                                 <div class="form-floating" style="height: 100%">
-                                    <textarea class="form-control d-flex" placeholder="Descrição" id="descriptionProd" style="height: 150px; resize: none"><%=product.description%></textarea>
+                                    <textarea class="form-control d-flex" placeholder="Descrição" id="descriptionProd" style="height: 100%; resize: none"></textarea>
+                                    <label for="descriptionProd">Descrição</label>
                                 </div>
                             </div>
                         </div>
                         <div class="row mt-2">
                             <h5 class="col-12">Detalhes</h5>
                             <div class="col-4  mb-2">
-                                <input class="form-control" type="text" name="manufacturer" id="manufacturer" value="<%=product.details.manufacturer%>" placeholder="Fabricante">
+                                <input class="form-control" type="text" name="manufacturer" id="manufacturer" placeholder="Fabricante">
                             </div>
                             <div class="col-4  mb-2">
-                                <input class="form-control" type="text" name="marca" id="marca" value="<%=product.details.marca%>" placeholder="Marca">
+                                <input class="form-control" type="text" name="marca" id="marca" placeholder="Marca">
                             </div>
                             <div class="col-4  mb-2">
-                                <input class="form-control" type="text" name="model" id="model" value="<%=product.details.model%>" placeholder="Modelo">
+                                <input class="form-control" type="text" name="model" id="model" placeholder="Modelo">
                             </div>
                             <div class="col-4  mb-2">
-                                <input class="form-control" type="text" name="capacity" id="capacity" value="<%=product.details.capacity%>" placeholder="Capacidade do Produto">
+                                <input class="form-control" type="text" name="capacity" id="capacity" placeholder="Capacidade do Produto">
                             </div>
                             <div class="col-4  mb-2">
-                                <input class="form-control" type="text" name="color" id="color" value="<%=product.details.color%>" placeholder="Cor">
+                                <input class="form-control" type="text" name="color" id="color" placeholder="Cor">
                             </div>
                             <div class="col-4  mb-2">
-                                <input class="form-control" type="number" min="1" name="weight" value="<%=product.details.weight%>" id="weight" placeholder="Peso em gramas">
+                                <input class="form-control" type="number" min="1" name="weight" id="weight" placeholder="Peso em gramas">
+                            </div>
+                            <div class="col-8 d-flex align-items-center">
+                                <p class="col-form-label col-2">Produto:</p>
+                                <div class="col-2">
+                                    <input class="form-check-input" type="radio" id="newProd" name="usedOrNo" value="NEW" checked/>
+                                    <label for="user">Novo</label><br />
+                                </div>
+                                <div class="col-2">
+                                    <input class="form-check-input" type="radio" id="usedProd" name="usedOrNo" value="USED"/>
+                                    <label for="partner">Usado</label><br />
+                                </div>
                             </div>
                         </div>
                         <div class="row mt-2">
                             <h5 class="col-12">Dimensões em cm (Centímetros)</h5>
                             <div class="col-4  mb-2">
-                                <input class="form-control" type="number" min="1" name="height" id="heightProd" value="<%=product.details.dimension.height%>" placeholder="Altura">
+                                <input class="form-control" type="number" min="1" name="height" id="heightProd" placeholder="Altura">
                             </div>
                             <div class="col-4  mb-2">
-                                <input class="form-control" type="number" min="1" name="width" id="widthProd" value="<%=product.details.dimension.width%>" placeholder="Largura">
+                                <input class="form-control" type="number" min="1" name="width" id="widthProd" placeholder="Largura">
                             </div>
                             <div class="col-4  mb-2">
-                                <input class="form-control" type="number" min="1"name="comprimento" id="comprimentoProd" value="<%=product.details.dimension.comprimento%>" placeholder="Comprimento">
+                                <input class="form-control" type="number" min="1"name="comprimento" id="comprimentoProd" placeholder="Comprimento">
                             </div>
                         </div>
                     </div>
@@ -69,15 +81,15 @@
                                 <span class="visually-hidden">Loading...</span>
                             </div>
                         </button>
-                        <img src="<%=viewHelper.showImage(product.img_url)%>" alt="Imagem do Produto" id="image-loaded">
-                        <input class="form-control off" type="text" id="upload" value="<%=product.img_url%>">
+                        <img src="" alt="" class="off" id="image-loaded">
+                        <input class="form-control off" type="file" id="upload">
                         <input class="off" id="product-image" name="product-image" type="hidden" id="upload">
                     </div>
                 </div>
                 <div class="row pb-3 justify-content-center">
                     <div class="col-12 align-self-center">
-                        <button data-id-prod="<%=product._id%>" id="btn-update-product" class="btn btn-warning col-6">
-                            <span class="btn-send-prod">Atualizar</span>
+                        <button id="btn-send-product" class="btn btn-primary col-6">
+                            <span class="btn-send-prod">Cadastrar</span>
                             <div class="spinner-border text-light btn-product-spinner off" role="status">
                                 <span class="visually-hidden">...</span>
                             </div>

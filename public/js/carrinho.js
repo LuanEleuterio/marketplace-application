@@ -7,14 +7,39 @@ const qtdProducts = document.querySelectorAll('.quantity-product')
 const priceProducts = document.querySelectorAll('.price-product')
 const subtotal = document.querySelector("#subtotal")
 const btnCalcFrete = document.querySelector("#btn-calc-frete")
+const btnBuyNow = document.querySelector("#btn-buy-now")
 
 function setPrices(prices){
-    let total = 0
-    for( let price of prices){
-        total += parseFloat(price.attributes[0].value)
+    if(subtotal != undefined){
+        let total = 0
+        for( let price of prices){
+            total += parseFloat(price.attributes[0].value)
+        }
+        
+        subtotal.innerText = `R$ ${total.toFixed(2)}`
     }
+}
 
-    subtotal.innerText = `R$ ${total.toFixed(2)}`
+if( qtdProducts != undefined){
+    for( let qtdProduct of qtdProducts){
+        qtdProduct.addEventListener("change", (e) =>{
+            let total = 0
+            for( let qtdProduct of qtdProducts){
+                let qtdProd = parseInt(qtdProduct.options[qtdProduct.selectedIndex].value)
+                let priceProd = document.querySelector(`#price-product-${qtdProduct.attributes[0].value}`)
+                let price = parseFloat(priceProd.attributes[0].value)
+
+                total += price * qtdProd
+            }
+            subtotal.innerText = `R$ ${total.toFixed(2)}`
+        })
+    }
+}
+
+if(priceProducts != undefined){
+    window.addEventListener("load", (e) => {
+        setPrices(priceProducts)
+    })
 }
 
 if(btnAddCarrinho != undefined) {
@@ -32,6 +57,8 @@ if(btnAddCarrinho != undefined) {
             Cookies.set("_carrinho-products-luaneletro", JSON.stringify(data), {
                 expires: 1
             })
+
+            carrinho.showToast()
         }else{
             const productsJson = Cookies.get("_carrinho-products-luaneletro")
             data = JSON.parse(productsJson)        
@@ -46,10 +73,41 @@ if(btnAddCarrinho != undefined) {
                 Cookies.set("_carrinho-products-luaneletro", JSON.stringify(data), {
                     expires: 1
                 })
+                carrinho.showToast()
             }else{
                 console.log("Esse produto já está no carrinho")
+                carrinho.showToastFailed()
             }
         }
+
+    })
+}
+
+if(btnBuyNow != undefined) {
+    btnBuyNow.addEventListener("click", (e) => {
+        let data = {
+            products: []
+        }
+        
+        let productId = btnBuyNow.attributes[0].value
+
+        let priceProd = document.querySelector("#price-prod").attributes[0].value
+        let qtdProduct = document.querySelector(`#quantity-product`)
+        let qtdProd = parseInt(qtdProduct.options[qtdProduct.selectedIndex].value)
+
+        let subtotal = parseFloat(priceProd * qtdProd)
+
+        data.subtotal = subtotal
+
+        data.products.push({productId: productId, qtd: qtdProd})
+
+        Cookies.set("_carrinho-buy-now", JSON.stringify(data), {
+            expires: 1
+        })
+
+        localStorage.setItem("from-buy-now", true)
+
+        window.location.href = "/order/checkout"
     })
 }
 
@@ -75,28 +133,6 @@ if(btnRemoveCarrinho != undefined){
             })
 
             window.location.reload()
-        })
-    }
-}
-
-if( priceProducts != undefined){
-    window.addEventListener("load", (e) => {
-        setPrices(priceProducts)
-    })
-}
-
-if( qtdProducts != undefined){
-    for( let qtdProduct of qtdProducts){
-        qtdProduct.addEventListener("change", (e) =>{
-            let total = 0
-            for( let qtdProduct of qtdProducts){
-                let qtdProd = parseInt(qtdProduct.options[qtdProduct.selectedIndex].value)
-                let priceProd = document.querySelector(`#price-product-${qtdProduct.attributes[0].value}`)
-                let price = parseFloat(priceProd.attributes[0].value)
-
-                total += price * qtdProd
-            }
-            subtotal.innerText = `R$ ${total.toFixed(2)}`
         })
     }
 }
@@ -154,17 +190,54 @@ if(btnCalcFrete != undefined){
         let resViacep = await fetch(`https://viacep.com.br/ws/${cep}/json/`)
         let addressData = await  resViacep.json()
 
-        let resCorreios = await fetch(`http://localhost:8080/product/shipping?productId=${productId}&cepDestino=${cep}&productQtd=${qtdProd}`)
+        let resCorreios = await fetch(`https://luaneletro.shop/product/shipping?productId=${productId}&cepDestino=${cep}&productQtd=${qtdProd}`)
         let shippingValue = await resCorreios.json()
 
         document.querySelector("#streetShipping").innerText = `${addressData.logradouro} - ${addressData.localidade}`
-        document.querySelector("#shippingPrazo").innerText = `Entrega em: ${shippingValue.cResultado.Servicos.cServico.PrazoEntrega._text} dia(s)`
-        document.querySelector("#shippingValue").innerText = `Valor: R$ ${shippingValue.cResultado.Servicos.cServico.Valor._text}`
+        document.querySelector("#shippingPrazo").innerText = `Entrega em: ${shippingValue.shippingValue.cResultado.Servicos.cServico.PrazoEntrega._text} dia(s)`
+        document.querySelector("#shippingValue").innerText = `Valor: R$ ${shippingValue.shippingValue.cResultado.Servicos.cServico.Valor._text}`
 
         btnSendSpan.classList.remove('off')
         btnSpinnerSend.classList.add('off')
     })
 }
+
+const carrinho = {
+    init: () => {
+
+        if(window.location.pathname.substr(0, 15) == "/product/details"){
+            carrinho.showToastAdd()
+            carrinho.showToastFailed()
+        }
+    },
+
+    showToastAdd: () =>{
+        let option = {
+            animation: true,
+            delay: 2000
+        }
+
+        let toast = document.querySelector("#toast-carrinho")
+        
+        let toastElement = new bootstrap.Toast(toast, option)
+        toastElement.show()
+    },
+
+    showToastFailed: () => {
+        let option = {
+            animation: true,
+            delay: 2000
+        }
+
+        let toast = document.querySelector("#toast-carrinho-failed")
+        
+        let toastElement = new bootstrap.Toast(toast, option)
+
+        toastElement.show()
+    }
+}
+
+window.addEventListener("DOMContentLoaded", carrinho.init)
 
 
 

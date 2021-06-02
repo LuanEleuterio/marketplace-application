@@ -39,3 +39,11 @@ img {
     text-decoration: none;
     cursor: pointer;
 }
+
+.sell-luaneletro {
+    background-color: rgba(15, 17, 17, 0.8);
+}
+
+.sell-luaneletro span {
+    color: #fff;
+}

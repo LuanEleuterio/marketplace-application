@@ -1,264 +1,213 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Marketplace - Profile Partner</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap"
-        rel="stylesheet"
-    />
-    <link rel='stylesheet'  href='/css/partner.css'>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous"> 
-</head>
-<body>
-    <%- include('../../views/partials/headerPartner') %>
-    <main class="container container-partner">
-        <div class="box-partner">
-            <div class="row col-12 mb-3">
-                <h2 class="col-9">Informações da conta
-                    <%if(!partner.signUpCompleted){%>
-                        <span class="ms-4 fs-6" style="color:#dc3545">É necessário completar o cadastro para vender na plataforma</span>
-                    <%}else if(!partner.hasJunoAccount){%>
-                        <span class="ms-4 fs-6" style="color:#dc3545">É necessário ter uma conta Juno para vender na plataforma</span>
-                    <%}%>
-                </h2>
-                <button class="btn btn-warning col-3" id="btn-update-partner">Alterar dados</button>
+<main class="container container-partner">
+    <div class="box-partner">
+        <%if(!partner.signUpCompleted){%>
+            <span class="ms-4 fs-6" style="color:#dc3545">É necessário completar o cadastro para vender na plataforma</span>
+        <%}else if(!partner.hasJunoAccount){%>
+            <span class="ms-4 fs-6" style="color:#dc3545">É necessário ter uma conta Juno para vender na plataforma</span>
+        <%}%>
+        <div class="partner-data mb-4">
+            <div class="box-data">
+                <div class="row col-12 mb-3">
+                    <h2 class="col-9">Dados Gerais</h2>
+                    <button class="btn btn-warning col-3" id="btn-update-partner">Alterar dados</button>
+                </div>
+                <form class="row">
+                    <div class="row">
+                        <div class="col-6 mb-2">
+                            <label for="name" class="form-label">Nome da Loja</label>
+                            <input class="form-control" type="text" name="name" id="name" value="<%=partner.name%>" placeholder="Novo nome">
+                        </div>
+                        <div class="col-6 mb-2">
+                            <label for="email" class="form-label">Email</label>
+                            <input class="form-control" type="text" name="email" id="email" value="<%=partner.email%>" placeholder="Novo E-mail">
+                        </div>
+                        <div class="col-3">
+                            <label for="phone" class="form-label">Telefone</label>
+                            <input class="form-control" type="text" name="phone" id="phone" value="<%=partner.phone%>" placeholder="Novo Telefone">
+                        </div>
+                        <div class="col-4">
+                            <label for="document" class="form-label">CPF
+                                <%if(!partner.signUpCompleted){%>
+                                    <span class="fs-6" style="color:#dc3545">*</span>
+                                <%}%>
+                            </label>
+                            <input class="form-control" type="text" name="document" id="document" value="<%=partner.document%>" placeholder="CPF">
+                        </div>
+                        <div class="col-5">
+                            <label for="linesOfBusiness" class="form-label">Linha de Negócio
+                                <%if(!partner.signUpCompleted){%>
+                                    <span class="fs-6" style="color:#dc3545">*</span>
+                                <%}%>
+                            </label>
+                            <input class="form-control" type="text" name="linesOfBusiness" id="linesOfBusiness" value="<%=partner.linesOfBusiness%>" placeholder="Linha de Negócio">
+                        </div>
+                    </div>
+                </form>
             </div>
-            <div class="partner-data">
-                <div class="box-data">
-                    <div>
-                        <p>Nome da Loja:</p>
-                        <span><%=partner.name%></span>
-                    </div>
-                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#collapseName" aria-expanded="false" aria-controls="collapseExample">
-                        Editar
-                    </button>
-                    <div class="collapse" id="collapseName">
-                        <form>
-                            <input class="form-control mt-3" type="text" name="name" id="name" value="<%=partner.name%>" placeholder="Novo nome">
-                        </form>
-                    </div>
-                </div>
-                <div class="box-data">
-                    <div>
-                        <p>E-mail:</p>
-                        <p><%=partner.email%></p>
-                    </div>
-                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#collapseEmail" aria-expanded="false" aria-controls="collapseExample">
-                        Editar
-                    </button>
-                    <div class="collapse" id="collapseEmail">
-                        <form>
-                            <input class="form-control mt-3" type="text" name="email" id="email" value="<%=partner.email%>" placeholder="Novo E-mail">
-                        </form>
-                    </div>
-                </div>
-                <div class="box-data">
-                    <div>
-                        <p>Número de telefone celular:</p>
-                        <p><%=partner.phone%></p>
-                    </div>
-                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#collapsePhone" aria-expanded="false" aria-controls="collapseExample">
-                        Editar
-                    </button>
-                    <div class="collapse" id="collapsePhone">
-                        <form>
-                            <input class="form-control mt-3" type="text" name="phone" id="phone" value="<%=partner.phone%>" placeholder="Novo Telefone">
-                        </form>
-                    </div>
-                </div>
-                <div class="box-data">
-                    <div>
-                        <p>CPF:</p>
-                        <p>
-                            <%if(!partner.signUpCompleted){%>
-                                <span class="ms-5 fs-6" style="color:#dc3545">Fornececer dado</span>
-                            <%}else{%>
-                                <%=partner.document%>
-                            <%}%>
-                        </p>
-                    </div>
-                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#collapseDocument" aria-expanded="false" aria-controls="collapseExample">
-                        Editar
-                    </button>
-                    <div class="collapse" id="collapseDocument">
-                        <form>
-                            <input class="form-control mt-3" type="text" name="document" value="<%=partner.document%>" id="document" placeholder="CPF">
-                        </form>
-                    </div>
-                </div>
-                <div class="box-data">
-                    <div>
-                        <p>Négocio:</p>
-                        <%if(!partner.signUpCompleted){%>
-                            <span class="ms-5 fs-6" style="color:#dc3545">Fornececer dado</span>
-                        <%}else{%>
-                            <p>Linha de Negócio: <%=partner.linesOfBusiness%> </p>
-                            <p>Código: <%=partner.businessArea%></p>
-                        <%}%>
-                    </div>
-                    <button class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#collapseBusiness" aria-expanded="false" aria-controls="collapseBusiness">Editar</button>
+        </div>
 
-                    <div class="collapse" id="collapseBusiness">
-                        <form class="row col">
-                            <div class="col-8">
-                                <input class="form-control mt-3" type="text" name="cep" id="linesOfBusiness" placeholder="Linha de Negocio">
-                            </div>
-                        </form>
-                    </div>
-                </div> 
-                <div class="box-data bank">
-                    <div>
-                        <p>Dados Bancários:</p>
+        <div class="partner-data mb-4">
+            <div class="box-data">
+                <div class="row col-12 mb-3">
+                    <h2 class="col-9">Endereço
                         <%if(!partner.signUpCompleted){%>
-                            <span class="ms-5 fs-6" style="color:#dc3545">Fornececer dado</span>
-                        <%}else{%>
-                            <div class="col-12 mb-2">
-                                <span>Banco: <%=partner.bankAccount.bankNumber%></span>
-                                <span class="ms-4">Agência: <%=partner.bankAccount.agencyNumber%></span>
-                                <span class="ms-4">Conta: <%=partner.bankAccount.accountNumber%></span>
-                                <span class="ms-4">Tipo de conta: <%=partner.bankAccount.accountType%></span>
-                            </div>
-                            <div class="col-12">
-                                <span>Titular: <%=partner.bankAccount.accountHolder.name%></span>
-                                <span class="ms-4">CPF Titular: <%=partner.bankAccount.accountHolder.document%></span>
-                            </div>
+                            <span class="ms-4 fs-6" style="color:#dc3545">É necessário completar o cadastro para vender na plataforma</span>
                         <%}%>
+                    </h2>
+                    <button class="btn btn-warning col-3" id="btn-update-address">Alterar dados</button>
+                </div>
+                <form class="row">
+                    <div class="row">
+                        <div class="col-3 mb-2">
+                            <label for="cep" class="form-label">CEP</label>
+                            <input class="form-control" type="text" name="cep" id="cep" value="<%=partner?.address?.postCode%>" placeholder="CEP">
+                        </div>
+                        <div class="col-9 mb-2">
+                            <label for="street" class="form-label">Rua</label>
+                            <input class="form-control" type="text" name="street" id="street" value="<%=partner?.address?.street%>" placeholder="Rua">
+                        </div>
+                        <div class="col-4">
+                            <label for="numberHouse" class="form-label">Numero</label>
+                            <input class="form-control" type="text" name="numberHouse" id="numberHouse" value="<%=partner?.address?.number%>" placeholder="Numero Residência">
+                        </div>
+                        <div class="col-6">
+                            <label for="city" class="form-label">Cidade</label>
+                            <input class="form-control" type="text" name="city" id="city" value="<%=partner?.address?.city%>" placeholder="Cidade">
+                        </div>
+                        <div class="col-2">
+                            <label for="state" class="form-label">UF</label>
+                            <input class="form-control" type="text" name="state" id="state" value="<%=partner?.address?.state%>" placeholder="UF">
+                        </div>
                     </div>
-                    <button class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#collapseBank" aria-expanded="false" aria-controls="collapseBank">Editar</button>
-                    <div class="collapse" id="collapseBank">
-                        <form class="row col">
-                            <div class="col-4 mt-3">
-                                <select class="form-select" name="bankNumber" id="bankNumber">
-                                    <%if(bankAndBusiness !== undefined){%>
-                                        <% for( let bank of bankAndBusiness.banks ) {%>
+                </form>
+            </div>
+        </div>
+
+        <div class="partner-data mb-4">
+            <div class="box-data">
+                <div class="row col-12 mb-3">
+                    <h2 class="col-9">Dados Bancários
+                        <%if(!partner.signUpCompleted){%>
+                            <span class="fs-6" style="color:#dc3545">*</span>
+                        <%}%>
+                    </h2>
+                    <button class="btn btn-warning col-3" id="btn-update-bank">Alterar dados</button>
+                </div>
+                <form class="row">
+                    <div class="row">
+                        <div class="col-4 mb-2">
+                            <label for="bankNumber" class="form-label">Banco</label>
+                            <select class="form-select" name="bankNumber" id="bankNumber">
+                                <%if(bankAndBusiness !== undefined){%>
+                                    <% for( let bank of bankAndBusiness.banks ) {
+                                        if(bank.number === partner?.bankAccount?.bankNumber){%>
+                                            <option value='<%= bank.number %>' selected><%= bank.number %> - <%= bank.name %></option>
+                                        <%}else{%>
                                             <option value='<%= bank.number %>'><%= bank.number %> - <%= bank.name %></option>
                                         <%}%>
-                                    <%}%>   
-                                </select>
-                            </div>
-                            <div class="col-4">
-                                <input class="form-control mt-3" type="text" name="cep" id="agencyBank" placeholder="Agência">
-                            </div>
-                            <div class="col-4">
-                                <input class="form-control mt-3" type="text" name="cep" id="accountBank" placeholder="Conta">
-                            </div>
-                            <div class="col-4">
-                                <input class="form-control mt-3" type="text" name="cep" id="ownerBank" placeholder="Titular">
-                            </div>
-                            <div class="col-4">
-                                <input class="form-control mt-3" type="text" name="cep" id="cpfOwner" placeholder="CPF Titular">
-                            </div>
-                        </form>
+                                    <%}%>
+                                <%}%>   
+                            </select>
+                        </div>
+                        <div class="col-4 mb-2">
+                            <label for="agencyBank" class="form-label">Agência</label>
+                            <input class="form-control" type="text" name="cep" id="agencyBank" value="<%=partner?.bankAccount?.agencyNumber%>" placeholder="Agência">
+                        </div>
+                        <div class="col-4 mb-2">
+                            <label for="accountBank" class="form-label">Conta</label>
+                            <input class="form-control" type="text" name="cep" id="accountBank" value="<%=partner?.bankAccount?.accountNumber%>" placeholder="Conta">
+                        </div>
+                        <div class="col-4">
+                            <label for="ownerBank" class="form-label">Titular</label>
+                            <input class="form-control" type="text" name="cep" id="ownerBank" value="<%=partner?.bankAccount?.accountHolder?.name%>" placeholder="Titular">
+                        </div>
+                        <div class="col-4">
+                            <label for="cpfOwner" class="form-label">CPF Titular</label>
+                            <input class="form-control" type="text" name="cep" id="cpfOwner" value="<%=partner?.bankAccount?.accountHolder?.document%>" placeholder="CPF Titular">
+                        </div>
+                        <div class="col-4">
+                            <label for="accountType" class="form-label">Tipo da Conta</label>
+                            <input class="form-control" type="text" name="cep" id="accountType" value="<%=partner?.bankAccount?.accountType%>" placeholder="Tipo da Conta" disabled>
+                        </div>
                     </div>
-                </div>
-                <div class="box-data">
-                    <div>
-                        <p>Endereço:</p>
-                        <p><%=partner.address.street%>, <%=partner.address.number%></p>
-                        <p><%=partner.address.city%>, <%=partner.address.state%> - <%=partner.address.postCode%></p>
-                    </div>
-                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#collapseAddress" aria-expanded="false" aria-controls="collapseExample">
-                        Editar
-                    </button>
-                    <div class="collapse" id="collapseAddress">
-                        <form class="row col">
-                            <div id="emailHelp" class="form-text">Não é necessário preencher todos os campos, somente o que será alterado.</div>
-                            <div class="col-3">
-                                <input class="form-control mt-3" type="text" name="cep" id="cep" value="<%=partner.address.postCode%>" placeholder="CEP">
-                            </div>
-                            <div class="col-9">
-                                <input class="form-control mt-3" type="text" name="street" id="street" value="<%=partner.address.street%>" placeholder="Rua">
-                            </div>
-                            <div class="col-4">
-                                <input class="form-control mt-3" type="text" name="numberHouse" id="numberHouse" value="<%=partner.address.number%>" placeholder="Numero Residência">
-                            </div>
-                            <div class="col-6">
-                                <input class="form-control mt-3" type="text" name="city" id="city" value="<%=partner.address.city%>" placeholder="Cidade">
-                            </div>
-                            <div class="col-2">
-                                <input class="form-control mt-3" type="text" name="state" id="state" value="<%=partner.address.state%>" placeholder="UF">
-                            </div>
-                        </form>
-                    </div>
-                </div> 
+                </form>
             </div>
-            <h2>Conta Juno</h2>
-            <div class="partner-data partner-document">
-                <div class="box-data juno-account">
-                    <div>
-                        <p>Conta Juno:</p>
-                        <%if(partner.hasJunoAccount){%>
-                            <div class="col-12 mb-2">
-                                <span>Tipo da conta: <%=partner.junoAccount.type%></span>
-                                <span class="ms-4">Tipo de pessoa: <%=partner.junoAccount.personType%></span>
-                                <span class="ms-4"> Status: <%=partner.junoAccount.status%></span>
-                            </div>
-                            <div class="col-12">
-                                <span>Número da conta: <%=partner.junoAccount.accountNumber%></span>
-                                <span class="ms-4">Criada em: <%=partner.junoAccount.createdAt.substr(0,10)%></span>
-                            </div>
-                        <%}else{%>
-                            <span class="ms-5 fs-6" style="color:#dc3545">Complete o cadastro para obter uma conta Juno</span>
-                        <%}%>  
-                    </div>
-                    <%if(!partner.hasJunoAccount && partner.signUpCompleted){%>
-                        <button class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#collapseJuno" aria-expanded="false" aria-controls="collapseJuno">Editar</button>
-                    <%}else{%> 
-                        <button class="btn btn-outline-secondary" disabled>Editar</button>
-                    <%}%>  
+        </div>
 
-                    <div class="collapse" id="collapseJuno">
-                        <form class="row col">
-                            <div class="col-6 mt-3">
-                                <select class="form-select" name="businessArea" id="businessArea">
-                                    <%if(bankAndBusiness !== undefined){%>
-                                        <% for( let area of bankAndBusiness.businessAreas ) {%>
-                                            <option value='<%= area.code %>'><%= area.activity %> - <%= area.category %></option>
-                                        <%}%>
-                                    <%}%>   
-                                </select>
-                            </div>
+        <h2>Conta Juno</h2>
+        <div class="partner-data partner-document">
+            <div class="row box-data juno-account">
+                <div class="col-8">
+                    <p>Conta Juno:</p>
+                    <%if(partner.hasJunoAccount){%>
+                        <div class="col-12 mb-2">
+                            <span>Tipo da conta: <%=partner.junoAccount.type%></span>
+                            <span class="ms-4">Tipo de pessoa: <%=partner.junoAccount.personType%></span>
+                            <span class="ms-4"> Status: <%=partner.junoAccount.status%></span>
+                        </div>
+                        <div class="col-12">
+                            <span>Número da conta: <%=partner.junoAccount.accountNumber%></span>
+                            <span class="ms-4">Criada em: <%=partner.junoAccount.createdAt.substr(0,10)%></span>
+                        </div>
+                    <%}else{%>
+                        <span class="ms-5 fs-6" style="color:#dc3545">Complete o cadastro para obter uma conta Juno</span>
+                    <%}%>  
+                </div>
+                <div class="col-4 align-self-center">
+                    <%if(!partner.hasJunoAccount && partner.signUpCompleted){%>
+                        <button class="btn btn-outline-secondary col-12" data-bs-toggle="collapse" data-bs-target="#collapseJuno" aria-expanded="false" aria-controls="collapseJuno">Editar</button>
+                    <%}else{%> 
+                        <button class="btn btn-outline-secondary col-12" disabled>Editar</button>
+                    <%}%>  
+                </div>
+                <div class="collapse" id="collapseJuno">
+                    <form class="row col">
+                        <div class="col-6 mt-3">
+                            <select class="form-select" name="businessArea" id="businessArea">
+                                <%if(bankAndBusiness !== undefined){%>
+                                    <% for( let area of bankAndBusiness.businessAreas ) {%>
+                                        <option value='<%= area.code %>'><%= area.activity %> - <%= area.category %></option>
+                                    <%}%>
+                                <%}%>   
+                            </select>
+                        </div>
+                        <div class="col-4">
+                            <input class="form-control mt-3" type="number" name="rendaMensal" id="rendaMensal" placeholder="Renda Mensal">
+                        </div>
+                        <div class="row mt-3">
                             <div class="col-4">
-                                <input class="form-control mt-3" type="number" name="rendaMensal" id="rendaMensal" placeholder="Renda Mensal">
+                                <label lass="form-label" for="dtnasc">Data de Nasc.</label>
+                                <input class="form-control" type="date" name="dtnasc" id="dtnasc" placeholder="Data de Nasc">
                             </div>
-                            <div class="row mt-3">
-                                <div class="col-4">
-                                    <label lass="form-label" for="dtnasc">Data de Nasc.</label>
-                                    <input class="form-control" type="date" name="dtnasc" id="dtnasc" placeholder="Data de Nasc">
-                                </div>
-                                <div class="col-4 col-4 align-self-end">
-                                    <input class="form-control mt-3" type="text" name="motherName" id="motherName" placeholder="Nome da Mãe">
-                                </div>
-                                <div class="col-4 align-self-end">
-                                    <button class="btn btn-primary" id="btn-send-juno">Cadastrar conta</button>
-                                </div>
+                            <div class="col-4 col-4 align-self-end">
+                                <input class="form-control mt-3" type="text" name="motherName" id="motherName" placeholder="Nome da Mãe">
                             </div>
-                        </form>
-                    </div>
+                            <div class="col-4 align-self-end">
+                                <button class="btn btn-primary" id="btn-send-juno">Cadastrar conta</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
-            <%if(partner.hasJunoAccount){%>
-                <h2>Documentos</h2>
-                <div class="partner-data partner-document">
-                    <% for(let document of documents ){%>
-                        <div class="box-data">
-                            <div>
+        </div>
+        <%if(partner.hasJunoAccount){%>
+            <h2>Documentos</h2>
+            <div class="partner-data partner-document">
+                <% for(let document of documents ){%>
+                    <div class="col-12 box-data">
+                        <div class="row">
+                            <div class="col-8">
                                 <p>Documento:</p>
                                 <span><%=document.description%></span>
                                 <p>Status de Aprovação: <%=document.approvalStatus%></p>
                             </div>
-                            <button class="btn btn-outline-secondary">Enviar</button>
+                            <div class="col-4 align-self-center">
+                                <button class="btn btn-outline-secondary col-12">Enviar</button>
+                            </div>
                         </div>
-                    <%}%>
-                </div>
-            <%}%>
-        </div>
-    </main>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
-    <script type="module" src="/js/partner.js"></script>
-    <script src="/js/utils/viacep.js"></script>
-</body>
-</html>
+                    </div>
+                <%}%>
+            </div>
+        <%}%>
+    </div>
+</main>

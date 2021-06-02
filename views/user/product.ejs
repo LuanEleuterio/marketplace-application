@@ -1,198 +1,206 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>LuanEletro - Detalhes do Produto</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap"
-        rel="stylesheet"
-    />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous"> 
-    <link rel='stylesheet'  href='/css/includes/header.css'>
-    <link rel='stylesheet' type='text/css' media='screen' href='/css/user.css'>
-    
-</head>
-<body>
-    <%- include('../../views/partials/header') %>
-    <main class="container mt-4 mb-4">
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="/products">Products</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Details</li>
-              <li class="breadcrumb-item active" aria-current="page"><%=product.name%></li>
-            </ol>
-          </nav>
-        <div class="row">
-            <div class="col-3">
-                <div class="img-product">
-                    <img  class="img-fluid" src="<%=product.img_url%>" alt="">
+<main class="container mt-4 mb-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/products">Products</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Details</li>
+            <li class="breadcrumb-item active" aria-current="page"><%=product.name%></li>
+        </ol>
+        </nav>
+    <div class="row">
+        <div class="col-3">
+            <img class="img-fluid" src="<%=viewHelper.showImage(product.img_url)%>" alt="">
+        </div>
+        <div class="col-6 col-md-6">
+            <h3><%=product.name%></h3>
+            <span class="badge bg-primary">Novo</span>
+            <div class="col-12 mt-3">
+                <span class="me-1">Por:</span>
+                <span class="h5 price">R$ <%=product.price%></span>
+            </div>
+            <div class="col-12 mt-3">
+                <span>Vendido por:</span>
+                <span class="sold-by-partner"><%=product.partner.name%></span>
+            </div>
+            <div class="row col-12 mt-3">
+                <div class="col-6 secure-transaction align-items-center">
+                    <i class="fas fa-lock fa-lg me-2"></i>
+                    <span>Transação Segura</span>
+                </div>
+                <div class="col-6 secure-transaction align-items-center">
+                    <i class="fas fa-undo-alt fa-lg me-2"></i>
+                    <span>Política de Devolução</span>
                 </div>
             </div>
-            <div class="col-6 col-md-6">
-                <h3><%=product.name%></h3>
-                <span class="badge bg-primary">Novo</span>
-                <div class="col-12 mt-3">
-                    <span class="me-1">Por:</span>
-                    <span class="h5 price">R$ <%=product.price%></span>
-                </div>
-                <div class="col-12 mt-3">
-                    <span>Vendido por:</span>
-                    <span class="sold-by-partner"><%=product.partner.name%></span>
-                </div>
-                <div class="row col-12 mt-3">
-                    <div class="col-6 secure-transaction align-items-center">
-                        <i class="fas fa-lock fa-lg me-2"></i>
-                        <span>Transação Segura</span>
-                    </div>
-                    <div class="col-6 secure-transaction align-items-center">
-                        <i class="fas fa-undo-alt fa-lg me-2"></i>
-                        <span>Política de Devolução</span>
-                    </div>
-                </div>
-                <hr/>
-                <p class="mt-3 description-product"><%=product.description%>
+            <hr/>
+            <p class="mt-3 description-product"><%=product.description%>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-12 d-grid info-lateral">
+            <div class="row col-12 mt-3">
+                <span data-prod-price="<%=product.price%>" id="price-prod" class="h4 price align-self-center">R$ <%=product.price%></span>
             </div>
-            <div class="col-lg-3 col-md-3 col-sm-12 d-grid info-lateral">
-                <div class="row col-12 mt-3">
-                    <span class="h4 price align-self-center">R$ <%=product.price%></span>
+            <div class="row col-12 mt-3">
+                <div class="col-12">
+                    <div id="cepHelp" class="form-text">Calcular frete</div>
+                    <input class="form-control" type="text" name="cepDestino" id="cepDestino" placeholder="00000000">
                 </div>
-                <div class="row col-12 mt-3">
-                    <div class="col-12">
-                        <div id="cepHelp" class="form-text">Calcular frete</div>
-                        <input class="form-control" type="text" name="cepDestino" id="cepDestino" placeholder="00000000">
-                    </div>
-                    <div class="col-12 mt-2">
-                        <button data-id-prod="<%=product._id%>" class="btn btn-primary col-12" id="btn-calc-frete">
-                            <span class="btn-span-frete">Calcular</span>
-                            <div class="spinner-border text-light btn-spinner-frete off" role="status">
-                                <span class="visually-hidden">Loading...</span>
-                              </div>
-                        </button>
-                    </div>
-                    <div class="col-12 mt-2">
-                        <p class="fs-7 mb-0" style="color: #888e94" id="streetShipping"></p>
-                        <span class="shipping" id="shippingPrazo"></span>
-                        <p class="mb-0" id="shippingValue"></p>
-                    </div>
+                <div class="col-12 mt-2">
+                    <button data-id-prod="<%=product._id%>" class="btn btn-primary col-12" id="btn-calc-frete">
+                        <span class="btn-span-frete">Calcular</span>
+                        <div class="spinner-border text-light btn-spinner-frete off" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                            </div>
+                    </button>
                 </div>
-                <div class="row col-12 mt-3">
-                    <p class="mb-0 h4 storage">Em estoque</p>
-                    <div class="col-12 mt-2">
-                        <span class="col-lg-7 col-md-12">Quantidade: </span>
-                        <div class="col-3">
-                            <select id="quantity-product" class="form-select" aria-label="Default select example">
-                                <% for( let i = 1; i <= product.qtd; i++) {
-                                    if(i === 1) {%>
-                                    <option value="<%=i%>" selected><%=i%></option>
-                                    <% continue }%>
-                                    <option value="<%=i%>"><%=i%></option>
-                                <%}%>
-                            </select>
-                        </div>
+                <div class="col-12 mt-2">
+                    <p class="fs-7 mb-0" style="color: #888e94" id="streetShipping"></p>
+                    <span class="shipping" id="shippingPrazo"></span>
+                    <p class="mb-0" id="shippingValue"></p>
+                </div>
+            </div>
+            <div class="row col-12 mt-3">
+                <p class="mb-0 h4 storage">Em estoque</p>
+                <div class="col-12 mt-2">
+                    <span class="col-lg-7 col-md-12">Quantidade: </span>
+                    <div class="col-3">
+                        <select id="quantity-product" class="form-select" aria-label="Default select example">
+                            <% for( let i = 1; i <= product.qtd; i++) {
+                                if(i === 1) {%>
+                                <option value="<%=i%>" selected><%=i%></option>
+                                <% continue }%>
+                                <option value="<%=i%>"><%=i%></option>
+                            <%}%>
+                        </select>
                     </div>
                 </div>
-                <div class="row col-12 mt-3">
+            </div>
+            <div class="row col-12 mt-3">
+                <%if(logged){%>
                     <div class="col-12 d-flex justify-content-center">
                         <button data-prodid='<%=product._id%>' id="btn-add-carinho" class="btn btn-primary col-12">Adicionar ao Carrinho</button>
                     </div>
                     <div class="col-12 d-flex justify-content-center mt-2">
-                        <button class="btn btn-success col-12">Comprar Agora</button>
+                        <button data-prodid='<%=product._id%>' class="btn btn-success col-12" id="btn-buy-now">Comprar Agora</button>
                     </div>
+                <%}else{%>
+                    <div class="col-12 d-flex justify-content-center">
+                        <button data-prodid='<%=product._id%>' id="btn-add-carinho" class="btn btn-primary col-12" disabled>Adicionar ao Carrinho</button>
+                    </div>
+                    <div class="col-12 d-flex justify-content-center mt-2">
+                        <button data-prodid='<%=product._id%>' class="btn btn-success col-12" id="btn-buy-now" disabled>Comprar Agora</button>
+                    </div>
+                <%}%>
+            </div>
+            <div class="row col-12 mt-3">
+                <div class="col-12 secure-transaction d-flex align-items-center">
+                    <i class="fas fa-lock fa-sm me-1"></i>
+                    <span>Transação Segura</span>
                 </div>
-                <div class="row col-12 mt-3">
-                    <div class="col-12 secure-transaction d-flex align-items-center">
-                        <i class="fas fa-lock fa-sm me-1"></i>
-                        <span>Transação Segura</span>
-                    </div>
+            </div>
+            <div class="row col-12 mt-3 mb-3 shipping-by">
+                <div class="col-12">
+                    <span class="col-3">Enviado por </span>
+                    <span><%=product.partner.name%></span>
                 </div>
-                <div class="row col-12 mt-3 mb-3 shipping-by">
-                    <div class="col-12">
-                        <span class="col-3">Enviado por </span>
-                        <span><%=product.partner.name%></span>
-                    </div>
-                    <div class="col-12">
-                        <span class="col-3">Vendido por </span>
-                        <span><%=product.partner.name%></span>
-                    </div>
+                <div class="col-12">
+                    <span class="col-3">Vendido por </span>
+                    <span><%=product.partner.name%></span>
                 </div>
             </div>
         </div>
-        <hr/>
-        <div class="row">
-            <h4>Informações do Produto</h4>
-            <div class="col-6 mt-3">
-                <h6>Detalhes Técnicos</h6>
-                <hr/>
-                <div class="row col-12 details-tecnicals">
-                    <div class="col-6 ps-2 detail-tecnical">
-                        <span>Capacidade de armazenamento da memória</span>
-                    </div>
-                    <div class="col-6 align-self-center">
-                        <span>128 GB</span>
-                    </div>
+    </div>
+    <hr/>
+    <div class="row">
+        <h4>Informações do Produto</h4>
+        <div class="col-6 mt-3">
+            <h6>Detalhes Técnicos</h6>
+            <hr/>
+            <div class="row col-12 details-tecnicals">
+                <div class="col-6 ps-2 detail-tecnical">
+                    <span>Marca</span>
                 </div>
-                <div class="row col-12 details-tecnicals">
-                    <div class="col-6 ps-2 detail-tecnical">
-                        <span>Capacidade de armazenamento da memória</span>
-                    </div>
-                    <div class="col-6 align-self-center">
-                        <span>128 GB</span>
-                    </div>
-                </div>   
-                <div class="row col-12 details-tecnicals">
-                    <div class="col-6 ps-2 detail-tecnical">
-                        <span>Capacidade de armazenamento da memória</span>
-                    </div>
-                    <div class="col-6 align-self-center">
-                        <span>128 GB</span>
-                    </div>
-                </div>   
-                <div class="row col-12 details-tecnicals">
-                    <div class="col-6 ps-2 detail-tecnical">
-                        <span>Capacidade de armazenamento da memória</span>
-                    </div>
-                    <div class="col-6 align-self-center">
-                        <span>128 GB</span>
-                    </div>
-                </div>   
+                <div class="col-6 align-self-center">
+                    <span><%=product.details.marca%></span>
+                </div>
             </div>
-            <div class="col-6 mt-3">
-                <h6>Informações Adicionais</h6>
-                <hr/>
-                <div class="row col-12 details-tecnicals">
-                    <div class="col-6 ps-2 detail-tecnical">
-                        <span>Capacidade de armazenamento da memória</span>
-                    </div>
-                    <div class="col-6 align-self-center">
-                        <span>128 GB</span>
-                    </div>
-                </div>   
-                <div class="row col-12 details-tecnicals">
-                    <div class="col-6 ps-2 detail-tecnical">
-                        <span>Capacidade de armazenamento da memória</span>
-                    </div>
-                    <div class="col-6 align-self-center">
-                        <span>128 GB</span>
-                    </div>
-                </div>   
-                <div class="row col-12 details-tecnicals">
-                    <div class="col-6 ps-2 detail-tecnical">
-                        <span>Capacidade de armazenamento da memória</span>
-                    </div>
-                    <div class="col-6 align-self-center">
-                        <span>128 GB</span>
-                    </div>
-                </div>   
-            </div>
+            <div class="row col-12 details-tecnicals">
+                <div class="col-6 ps-2 detail-tecnical">
+                    <span>Fabricante</span>
+                </div>
+                <div class="col-6 align-self-center">
+                    <span><%=product.details.manufacturer%></span>
+                </div>
+            </div>   
+            <div class="row col-12 details-tecnicals">
+                <div class="col-6 ps-2 detail-tecnical">
+                    <span>Cor</span>
+                </div>
+                <div class="col-6 align-self-center">
+                    <span><%=product.details.color%></span>
+                </div>
+            </div>   
+            <div class="row col-12 details-tecnicals">
+                <div class="col-6 ps-2 detail-tecnical">
+                    <span>Capacidade de armazenamento da memória</span>
+                </div>
+                <div class="col-6 align-self-center">
+                    <span><%=product.details.capacity%></span>
+                </div>
+            </div>   
         </div>
-    </main> 
+        <div class="col-6 mt-3">
+            <h6>Informações Adicionais</h6>
+            <hr/>
+            <div class="row col-12 details-tecnicals">
+                <div class="col-6 ps-2 detail-tecnical">
+                    <span>Peso</span>
+                </div>
+                <div class="col-6 align-self-center">
+                    <span><%=product.details.weight%></span>
+                </div>
+            </div>   
+            <div class="row col-12 details-tecnicals">
+                <div class="col-6 ps-2 detail-tecnical">
+                    <span>Altura(cm)</span>
+                </div>
+                <div class="col-6 align-self-center">
+                    <span><%=product.details.dimension.height%></span>
+                </div>
+            </div>   
+            <div class="row col-12 details-tecnicals">
+                <div class="col-6 ps-2 detail-tecnical">
+                    <span>Largura(cm)</span>
+                </div>
+                <div class="col-6 align-self-center">
+                    <span><%=product.details.dimension.width%></span>
+                </div>
+            </div>   
+            <div class="row col-12 details-tecnicals">
+                <div class="col-6 ps-2 detail-tecnical">
+                    <span>Comprimento(cm)</span>
+                </div>
+                <div class="col-6 align-self-center">
+                    <span><%=product.details.dimension.comprimento%></span>
+                </div>
+            </div>   
+        </div>
+    </div>
+</main> 
 
-    <%- include('../../views/partials/footer') %>
-    <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" data-auto-a11y="true"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
-    <script src="/js/carrinho.js"></script>
-</body>
-</html>
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 5">
+    <div id="toast-carrinho" class="toast hide bg-success text-white" role="alert" aria-live="assertive" aria-atomic="true" data-bs-animation="false">
+        <div class="d-flex justify-content-center">
+            <div class="toast-body">
+                <span class="fs-6">Produto adicionado ao carrinho</span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 5">
+    <div id="toast-carrinho-failed" class="toast hide bg-danger text-white" role="alert" aria-live="assertive" aria-atomic="true" data-bs-animation="false">
+        <div class="d-flex justify-content-center">
+            <div class="toast-body">
+                <span class="fs-6">Produto já está no carrinho</span>
+            </div>
+        </div>
+    </div>
+</div>

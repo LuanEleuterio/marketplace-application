@@ -33,14 +33,18 @@ select {
     padding: 30px 0;
 }
 
-.form-user {
+.form-partner {
     display: flex;
     flex-wrap: wrap;
-    max-width: 400px;
     margin: 0 auto;
+    margin-top: 30px;
+    padding: 15px 15px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-shadow: 0px 0px 10px 3px rgb(0 0 0 / 10%);
 }
 
-.form-user label,
+.form-partner label,
 input {
     width: 100%;
 }
@@ -140,13 +144,10 @@ input {
     border: 1px solid #ccc;
     border-radius: 5px;
     margin-bottom: 20px;
+    box-shadow: 0 0 10px 5px rgb(0 0 0 / 5%);
 }
 
 .box-data {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    column-gap: 10px;
-
     border-bottom: 1px solid #ccc;
     padding: 15px;
 }
@@ -245,4 +246,9 @@ input {
     font-size: 0.875em;
     font-weight: bold;
     color: rgba(0, 0, 0, 0.5);
+}
+
+.image-product {
+    width: 60px;
+    height: 60px;
 }

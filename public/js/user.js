@@ -1,10 +1,11 @@
 import loadCards from "./utils/loadCards.js"
 import hashCard from "./utils/hashCard.js"
+import processing from "./utils/processSpinner.js"
 
 function registerUser(data) {
     
     try {
-        fetch("http://localhost:8081/user",{
+        fetch("https://luaneletro.shop/user",{
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
@@ -32,7 +33,7 @@ function registerUser(data) {
 
 async function updateUser(data) {
     try {
-        fetch("http://localhost:8081/user",{
+        fetch("https://luaneletro.shop/user",{
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json',
@@ -59,7 +60,7 @@ async function updateUser(data) {
 
 async function deleteCard(cardId){
     try {
-        await fetch(`http://localhost:8081/user/cards/cancel/${cardId}`,{
+        await fetch(`https://luaneletro.shop/user/cards/cancel/${cardId}`,{
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json',
@@ -84,7 +85,7 @@ async function deleteCard(cardId){
 
 async function sendOrders(orders) {
     try {
-        await fetch(`http://localhost:8081/order`,{
+        await fetch(`https://luaneletro.shop/order`,{
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -110,7 +111,7 @@ async function sendOrders(orders) {
 
 async function sendCard(cardHash = ''){
     try {
-        await fetch("http://localhost:8081/card",{
+        await fetch("https://luaneletro.shop/card",{
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -134,6 +135,21 @@ async function sendCard(cardHash = ''){
     }
 }
 
+async function cancelItemInOrder(data){
+    try{
+        const result = await  fetch("https://luaneletro.shop/order/cancel",{
+            method: "PUT",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            },
+            body: JSON.stringify(data)
+        })
+    }catch(err){
+        console.log(err)
+    }
+}
+
 const user = {
     init: async () => {
         if(location.pathname == '/user/cards'){
@@ -145,6 +161,7 @@ const user = {
         user.deleteCard()
         user.profileVerCards()
         user.finalizeOrder()
+        user.cancelItemInOrder()
     },
     sendUser: () => {
         const btnSendUser = document.querySelector("#btn-send-user")
@@ -280,17 +297,12 @@ const user = {
         return
     },
 
-    finalizeOrder: async (req, res, next) => {
+    finalizeOrder: async () => {
         const btnConfirmOrder = document.querySelector("#btn-confirm-order")
 
         if(btnConfirmOrder != undefined){
             btnConfirmOrder.addEventListener("click", async (e) => {
-                let btnSendSpan = document.querySelector(".btn-send-order")
-                let btnSpinnerSend = document.querySelector(".btn-order-spinner")
-        
-                btnSendSpan.classList.add('off')
-                btnSpinnerSend.classList.remove('off')
-
+                processing.init()
 
                 const finalizeOrder = document.querySelectorAll('.product-item-finalize')
                 const radioMethodPay = document.getElementsByName('pay-method')
@@ -330,9 +342,37 @@ const user = {
 
                 await sendOrders(data)
 
-                btnSendSpan.classList.remove('off')
-                btnSpinnerSend.classList.add('off')
+                if(localStorage.getItem('from-buy-now')){
+                    Cookies.remove('_carrinho-buy-now')
+                    localStorage.removeItem('from-buy-now')
+                }else{
+                    Cookies.remove('_carrinho-products-luaneletro')
+                    Cookies.remove('_carrinho-finalize-order')
+                }
+
+                processing.finalize()
+                window.location.href = '/user/orders'
             })
+        }
+    },
+
+    cancelItemInOrder: async () => {
+        const btnRemoves = document.querySelectorAll(".btn-remove-item")
+
+        if(btnRemoves != undefined){
+            for( let btnRemove of btnRemoves){
+                btnRemove.addEventListener("click", async (e) =>{
+                    let data = {
+                        orderId: btnRemove.attributes[0].value,
+                        itemId: btnRemove.attributes[1].value
+                    }
+                    processing.init()
+                    await cancelItemInOrder(data)
+                    processing.finalize()
+
+                    window.location.reload()
+                })
+            }
         }
     }
 }
@@ -343,7 +383,7 @@ window.addEventListener("DOMContentLoaded", user.init)
 if(location.pathname == '/profile'){
     window.addEventListener("load", (e) =>{
         try {
-            fetch("http://localhost:8081/user/orders",{
+            fetch("https://luaneletro.shop/user/orders",{
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 }

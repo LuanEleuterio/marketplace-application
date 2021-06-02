@@ -1,63 +1,43 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Marketplace - Profile Partner</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet'  href='/css/partner.css'>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap"
-        rel="stylesheet"
-    />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous"> 
-</head>
-<body>
-    <%- include('../../views/partials/headerPartner') %>
-    <main class="container container-partner">
-        <div class="box-partner">
-            <h2>Informações Financeiras</h2>
-            <div class="partner-financial">
-                <div class="box-financial">
-                    <div>
-                        <p>Valor de Vendas Concretizadas</p>
-                        <span>R$<%=financial.totalSold%></span>
-                    </div>
+<main class="container container-partner">
+    <div class="box-partner">
+        <h2>Informações Financeiras</h2>
+        <div class="partner-financial">
+            <div class="box-financial">
+                <div>
+                    <p>Valor de Vendas Concretizadas</p>
+                    <span>R$<%=financial.totalSold%></span>
                 </div>
-                <div class="box-financial">
-                    <div>
-                        <p>Valor Previsto das Vendas</p>
-                        <span>R$<%=financial.expectedSalesValues%></span>
-                    </div>
+            </div>
+            <div class="box-financial">
+                <div>
+                    <p>Valor Previsto das Vendas</p>
+                    <span>R$<%=financial.expectedSalesValues%></span>
                 </div>
-                <div class="box-financial">
-                    <div>
-                        <p>Balanço Conta Juno</p>
-                        <span>R$<%=financial.juno.balance%></span>
-                    </div>
+            </div>
+            <div class="box-financial">
+                <div>
+                    <p>Balanço Conta Juno</p>
+                    <span>R$<%=financial.juno.balance%></span>
                 </div>
-                <div class="box-financial">
-                    <div>
-                        <p>Pedidos Concluídos</p>
-                        <span><%=financial.sales.concludedSales%></span>
-                    </div>
+            </div>
+            <div class="box-financial">
+                <div>
+                    <p>Pedidos Concluídos</p>
+                    <span><%=financial.sales.concludedSales%></span>
                 </div>
-                <div class="box-financial">
-                    <div>
-                        <p>Pedidos em Andamento</p>
-                        <span><%=financial.sales.expectedSales%></span>
-                    </div>
+            </div>
+            <div class="box-financial">
+                <div>
+                    <p>Pedidos em Andamento</p>
+                    <span><%=financial.sales.expectedSales%></span>
                 </div>
-                <div class="box-financial">
-                    <div>
-                        <p>Pedidos Cancelados</p>
-                        <span><%=financial.sales.canceledSales%></span>
-                    </div>
+            </div>
+            <div class="box-financial">
+                <div>
+                    <p>Pedidos Cancelados</p>
+                    <span><%=financial.sales.canceledSales%></span>
                 </div>
             </div>
         </div>
-    </main>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
-    <script type="module" src="/js/partner.js"></script>
-</body>
-</html>
+    </div>
+</main>

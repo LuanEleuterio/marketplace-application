@@ -1,26 +1,31 @@
-<h4>Produtos</h4>
-<% if(products.length > 0) {
-    for( let product of products){ %>
-        <%if(product.active) {%>
-            <div class="product col-6">
-                <div class="col-12 product-details">
-                    <div class="col-4 me-2">
-                        <p>NOME</p>
-                        <span><%=product.name%></span>
-                    </div>
-                    <div class="col-4">
-                        <p>QUANTIDADE</p>
-                        <span><%=product.qtd%></span>
-                    </div>
-                    <div class="col-2">
-                        <a class="btn btn-primary" href="/product/edit/<%=product._id%>">Editar</a>
-                    </div>
-                    
-                    <div class="col-2">
-                        <button data-prod-id="<%=product._id%>" class="btn btn-danger btn-delete-prod">Excluir</button>
-                    </div>
-                </div>
-            </div>
-       <%}
-    }
-}%>
+
+<% if(products.length > 0) {%>
+    <table class="table  table-striped">
+        <thead>
+            <tr>
+            <th scope="col">Status</th>
+            <th scope="col">Foto</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Quantidade</th>
+            <th scope="col">Preço</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <%for( let product of products){ %>
+                <%if(product.active) {%>
+                    <tr>
+                        <th scope="row">Ativo</th>
+                        <td><img class="image-product" src="<%=viewHelper.showImage(product.img_url)%>" alt=""></td>
+                        <td><%=product.name%></td>
+                        <td><%=product.qtd%></td>
+                        <td>R$ <%=product.price%></td>
+                        <td><a class="btn btn-primary" href="/product/edit/<%=product._id%>">Editar</a></td>
+                        <td><button data-prod-id="<%=product._id%>" class="btn btn-danger btn-delete-prod">Excluir</button></td>
+                    </tr>
+                <%}
+            }%>
+        </tbody>
+    </table>
+<%}%>

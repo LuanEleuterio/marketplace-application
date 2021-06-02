@@ -16,15 +16,41 @@ const userController = {
     },
     renderCards: async (req, res, next) => {
         let token = `Bearer ${req.cookies['token']}`
+        let data = req.cookies['_luaneletro-logged']
+        let logged = false
+
+        data = data == undefined ? false : JSON.parse(data)
+
+        if(data === true){
+            logged = true
+        }
+
         let cards = await repository.listAll(token)
 
-        res.render("user/cards", {cards: cards.data})
+        res.render("user/cards", {
+            layout: "layouts/user",
+            cards: cards.data, 
+            logged
+        })
     },
     renderPartialsCards: async (req, res, next) =>{
         let token = `Bearer ${req.cookies['token']}`
+        let data = req.cookies['_luaneletro-logged']
+        let logged = false
+
+        data = data == undefined ? false : JSON.parse(data)
+
+        if(data === true){
+            logged = true
+        }
+        
         let cards = await repository.listAll(token)
         
-        return res.render("partials/cards", {cards: cards.data})
+        return res.render("partials/cards", {
+            layout: "layouts/none",
+            cards: cards.data,
+            logged
+        })
     }
 }
 

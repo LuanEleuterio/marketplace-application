@@ -44,7 +44,6 @@ const productRepository = {
     calculateShipping: async (productId, productQtd, cepDestino) =>{
         let request = await api("GET", 
         `/product/shipping?productId=${productId}&cepDestino=${cepDestino}&productQtd=${productQtd}`)
-
         return request.data
     }
 }

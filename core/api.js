@@ -2,28 +2,33 @@ const axios = require("axios")
 
 module.exports = async (method, url, data = {}, config = {}) => {
     let header = {}
+    try{
+        config?.authorization ? header["Authorization"] = config.authorization : null
+        //https://luaneletro-marketplace.herokuapp.com
+        //http://localhost:8080
+        //https://api.luaneletro.shop
+        const request = await axios.create({
+            baseURL: `https://api.luaneletro.shop`,
+            headers: header
+        })
 
-    config?.authorization ? header["Authorization"] = config.authorization : null
-    //https://luaneletro-marketplace.herokuapp.com
-    //http://localhost:8080
-    const request = await axios.create({
-        baseURL: `http://localhost:8080`,
-        headers: header
-    })
+        let instance;
 
-    let instance;
+        switch(method.toLowerCase()){
+            case 'get': instance = request.get;         break;
+            case 'post': instance = request.post;       break;
+            case 'put': instance = request.put;         break;
+            case 'patch': instance = request.patch;     break;
+            case 'delete': instance = request.delete;   break;
+            default: instance = request.get;
+        }
 
-    switch(method.toLowerCase()){
-        case 'get': instance = request.get;         break;
-        case 'post': instance = request.post;       break;
-        case 'put': instance = request.put;         break;
-        case 'patch': instance = request.patch;     break;
-        case 'delete': instance = request.delete;   break;
-        default: instance = request.get;
+        return instance(url, data, config)
+        .catch(err => {
+            err.error = true
+            return err
+        })
+    }catch(err){
+        return err
     }
-
-    return instance(url, data, config)
-    .catch(err => {
-        return err.response
-    })
 }

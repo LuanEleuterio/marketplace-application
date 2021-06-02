@@ -1,8 +1,10 @@
 import loadProducts from "./utils/loadProducts.js"
+import processing from "./utils/processSpinner.js"
+import upload from "./upload.js"
 
 function registerPartner(data) {
     try {
-        fetch("http://localhost:8081/partner",{
+        fetch("https://luaneletro.shop/partner",{
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
@@ -11,7 +13,6 @@ function registerPartner(data) {
         })
             .then(res => res.json())
             .then(res => {
-                console.log(res)
                 localStorage.setItem("partner-id", res.token)
                 localStorage.setItem("token", res.token)
                 window.location.href = '/partner/profile'
@@ -24,7 +25,7 @@ function registerPartner(data) {
 
 async function registerProduct(data){
     try {
-        await fetch("http://localhost:8081/product",{
+        await fetch("https://luaneletro.shop/product",{
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -42,7 +43,7 @@ async function registerProduct(data){
 
 async function updateProduct(data){
     try {
-        await fetch("http://localhost:8081/product",{
+        await fetch("https://luaneletro.shop/product",{
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json',
@@ -62,7 +63,7 @@ async function updateProduct(data){
 
 async function updatePartner(data) {
     try {
-        await fetch("http://localhost:8081/partner",{
+        await fetch("https://luaneletro.shop/partner",{
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json',
@@ -82,7 +83,7 @@ async function updatePartner(data) {
 
 async function deleteProduct(productId){
     try {
-        await fetch(`http://localhost:8081/product/${productId}`,{
+        await fetch(`https://luaneletro.shop/product/${productId}`,{
             method: "DELETE",
             headers: {
                 'Content-Type': 'application/json',
@@ -99,7 +100,7 @@ async function deleteProduct(productId){
 
 async function createDigitalAccount(data){
     try {
-        await fetch("http://localhost:8081/digital-account",{
+        await fetch("https://luaneletro.shop/digital-account",{
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -124,8 +125,12 @@ const partner = {
         partner.createDigitalAccount()
         partner.sendProducts()
         partner.updatePartner()
+        partner.updateBankInfo()
+        partner.updateAddressInfo()
         partner.updateProduct()
         partner.deleteProduct()
+        partner.sendImage()
+
     },
     sendPartner: () => {
         const btnSendPartner = document.querySelector("#btn-send-partner")
@@ -167,46 +172,42 @@ const partner = {
         if(btnUpdatePartner != undefined){
 
             btnUpdatePartner.addEventListener("click", async (e) => {
+                e.preventDefault()
+
                 const name = document.querySelector('#name')
                 const cpf = document.querySelector('#document')
                 const email = document.querySelector('#email')
                 const phone = document.querySelector('#phone')
-                const street = document.querySelector('#street')
-                const numberHouse = document.querySelector('#numberHouse')
-                const city = document.querySelector('#city')
-                const state = document.querySelector('#state')
-                const cep = document.querySelector('#cep')   
-                const dtnasc = document.querySelector('#dtnasc')
                 const lineBusiness = document.querySelector('#linesOfBusiness')
-                const motherName = document.querySelector('#mother-name')
-                const rendaMensal = document.querySelector('#renda-mensal')
-                const bankAgency = document.querySelector('#agencyBank')
-                const bankAccount = document.querySelector('#accountBank')
-                const nameOwner = document.querySelector('#ownerBank')
-                const cpfOwner = document.querySelector('#cpfOwner')
-                //const password = document.querySelector("#password")
-                
-                const bankNumber = document.querySelector("#bankNumber")
-                let bankCode = bankNumber.options[bankNumber.selectedIndex].value
-            
-                //const businessArea = document.querySelector("#businessArea")
-                //let businessCode = businessArea.options[businessArea.selectedIndex].value
-        
-                e.preventDefault()
-        
+                                    
                 const body = {
                     name:name.value,
                     document: cpf.value,
                     email: email.value,
                     phone: phone.value,
-                    linesOfBusiness: lineBusiness.value,
-                    address:{
-                        street: street.value,
-                        number: numberHouse.value,
-                        city: city.value,
-                        state: state.value,
-                        postCode: cep.value
-                    },
+                    linesOfBusiness: lineBusiness.value
+                }
+                await updatePartner(body)
+            })
+        }
+    },
+
+    updateBankInfo: async () => {
+        const btnUpdateBank = document.querySelector("#btn-update-bank")
+        if(btnUpdateBank != undefined){
+
+            btnUpdateBank.addEventListener("click", async (e) => {
+                e.preventDefault()
+
+                const bankAgency = document.querySelector('#agencyBank')
+                const bankAccount = document.querySelector('#accountBank')
+                const nameOwner = document.querySelector('#ownerBank')
+                const cpfOwner = document.querySelector('#cpfOwner')
+                
+                const bankNumber = document.querySelector("#bankNumber")
+                let bankCode = bankNumber.options[bankNumber.selectedIndex].value
+        
+                const body = {
                     bankAccount:{
                         bankNumber: bankCode,
                         agencyNumber: bankAgency.value,
@@ -216,6 +217,33 @@ const partner = {
                             name: nameOwner.value,
                             document: cpfOwner.value
                         }
+                    }
+                }
+                await updatePartner(body)
+            })
+        }
+    },
+
+    updateAddressInfo: async () => {
+        const btnUpdateAddress = document.querySelector("#btn-update-address")
+        if(btnUpdateAddress != undefined){
+
+            btnUpdateAddress.addEventListener("click", async (e) => {
+                e.preventDefault()
+
+                const street = document.querySelector('#street')
+                const numberHouse = document.querySelector('#numberHouse')
+                const city = document.querySelector('#city')
+                const state = document.querySelector('#state')
+                const cep = document.querySelector('#cep')   
+        
+                const body = {
+                    address:{
+                        street: street.value,
+                        number: numberHouse.value,
+                        city: city.value,
+                        state: state.value,
+                        postCode: cep.value
                     }
                 }
 
@@ -259,7 +287,6 @@ const partner = {
                 const nameProd = document.querySelector('#nameProd')
                 const descProd = document.querySelector('#descriptionProd')
                 const priceProd = document.querySelector('#price')
-                const imgProd = document.querySelector('#imgUrl')
                 const qtdProd = document.querySelector("#quantity")
                 const manufacturer = document.querySelector("#manufacturer")
                 const marca = document.querySelector("#marca")
@@ -270,15 +297,11 @@ const partner = {
                 const heightProd = document.querySelector("#heightProd")
                 const widthProd = document.querySelector("#widthProd")
                 const comprimentoProd = document.querySelector('#comprimentoProd')
-                
+                const imgProd = document.getElementsByName("product-image")
                 const usedOrNo = document.getElementsByName('usedOrNo')
                 let used
         
-                let btnSendSpan = document.querySelector(".btn-send-prod")
-                let btnSpinnerSend = document.querySelector(".btn-product-spinner")
-        
-                btnSendSpan.classList.add('off')
-                btnSpinnerSend.classList.remove('off')
+                processing.init()
                 
                 for( let i = 0; i< usedOrNo.length; i++){
                     if(usedOrNo[i].checked){
@@ -287,10 +310,9 @@ const partner = {
                     }
                 }
         
-                const body = {
+                let body = {
                     name: nameProd.value,
                     description: descProd.value,
-                    img_url: imgProd.value,
                     price: parseFloat(priceProd.value),
                     qtd: parseInt(qtdProd.value),
                     details: {
@@ -307,13 +329,19 @@ const partner = {
                         }
                     }
                 }
-                
-                await registerProduct(body)
 
-                await loadProducts.init()
+                if(imgProd[0].value.length > 0){
+                    body = {
+                        img_url: imgProd[0].value,
+                        ...body
+                    }
+                }
+
+                await registerProduct(body)
                 
-                btnSendSpan.classList.remove('off')
-                btnSpinnerSend.classList.add('off')
+                processing.finalize()
+
+                window.location.href = '/partner/products'
             })
         }
     },
@@ -328,7 +356,7 @@ const partner = {
                 const nameProd = document.querySelector('#nameProd')
                 const descProd = document.querySelector('#descriptionProd')
                 const priceProd = document.querySelector('#price')
-                const imgProd = document.querySelector('#imgUrl')
+                const imgProd = document.querySelector('#upload')
                 const qtdProd = document.querySelector("#quantity")
                 const manufacturer = document.querySelector("#manufacturer")
                 const marca = document.querySelector("#marca")
@@ -361,6 +389,7 @@ const partner = {
                         }
                     }
                 }
+                
                 await updateProduct(body)
             })
         }
@@ -376,6 +405,36 @@ const partner = {
                     await loadProducts.init()
                 })  
             }
+        }
+    },
+
+    sendImage: async () => {
+        const btnImage = document.querySelector("#btn-image")
+        const field = document.querySelector("#upload")
+        if(btnImage != undefined){
+            btnImage.addEventListener("click", (e) => {
+                field.click()
+            })
+        }
+
+        if(field != undefined) {
+            field.addEventListener("change", async (e) => {
+                let btnSendSpan = document.querySelector(".btn-span-image")
+                let btnSpinnerSend = document.querySelector(".btn-spinner-image")
+                
+                btnSendSpan.classList.add('off')
+                btnSpinnerSend.classList.remove('off')
+
+                let res = await upload('upload')
+                console.log(res)
+                document.querySelector("#image-loaded").src = res.Location
+                document.getElementsByName("product-image")[0].value = res.key
+                document.querySelector("#image-loaded").classList.remove('off')
+
+                btnSendSpan.classList.remove('off')
+                btnSpinnerSend.classList.add('off')
+                
+            })
         }
     }
 }

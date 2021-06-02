@@ -1,145 +1,74 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Marketplace - Profile User</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous"> 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap"
-        rel="stylesheet"
-    />
-    <link rel='stylesheet'  href='/css/includes/header.css'>
-    <link rel='stylesheet'  href='/css/user.css'>
-</head>
-<body>
-    <%- include('../../views/partials/header') %>
-    <main class="container container-user">
-        <div class="box-user">
-            <div class="row col-12 mb-3">
-                <h2 class="col-9">Informações da conta
-                    <%if(!user.signUpCompleted){%>
-                        <span class="ms-5 fs-6" style="color:#dc3545">É necessário completar o cadastro</span>
-                    <%}%>
-                </h2>
-                <button class="btn btn-warning col-3" id="btn-update-user">Atualizar dados</button>
+<main class="container container-user">
+    <div class="box-user">
+        <div class="row col-12 mb-3">
+            <h2 class="col-9">Informações da conta
+                <%if(!user.signUpCompleted){%>
+                    <span class="ms-5 fs-6" style="color:#dc3545">É necessário completar o cadastro</span>
+                <%}%>
+            </h2>
+            <button class="btn btn-warning col-3" id="btn-update-user">Atualizar dados</button>
+        </div>
+        <div class="user-data">
+            <div class="box-data">
+                <form class="row">
+                    <div class="col-6 mb-2">
+                        <label for="name" class="form-label">Nome</label>
+                        <input class="form-control" type="text" name="name" id="name" value="<%=user.name%>" placeholder="Novo nome">
+                    </div>
+                    <div class="col-6 mb-2">
+                        <label for="email" class="form-label">Email</label>
+                        <input class="form-control" type="text" name="email" id="email" value="<%=user.email%>" placeholder="Novo E-mail">
+                    </div>
+                    <div class="col-6">
+                        <label for="phone" class="form-label">Telefone</label>
+                        <input class="form-control" type="text" name="phone" id="phone" value="<%=user.phone%>" placeholder="Novo Telefone">
+                    </div>
+                    <div class="col-6">
+                        <label for="document" class="form-label">CPF
+                            <%if(!user.signUpCompleted){%>
+                                <span class="fs-6" style="color:#dc3545">*</span>
+                            <%}%>
+                        </label>
+                        <input class="form-control" type="text" name="document" id="document" value="<%=user.document%>" placeholder="CPF">
+                    </div>
+
+                    <div class="row mt-3">
+                        <h5 >Endereço
+                            <%if(!user.signUpCompleted){%>
+                                <span class="fs-6" style="color:#dc3545">*</span>
+                            <%}%>
+                        </h5>
+                        <div class="col-3 mb-2">
+                            <label for="cep" class="form-label">CEP</label>
+                            <input class="form-control" type="text" name="cep" id="cep" value="<%=user?.address?.postCode%>" placeholder="CEP">
+                        </div>
+                        <div class="col-9 mb-2">
+                            <label for="street" class="form-label">Rua</label>
+                            <input class="form-control" type="text" name="street" id="street" value="<%=user?.address?.street%>" placeholder="Rua">
+                        </div>
+                        <div class="col-4">
+                            <label for="numberHouse" class="form-label">Numero</label>
+                            <input class="form-control" type="text" name="numberHouse" id="numberHouse" value="<%=user?.address?.number%>" placeholder="Numero Residência">
+                        </div>
+                        <div class="col-6">
+                            <label for="city" class="form-label">Cidade</label>
+                            <input class="form-control" type="text" name="city" id="city" value="<%=user?.address?.city%>" placeholder="Cidade">
+                        </div>
+                        <div class="col-2">
+                            <label for="state" class="form-label">UF</label>
+                            <input class="form-control" type="text" name="state" id="state" value="<%=user?.address?.state%>" placeholder="UF">
+                        </div>
+                    </div>
+                </form>
             </div>
-            <div class="user-data">
-                <div class="box-data">
-                    <div>
-                        <p>Nome:</p>
-                        <span><%=user.name%></span>
-                    </div>
-                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#collapseName" aria-expanded="false" aria-controls="collapseExample">
-                        Editar
-                    </button>
-                    <div class="collapse" id="collapseName">
-                        <form>
-                            <input class="form-control mt-3" type="text" name="name" id="name" value="<%=user.name%>" placeholder="Novo nome">
-                        </form>
-                    </div>
+            <div class="row box-data">
+                <div class="col-8">
+                    <p style="margin: 10px 0">Cartões</p>
                 </div>
-                <div class="box-data">
-                    <div>
-                        <p>E-mail:</p>
-                        <p><%=user.email%></p>
-                    </div>
-                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#collapseEmail" aria-expanded="false" aria-controls="collapseExample">
-                        Editar
-                    </button>
-                    <div class="collapse" id="collapseEmail">
-                        <form>
-                            <input class="form-control mt-3" type="text" name="email" id="email" value="<%=user.email%>" placeholder="Novo E-mail">
-                        </form>
-                    </div>
-                </div>
-                <div class="box-data">
-                    <div>
-                        <p>Número de telefone celular:</p>
-                        <p>
-                            <%if(!user.signUpCompleted){%>
-                                <span class="ms-5 fs-6" style="color:#dc3545">Fornececer dado</span>
-                            <%}else{%>
-                                <%=user.phone%>
-                            <%}%>
-                        </p>
-                    </div>
-                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#collapsePhone" aria-expanded="false" aria-controls="collapseExample">
-                        Editar
-                    </button>
-                    <div class="collapse" id="collapsePhone">
-                        <form>
-                            <input class="form-control mt-3" type="text" name="phone" id="phone" value="<%=user.phone%>" placeholder="Novo Telefone">
-                        </form>
-                    </div>
-                </div>
-                <div class="box-data">
-                    <div>
-                        <p>CPF:</p>
-                        <p>
-                            <%if(!user.signUpCompleted){%>
-                                <span class="ms-5 fs-6" style="color:#dc3545">Fornececer dado</span>
-                            <%}else{%>
-                                <%=user.document%>
-                            <%}%>
-                        </p>
-                    </div>
-                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#collapseDocument" aria-expanded="false" aria-controls="collapseExample">
-                        Editar
-                    </button>
-                    <div class="collapse" id="collapseDocument">
-                        <form>
-                            <input class="form-control mt-3" type="text" name="document" id="document" value="<%=user.document%>" placeholder="CPF">
-                        </form>
-                    </div>
-                </div>
-                <div class="box-data">
-                    <div>
-                        <p>Endereço:</p>
-                        
-                        <%if(!user.signUpCompleted){%>
-                            <p class="ms-5 fs-6" style="color:#dc3545">Fornececer dado</p>
-                        <%}else{%>
-                            <p><%=user?.address.street%>, <%=user?.address.number%></p>
-                            <p><%=user?.address.city%>, <%=user?.address.state%> - <%=user?.address.postCode%></p>
-                        <%}%>
-                    </div>  
-                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="collapse" data-bs-target="#collapseAddress" aria-expanded="false" aria-controls="collapseExample">
-                        Editar
-                    </button>
-                    <div class="collapse" id="collapseAddress">
-                        <form class="row col">
-                            <div id="emailHelp" class="form-text">Não é necessário preencher todos os campos, somente o que será alterado.</div>
-                            <div class="col-3">
-                                <input class="form-control mt-3" type="text" name="cep" id="cep"  placeholder="CEP">
-                            </div>
-                            <div class="col-9">
-                                <input class="form-control mt-3" type="text" name="street" id="street"  placeholder="Rua">
-                            </div>
-                            <div class="col-4">
-                                <input class="form-control mt-3" type="text" name="numberHouse" id="numberHouse"  placeholder="Numero Residência">
-                            </div>
-                            <div class="col-6">
-                                <input class="form-control mt-3" type="text" name="city" id="city" placeholder="Cidade">
-                            </div>
-                            <div class="col-2">
-                                <input class="form-control mt-3" type="text" name="state" id="state"  placeholder="UF">
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                <div class="box-data">
-                    <div>
-                        <p style="margin: 10px 0">Cartões</p>
-                    </div>
-                    <button class="btn btn-outline-secondary" id="btn-profile-ver-cards">Ver</button>
-                </div>
+                <div class="col-4">
+                    <button class="btn btn-outline-secondary col-12" id="btn-profile-ver-cards">Ver</button>
+                </div> 
             </div>
         </div>
-    </main>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
-    <script type="module" src="/js/user.js"></script>
-    <script src="/js/utils/viacep.js"></script>
-</body>
-</html>
+    </div>
+</main>

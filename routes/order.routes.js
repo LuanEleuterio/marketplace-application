@@ -7,5 +7,5 @@ module.exports = (app) => {
 
     app.post("/order", OrderController.create);
 
-    //app.put("/order/cancel/:orderId", gatewayController.cancelCharge)
+    app.put("/order/cancel", OrderController.cancel)
 }
