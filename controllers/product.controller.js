@@ -97,7 +97,7 @@ const productController = {
 
     renderPartialProducts: async (req, res, next) =>{
         let token = `Bearer ${req.cookies['token']}`
-
+        console.log(token)
         let products = await repository.listByPartner(token)
         return res.render("partials/products", {
             layout:'layouts/none', 

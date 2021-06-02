@@ -5,6 +5,8 @@ const authenticateController = {
         try{
             const auth = await authRepository.auth(req.body)
             
+            console.log("auth", auth)
+
             if(auth.error){
                 throw new Error(auth.response.data)
             }

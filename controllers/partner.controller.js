@@ -50,7 +50,7 @@ const partnerController = {
         bankAndBusiness.businessAreas = business.data._embedded.businessAreas
         
         let documents
-        
+
         if(partner.data.partner.signUpCompleted && partner.data.partner.hasJunoAccount){
             data = await gatewayRepository.listDocuments(token)
             documents = data._embedded.documents
@@ -83,7 +83,9 @@ const partnerController = {
         let expectedSales = 0
         let canceledSales = 0
 
-        for(order of orders.data){
+        console.log(orders)
+
+        for(order of orders.data.orders){
             let arrDetails = order.details
             totalSold += parseFloat(await financialHelper.totalSold(arrDetails))
             expectedSalesValues += parseFloat(await financialHelper.expectedSale(arrDetails))
