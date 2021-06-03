@@ -5,25 +5,25 @@ const productRepository = {
         const config = {
             authorization: token
         }
-        return await api("POST", "/product", body, config)
+        return await api("POST", "/products", body, config)
     },
 
     update: async (token, body) => {
         const config = {
             authorization: token
         }
-        return await api("PUT", "/product", body, config)
+        return await api("PUT", "/products", body, config)
     },
 
     delete: async (token, productId) => {
         const config = {
             authorization: token
         }
-        return await api("DELETE", `/product/${productId}`, {}, config)
+        return await api("DELETE", `/products/${productId}`, {}, config)
     },
 
     list: async (productId) => {
-        return await api("GET", `/product/${productId}`)
+        return await api("GET", `/products/${productId}`)
     },
 
     listAll: async () => {
@@ -43,7 +43,7 @@ const productRepository = {
 
     calculateShipping: async (productId, productQtd, cepDestino) =>{
         let request = await api("GET", 
-        `/product/shipping?productId=${productId}&cepDestino=${cepDestino}&productQtd=${productQtd}`)
+        `/products/shipping?productId=${productId}&cepDestino=${cepDestino}&productQtd=${productQtd}`)
         return request.data
     }
 }

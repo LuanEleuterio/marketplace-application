@@ -5,7 +5,7 @@ import processing from "./utils/processSpinner.js"
 function registerUser(data) {
     
     try {
-        fetch("https://luaneletro.shop/user",{
+        fetch("http://localhost:8081/user",{
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
@@ -33,7 +33,7 @@ function registerUser(data) {
 
 async function updateUser(data) {
     try {
-        fetch("https://luaneletro.shop/user",{
+        fetch("http://localhost:8081/user",{
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json',
@@ -60,7 +60,7 @@ async function updateUser(data) {
 
 async function deleteCard(cardId){
     try {
-        await fetch(`https://luaneletro.shop/user/cards/cancel/${cardId}`,{
+        await fetch(`http://localhost:8081/user/cards/cancel/${cardId}`,{
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json',
@@ -85,7 +85,7 @@ async function deleteCard(cardId){
 
 async function sendOrders(orders) {
     try {
-        await fetch(`https://luaneletro.shop/order`,{
+        await fetch(`http://localhost:8081/order`,{
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -111,7 +111,7 @@ async function sendOrders(orders) {
 
 async function sendCard(cardHash = ''){
     try {
-        await fetch("https://luaneletro.shop/card",{
+        await fetch("http://localhost:8081/card",{
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -137,7 +137,7 @@ async function sendCard(cardHash = ''){
 
 async function cancelItemInOrder(data){
     try{
-        const result = await  fetch("https://luaneletro.shop/order/cancel",{
+        const result = await  fetch("http://localhost:8081/order/cancel",{
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json',
@@ -383,7 +383,7 @@ window.addEventListener("DOMContentLoaded", user.init)
 if(location.pathname == '/profile'){
     window.addEventListener("load", (e) =>{
         try {
-            fetch("https://luaneletro.shop/user/orders",{
+            fetch("http://localhost:8081/user/orders",{
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 }

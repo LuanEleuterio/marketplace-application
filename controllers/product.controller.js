@@ -36,6 +36,7 @@ const productController = {
         }
 
         const product = await repository.list(req.params.productId)
+        console.log(product)
         res.render("user/product", {
             layout:'layouts/user',
             product: product.data.product, 

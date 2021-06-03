@@ -5,7 +5,7 @@ const cardRepository = {
         const config = {
             authorization: token
         }
-        return await api("POST", "/card", body, config)
+        return await api("POST", "/cards", body, config)
     },
     listAll: async (token) => {
         const config = {
@@ -18,7 +18,7 @@ const cardRepository = {
             authorization: token
         }
 
-        return await api("DELETE", `/card/${cardId}`, {}, config)
+        return await api("DELETE", `/cards/${cardId}`, {}, config)
     }
 }
 
