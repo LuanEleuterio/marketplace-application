@@ -4,7 +4,7 @@ import upload from "./upload.js"
 
 function registerPartner(data) {
     try {
-        fetch("http://localhost:8081/partner",{
+        fetch("https://luaneletro.shop/partner",{
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
@@ -25,7 +25,7 @@ function registerPartner(data) {
 
 async function registerProduct(data){
     try {
-        await fetch("http://localhost:8081/product",{
+        await fetch("https://luaneletro.shop/product",{
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -43,7 +43,7 @@ async function registerProduct(data){
 
 async function updateProduct(data){
     try {
-        await fetch("http://localhost:8081/product",{
+        await fetch("https://luaneletro.shop/product",{
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json',
@@ -63,7 +63,7 @@ async function updateProduct(data){
 
 async function updatePartner(data) {
     try {
-        await fetch("http://localhost:8081/partner",{
+        await fetch("https://luaneletro.shop/partner",{
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json',
@@ -83,7 +83,7 @@ async function updatePartner(data) {
 
 async function deleteProduct(productId){
     try {
-        await fetch(`http://localhost:8081/product/${productId}`,{
+        await fetch(`https://luaneletro.shop/product/${productId}`,{
             method: "DELETE",
             headers: {
                 'Content-Type': 'application/json',
@@ -100,7 +100,7 @@ async function deleteProduct(productId){
 
 async function createDigitalAccount(data){
     try {
-        await fetch("http://localhost:8081/digital-account",{
+        await fetch("https://luaneletro.shop/digital-account",{
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
