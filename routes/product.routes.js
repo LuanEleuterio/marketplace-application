@@ -1,7 +1,6 @@
 const ProductController = require("../controllers/product.controller");
 
 module.exports = (app) => {
-    app.get("/", ProductController.renderProducts);
     app.get("/render/products/partial", ProductController.renderPartialProducts);
 
     app.get("/product/edit/:productId", ProductController.renderProductEdit);
@@ -14,7 +13,8 @@ module.exports = (app) => {
 
     app.delete("/product/:productId", ProductController.delete);
 
-    //app.get("/products", ProductController.renderProducts);
     app.post("/product", ProductController.create);
     app.put("/product", ProductController.update);  
+
+    app.get("/", ProductController.renderProducts);
 };

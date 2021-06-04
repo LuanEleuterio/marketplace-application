@@ -60,7 +60,7 @@ async function updateUser(data) {
 
 async function deleteCard(cardId){
     try {
-        await fetch(`https://luaneletro.shop/user/cards/cancel/${cardId}`,{
+        await fetch(`https://luaneletro.shop/cards/cancel/${cardId}`,{
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json',
@@ -85,7 +85,7 @@ async function deleteCard(cardId){
 
 async function sendOrders(orders) {
     try {
-        await fetch(`https://luaneletro.shop/order`,{
+        await fetch(`https://luaneletro.shop/orders`,{
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -137,7 +137,7 @@ async function sendCard(cardHash = ''){
 
 async function cancelItemInOrder(data){
     try{
-        const result = await  fetch("https://luaneletro.shop/order/cancel",{
+        const result = await  fetch("https://luaneletro.shop/orders/cancel",{
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json',
@@ -152,7 +152,7 @@ async function cancelItemInOrder(data){
 
 const user = {
     init: async () => {
-        if(location.pathname == '/user/cards'){
+        if(location.pathname == '/cards/user'){
             await loadCards.init()
         }
         user.sendUser()
@@ -226,7 +226,7 @@ const user = {
         const btnProfileVerCards = document.querySelector('#btn-profile-ver-cards')
         if(btnProfileVerCards != undefined) {
             btnProfileVerCards.addEventListener('click', () =>{
-                window.location.href = '/user/cards'
+                window.location.href = '/cards/user'
             })
         }
     },
@@ -351,7 +351,7 @@ const user = {
                 }
 
                 processing.finalize()
-                window.location.href = '/user/orders'
+                window.location.href = '/orders/user'
             })
         }
     },
@@ -383,7 +383,7 @@ window.addEventListener("DOMContentLoaded", user.init)
 if(location.pathname == '/profile'){
     window.addEventListener("load", (e) =>{
         try {
-            fetch("https://luaneletro.shop/user/orders",{
+            fetch("https://luaneletro.shop/orders/user",{
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 }

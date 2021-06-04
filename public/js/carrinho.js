@@ -107,7 +107,7 @@ if(btnBuyNow != undefined) {
 
         localStorage.setItem("from-buy-now", true)
 
-        window.location.href = "/order/checkout"
+        window.location.href = "/orders/checkout"
     })
 }
 
@@ -162,7 +162,7 @@ if( btnFinalizeOrder != undefined){
             expires: 1
         })
 
-        window.location.href = '/order/checkout'
+        window.location.href = '/orders/checkout'
     })
 }
 

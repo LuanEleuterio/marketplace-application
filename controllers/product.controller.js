@@ -36,7 +36,7 @@ const productController = {
         }
 
         const product = await repository.list(req.params.productId)
-        console.log(product)
+
         res.render("user/product", {
             layout:'layouts/user',
             product: product.data.product, 
@@ -98,7 +98,7 @@ const productController = {
 
     renderPartialProducts: async (req, res, next) =>{
         let token = `Bearer ${req.cookies['token']}`
-        console.log(token)
+
         let products = await repository.listByPartner(token)
         return res.render("partials/products", {
             layout:'layouts/none', 

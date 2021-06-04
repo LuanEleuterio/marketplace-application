@@ -83,8 +83,6 @@ const partnerController = {
         let expectedSales = 0
         let canceledSales = 0
 
-        console.log(orders)
-
         for(order of orders.data.orders){
             let arrDetails = order.details
             totalSold += parseFloat(await financialHelper.totalSold(arrDetails))
