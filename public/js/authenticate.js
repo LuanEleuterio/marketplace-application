@@ -23,11 +23,13 @@ async function login(data) {
             window.location.href = '/'
         }else{
             localStorage.setItem("partner-id", res.userId)
+            window.location.href = '/partner/profile'
+            /*
             if(res.signUpCompleted && res.hasJunoAccount){
-                //window.location.href = '/partner/financial'
+                window.location.href = '/partner/financial'
             }else{
-                //window.location.href = '/partner/profile'
-            }
+                window.location.href = '/partner/profile'
+            }*/
         }
         
     }catch(err) { 
