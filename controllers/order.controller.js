@@ -79,6 +79,7 @@ const orderController = {
         let dataCarrinho = await req.cookies['_carrinho-finalize-order']
         let dataBuyNow = await req.cookies['_carrinho-buy-now']
         let data = await req.cookies['_luaneletro-logged']
+        let typeUser = req.cookies['_luaneletro-user-type']
         let logged = false
 
         logged = data == undefined ? false : JSON.parse(data)
