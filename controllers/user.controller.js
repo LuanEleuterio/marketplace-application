@@ -16,11 +16,19 @@ const userController = {
         return res.json(user.data)
     },
     update: async (req, res, next) => {
-        let token = `Bearer ${req.cookies['token']}`
+        try{
+            let token = `Bearer ${req.cookies['token']}`
 
-        let user = await userRepository.update(token, req.body)
+            let user = await userRepository.update(token, req.body)
 
-        return res.json(user.data)
+            if(user.error){
+                throw new Error(user.response.data)
+            }
+            
+            return res.status(200).json(user.data)
+        }catch(err){
+            return res.status(400).json(err.stack)
+        }
     },
     renderRegister: async (req, res, next) => {
         res.render("user/registerUser",{
@@ -30,21 +38,23 @@ const userController = {
     renderProfile: async (req, res, next) => {
         let token = `Bearer ${req.cookies['token']}`
         let data = req.cookies['_luaneletro-logged']
+        let typeUser = req.cookies['_luaneletro-user-type']
         let logged = false
+        console.log(typeUser)
+        logged = data == undefined ? false : JSON.parse(data)
+        typeUser = typeUser == undefined ? "" : typeUser
 
-        data = data == undefined ? false : JSON.parse(data)
+        if(logged && typeUser === "USER" ){
+            let user = await userRepository.list(token)
 
-        if(data === true){
-            logged = true
+            res.render("user/profile", {
+                layout: "layouts/user",
+                user: user.data.user, 
+                logged
+            })
+        }else{
+            res.redirect('/');
         }
-
-        let user = await userRepository.list(token)
-
-        res.render("user/profile", {
-            layout: "layouts/user",
-            user: user.data.user, 
-            logged
-        })
     },
 }
 

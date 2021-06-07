@@ -1,6 +1,7 @@
 import loadCards from "./utils/loadCards.js"
 import hashCard from "./utils/hashCard.js"
 import processing from "./utils/processSpinner.js"
+import sweetAlert from "./utils/sweetAlert.js"
 
 function registerUser(data) {
     
@@ -33,7 +34,7 @@ function registerUser(data) {
 
 async function updateUser(data) {
     try {
-        fetch("https://luaneletro.shop/user",{
+        const result = await fetch("https://luaneletro.shop/user",{
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json',
@@ -41,20 +42,12 @@ async function updateUser(data) {
             },
             body: JSON.stringify(data)
         })
-        .then(res => {
-            if(!res.ok){    
-                throw Error(res.statusText)
-            }else{
-                
-                return res.json()
-            }
-        })
-        .then(res => {
-            console.log(res)
-        })
-        .catch((err) => console.log(err));
+        
+        if(!result.ok) throw new Error('Falha ao tentar atualizar! Tente novamente')
+
+        sweetAlert.show("Atualizado!", "Seus dados foram atualizados.", "success", 3000)
     } catch (err) { 
-        console.log(err);
+        sweetAlert.show("Opss...", "Ocorreu algum problema, tente novamente", "error", 3000)
     }
 }
 
@@ -85,7 +78,7 @@ async function deleteCard(cardId){
 
 async function sendOrders(orders) {
     try {
-        await fetch(`https://luaneletro.shop/orders`,{
+        const result = await fetch(`https://luaneletro.shop/orders`,{
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -93,19 +86,18 @@ async function sendOrders(orders) {
             },
             body: JSON.stringify(orders)
         })
-        .then(res => {
-            if(!res.ok){    
-                throw Error(res.statusText)
-            }else{
-                return res.json()
-            }
-        })
-        .then(res => {
-            console.log(res)
-        })
-        .catch((err) => console.log(err));
-    } catch (err) { 
-        console.log(err);
+        if(!result.ok) throw new Error('Falha ao tentar entrar! Tente novamente')
+
+        return true
+    }catch(err) { 
+        sweetAlert.show(
+            "Opss...", 
+            "Problema ao finalizar pedido, tente novamente",
+            "error",
+            3000
+        )
+
+        return false
     }
 }
 
@@ -159,7 +151,6 @@ const user = {
         user.updateUser()
         user.sendCard()
         user.deleteCard()
-        user.profileVerCards()
         user.finalizeOrder()
         user.cancelItemInOrder()
     },
@@ -218,15 +209,6 @@ const user = {
                 }
         
                 await updateUser(body)
-            })
-        }
-    },
-
-    profileVerCards: () =>{
-        const btnProfileVerCards = document.querySelector('#btn-profile-ver-cards')
-        if(btnProfileVerCards != undefined) {
-            btnProfileVerCards.addEventListener('click', () =>{
-                window.location.href = '/cards/user'
             })
         }
     },
@@ -340,18 +322,20 @@ const user = {
                 data.paymentType = paymentMethod
                 data.cardId = card != undefined ? card : null
 
-                await sendOrders(data)
+                let ordersOk = await sendOrders(data)
 
-                if(localStorage.getItem('from-buy-now')){
-                    Cookies.remove('_carrinho-buy-now')
-                    localStorage.removeItem('from-buy-now')
-                }else{
-                    Cookies.remove('_carrinho-products-luaneletro')
-                    Cookies.remove('_carrinho-finalize-order')
+                if(ordersOk){
+                    if(localStorage.getItem('from-buy-now')){
+                        Cookies.remove('_carrinho-buy-now')
+                        localStorage.removeItem('from-buy-now')
+                    }else{
+                        Cookies.remove('_carrinho-products-luaneletro')
+                        Cookies.remove('_carrinho-finalize-order')
+                    }
+                    processing.finalize()
+                    window.location.href = '/orders/user'
                 }
-
                 processing.finalize()
-                window.location.href = '/orders/user'
             })
         }
     },
@@ -379,17 +363,3 @@ const user = {
 export default user
 
 window.addEventListener("DOMContentLoaded", user.init)
-
-if(location.pathname == '/profile'){
-    window.addEventListener("load", (e) =>{
-        try {
-            fetch("https://luaneletro.shop/orders/user",{
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                }
-            }).catch((err) => console.log(err));
-        } catch (err) { 
-            console.log(err);
-        }
-    })
-}

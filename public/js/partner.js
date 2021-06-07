@@ -1,5 +1,6 @@
 import loadProducts from "./utils/loadProducts.js"
 import processing from "./utils/processSpinner.js"
+import sweetAlert from "./utils/sweetAlert.js"
 import upload from "./upload.js"
 
 function registerPartner(data) {
@@ -43,7 +44,7 @@ async function registerProduct(data){
 
 async function updateProduct(data){
     try {
-        await fetch("https://luaneletro.shop/product",{
+        const result = await fetch("https://luaneletro.shop/product",{
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json',
@@ -51,19 +52,18 @@ async function updateProduct(data){
             },
             body: JSON.stringify(data)
         })
-            .then(res => res.json())
-            .then(res => {
-                console.log(res)
-            })
-            .catch((err) => console.log(err));
+
+        if(!result.ok) throw new Error('Falha ao tentar atualizar! Tente novamente')
+           
+        sweetAlert.show("Produto Atualizado!", "", "success", 3000)
     } catch (err) {
-        console.log(err)
+        sweetAlert.show("Opss...", "Ocorreu algum problema, tente novamente", "error", 3000)
     }
 }
 
 async function updatePartner(data) {
     try {
-        await fetch("https://luaneletro.shop/partner",{
+        const result = await fetch("https://luaneletro.shop/partner",{
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json',
@@ -71,13 +71,11 @@ async function updatePartner(data) {
             },
             body: JSON.stringify(data)
         })
-            .then(res => res.json())
-            .then(res => {
-                console.log(res)
-            })
-            .catch((err) => console.log(err));
+        if(!result.ok) throw new Error('Falha ao tentar atualizar! Tente novamente')
+
+        sweetAlert.show("Atualizado!", "Seus dados foram atualizados.", "success", 3000)
     } catch (err) {
-        console.log(err)
+        sweetAlert.show("Opss...", "Ocorreu algum problema, tente novamente", "error", 3000)
     }
 }
 

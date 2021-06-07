@@ -1,3 +1,5 @@
+import sweetAlert from "./utils/sweetAlert.js"
+
 const btnAddCarrinho = document.querySelector("#btn-add-carinho")
 const btnFinalizeOrder = document.querySelector("#btn-finalize-order")
 const quantidadeProduto = document.querySelector("#quantity-product")
@@ -58,7 +60,7 @@ if(btnAddCarrinho != undefined) {
                 expires: 1
             })
 
-            carrinho.showToast()
+            sweetAlert.showAddCarrinho("Produto adicionado ao carrinho", "success")
         }else{
             const productsJson = Cookies.get("_carrinho-products-luaneletro")
             data = JSON.parse(productsJson)        
@@ -73,10 +75,9 @@ if(btnAddCarrinho != undefined) {
                 Cookies.set("_carrinho-products-luaneletro", JSON.stringify(data), {
                     expires: 1
                 })
-                carrinho.showToast()
+                sweetAlert.showAddCarrinho("Produto adicionado ao carrinho", "success")
             }else{
-                console.log("Esse produto já está no carrinho")
-                carrinho.showToastFailed()
+                sweetAlert.showAddCarrinho("Produto já adicionado no carrinho", "error")
             }
         }
 

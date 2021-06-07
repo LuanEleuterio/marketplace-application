@@ -1,4 +1,5 @@
 import processing from "./utils/processSpinner.js"
+import sweetAlert from "./utils/sweetAlert.js"
 
 async function login(data) {
     
@@ -16,21 +17,21 @@ async function login(data) {
         let res = await result.json()
 
         localStorage.setItem("token", res.token)
-
+        console.log(res)
         if(res.type === "USER"){
             localStorage.setItem("user-id", res.userId)
             window.location.href = '/'
         }else{
             localStorage.setItem("partner-id", res.userId)
             if(res.signUpCompleted && res.hasJunoAccount){
-                window.location.href = '/partner/financial'
+                //window.location.href = '/partner/financial'
             }else{
-                window.location.href = '/partner/profile'
+                //window.location.href = '/partner/profile'
             }
         }
         
-    } catch (err) { 
-        alert(err.message);
+    }catch(err) { 
+        sweetAlert.show("Opps...", "Usuário ou senha incorretos", "error", 2000)
     }
 }
 
@@ -46,18 +47,16 @@ const auth = {
             btnLogin.addEventListener("click", async (e) => {
                 e.preventDefault()
 
-                const radioLogin = document.getElementsByName('login')
                 const email = document.querySelector("#email-login")
                 const password = document.querySelector("#password-login")
-                let userOrPartner;
+                let userOrPartner = "";
             
                 processing.init()
-            
-                for( let i = 0; i< radioLogin.length; i++){
-                    if(radioLogin[i].checked){
-                        userOrPartner = radioLogin[i].value;
-                        break;
-                    }
+                            
+                if(window.location.pathname === "/auth/user"){
+                    userOrPartner = "USER"
+                }else{
+                    userOrPartner = "PARTNER"
                 }
                 
                 const body = {
@@ -81,6 +80,7 @@ const auth = {
                 Cookies.remove('partner-id')
                 Cookies.remove('user-id')
                 Cookies.remove('_luaneletro-logged')
+                Cookies.remove('_luaneletro-user-type')
                 Cookies.remove('token')
       
                 localStorage.removeItem('token')

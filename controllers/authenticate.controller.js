@@ -17,24 +17,38 @@ const authenticateController = {
                 maxAge: 86400 * 1000, // 24 hours
             });
     
-            if(auth.data.userOrPartner === "USER"){
+            if(auth.data.type === "USER"){
                 res.cookie('user-id', auth.data.userId, {
+                    maxAge: 86400 * 1000, // 24 hours
+                });
+
+                res.cookie('_luaneletro-user-type', auth.data.type, {
                     maxAge: 86400 * 1000, // 24 hours
                 });
             }else{
                 res.cookie('partner-id', auth.data.userId, {
                     maxAge: 86400 * 1000, // 24 hours
                 });
-            }
 
-           res.status(200).json(auth.data)
+                res.cookie('_luaneletro-user-type', auth.data.type, {
+                    maxAge: 86400 * 1000, // 24 hours
+                });
+            }
+            res.status(200).json(auth.data)
         }catch(err){
-            console.log(err)
             res.status(400).json(err)
         }
     },
     renderAuth: (req, res, next) => {   
         res.render('authenticate',
+        { layout: 'layouts/default' })
+    },
+    renderAuthUser: (req, res, next) => {
+        res.render('authUser',
+        { layout: 'layouts/default' })
+    },
+    renderAuthPartner: (req, res, next) => {
+        res.render('authPartner',
         { layout: 'layouts/default' })
     }   
 } 

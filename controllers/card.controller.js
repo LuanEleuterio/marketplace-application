@@ -15,40 +15,34 @@ const userController = {
         res.json(cardDeleted.data)
     },
     renderCards: async (req, res, next) => {
-        let token = `Bearer ${req.cookies['token']}`
         let data = req.cookies['_luaneletro-logged']
+        let typeUser = req.cookies['_luaneletro-user-type']
         let logged = false
 
-        data = data == undefined ? false : JSON.parse(data)
+        logged = data == undefined ? false : JSON.parse(data)
+        typeUser = typeUser == undefined ? "" : typeUser
 
-        if(data === true){
-            logged = true
+        if(logged && typeUser === "USER" ){
+            res.render("user/cards", {
+                layout: "layouts/user",
+                logged
+            })
+        }else{
+            res.redirect('/');
         }
-
-        let cards = await repository.listAll(token)
-
-        res.render("user/cards", {
-            layout: "layouts/user",
-            cards: cards.data, 
-            logged
-        })
     },
     renderPartialsCards: async (req, res, next) =>{
         let token = `Bearer ${req.cookies['token']}`
         let data = req.cookies['_luaneletro-logged']
         let logged = false
 
-        data = data == undefined ? false : JSON.parse(data)
-
-        if(data === true){
-            logged = true
-        }
+        logged = data == undefined ? false : JSON.parse(data)
         
         let cards = await repository.listAll(token)
         
         return res.render("partials/cards", {
             layout: "layouts/none",
-            cards: cards.data,
+            cards: cards.data.cards,
             logged
         })
     }
