@@ -6,7 +6,7 @@ import sweetAlert from "./utils/sweetAlert.js"
 async function registerUser(data) {
     
     try {
-        const result = await fetch("http://localhost:8081/user",{
+        const result = await fetch("https://luaneletro.shop/user",{
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
@@ -30,7 +30,7 @@ async function registerUser(data) {
 
 async function updateUser(data) {
     try {
-        const result = await fetch("http://localhost:8081/user",{
+        const result = await fetch("https://luaneletro.shop/user",{
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json',
@@ -49,7 +49,7 @@ async function updateUser(data) {
 
 async function deleteCard(cardId){
     try {
-        await fetch(`http://localhost:8081/cards/cancel/${cardId}`,{
+        await fetch(`https://luaneletro.shop/cards/cancel/${cardId}`,{
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json',
@@ -74,7 +74,7 @@ async function deleteCard(cardId){
 
 async function sendOrders(orders) {
     try {
-        const result = await fetch(`http://localhost:8081/orders`,{
+        const result = await fetch(`https://luaneletro.shop/orders`,{
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -99,7 +99,7 @@ async function sendOrders(orders) {
 
 async function sendCard(cardHash = ''){
     try {
-        await fetch("http://localhost:8081/cards",{
+        await fetch("https://luaneletro.shop/cards",{
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -125,7 +125,7 @@ async function sendCard(cardHash = ''){
 
 async function cancelItemInOrder(data){
     try{
-        const result = await  fetch("http://localhost:8081/orders/cancel",{
+        const result = await  fetch("https://luaneletro.shop/orders/cancel",{
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json',
