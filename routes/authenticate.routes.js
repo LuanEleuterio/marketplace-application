@@ -1,9 +1,7 @@
-const authController = require("../controllers/authenticate.controller");
+const controller = require("../controllers/authenticate.controller");
 
 module.exports = (app) => {
-    app.get("/auth/user", authController.renderAuthUser);
-    app.get("/auth/partner", authController.renderAuthPartner);
-    
-    app.post("/auth", authController.getAuth);
-    app.get("/auth", authController.renderAuth);
+    app.get("/auth/user", controller.renderAuthUser);
+    app.get("/auth/partner", controller.renderAuthPartner);
+    app.post("/auth", controller.getAuth);
 };

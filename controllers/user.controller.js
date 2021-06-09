@@ -1,19 +1,23 @@
 const userRepository = require('../repositories/user.repository')
-const partnerRepository = require('../repositories/partner.repository')
+const authHelper = require('../helpers/auth.helper')
 
 const userController = {
     create: async (req, res, next) => {
-        let user = await userRepository.register(req.body)
+        try {
+            let user = await userRepository.register(req.body)
 
-        res.cookie('token', user.data.token, {
-            maxAge: 86400 * 1000,
-        });
+            console.log(user.data)
 
-        res.cookie('user-id', user.data._id, {
-            maxAge: 86400 * 1000
-        });
+            if(user.error){
+                throw new Error(user.response.data)
+            }
 
-        return res.json(user.data)
+            await authHelper.setCookiesAuth(user.data, res)
+
+            return res.status(201).json(user.data)
+        } catch (err) {
+            return res.status(400).json(err.stack)
+        }   
     },
     update: async (req, res, next) => {
         try{
@@ -21,7 +25,7 @@ const userController = {
 
             let user = await userRepository.update(token, req.body)
 
-            if(user.error){
+            if (user.error) {
                 throw new Error(user.response.data)
             }
             
@@ -40,7 +44,7 @@ const userController = {
         let data = req.cookies['_luaneletro-logged']
         let typeUser = req.cookies['_luaneletro-user-type']
         let logged = false
-        console.log(typeUser)
+
         logged = data == undefined ? false : JSON.parse(data)
         typeUser = typeUser == undefined ? "" : typeUser
 

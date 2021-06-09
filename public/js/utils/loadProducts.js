@@ -13,9 +13,8 @@ const loadProducts = {
     },
 
     load: async () =>{
-        let response = await fetch('https://luaneletro.shop/render/products/partial')
-        let products = await response.text()  
-        return products
+        let response = await fetch('http://localhost:8081/product/render/partial')
+        return await response.text()  
     }
 }
 

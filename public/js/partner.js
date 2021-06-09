@@ -3,30 +3,33 @@ import processing from "./utils/processSpinner.js"
 import sweetAlert from "./utils/sweetAlert.js"
 import upload from "./upload.js"
 
-function registerPartner(data) {
+async function registerPartner(data) {
     try {
-        fetch("https://luaneletro.shop/partner",{
+        const result = await fetch("http://localhost:8081/partner",{
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
         })
-            .then(res => res.json())
-            .then(res => {
-                localStorage.setItem("partner-id", res.token)
-                localStorage.setItem("token", res.token)
-                window.location.href = '/partner/profile'
-            })
-            .catch((err) => console.log(err));
+
+        if(!result.ok) throw new Error('Falha ao criar usuário! Tente novamente')
+
+        const res = await result.json()
+
+        localStorage.setItem("partner-id", res.token)
+        localStorage.setItem("token", res.token)
+
+        sweetAlert.show("Legaaall", "Deu tudo certo!!!.", "success", 3000)
+        window.location.href = '/partner/profile'
     } catch (err) { 
-        console.log(err);
+        sweetAlert.show("Opss...", "Ocorreu algum problema, tente novamente", "error", 3000)
     }
 }
 
 async function registerProduct(data){
     try {
-        await fetch("https://luaneletro.shop/product",{
+        await fetch("http://localhost:8081/product",{
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -44,7 +47,7 @@ async function registerProduct(data){
 
 async function updateProduct(data){
     try {
-        const result = await fetch("https://luaneletro.shop/product",{
+        const result = await fetch("http://localhost:8081/product",{
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json',
@@ -63,7 +66,7 @@ async function updateProduct(data){
 
 async function updatePartner(data) {
     try {
-        const result = await fetch("https://luaneletro.shop/partner",{
+        const result = await fetch("http://localhost:8081/partner",{
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json',
@@ -81,7 +84,7 @@ async function updatePartner(data) {
 
 async function deleteProduct(productId){
     try {
-        await fetch(`https://luaneletro.shop/product/${productId}`,{
+        await fetch(`http://localhost:8081/product/${productId}`,{
             method: "DELETE",
             headers: {
                 'Content-Type': 'application/json',
@@ -98,7 +101,7 @@ async function deleteProduct(productId){
 
 async function createDigitalAccount(data){
     try {
-        await fetch("https://luaneletro.shop/digital-account",{
+        await fetch("http://localhost:8081/digital-account",{
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -134,7 +137,7 @@ const partner = {
         const btnSendPartner = document.querySelector("#btn-send-partner")
         if(btnSendPartner != undefined){
 
-            btnSendPartner.addEventListener("click", (e) => {
+            btnSendPartner.addEventListener("click", async (e) => {
                 e.preventDefault()
 
                 const name = document.querySelector('#name')
@@ -145,6 +148,8 @@ const partner = {
                 const city = document.querySelector('#city')
                 const state = document.querySelector('#state')
                 const cep = document.querySelector('#cep')
+
+                processing.init()
             
                 const body = {
                     name:name.value,
@@ -160,7 +165,9 @@ const partner = {
                     password: password.value
                 }
 
-                registerPartner(body)
+                await registerPartner(body)
+
+                processing.finalize()
             })
         }
     },
@@ -409,6 +416,7 @@ const partner = {
     sendImage: async () => {
         const btnImage = document.querySelector("#btn-image")
         const field = document.querySelector("#upload")
+
         if(btnImage != undefined){
             btnImage.addEventListener("click", (e) => {
                 field.click()
@@ -424,7 +432,6 @@ const partner = {
                 btnSpinnerSend.classList.remove('off')
 
                 let res = await upload('upload')
-                console.log(res)
                 document.querySelector("#image-loaded").src = res.Location
                 document.getElementsByName("product-image")[0].value = res.key
                 document.querySelector("#image-loaded").classList.remove('off')

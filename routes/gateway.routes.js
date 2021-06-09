@@ -1,5 +1,5 @@
-const gatewayController = require("../controllers/gateway.controller");
+const controller = require("../controllers/gateway.controller");
 
 module.exports = (app) => {
-    app.post("/digital-account", gatewayController.createDigitalAccount);
+    app.post("/digital-account", controller.createDigitalAccount);
 }

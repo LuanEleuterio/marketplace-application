@@ -6,25 +6,24 @@ const orderRepository = require("../repositories/order.repository")
 
 //Helpers
 const financialHelper = require('../helpers/financial.helper')
-const { totalSold } = require("../helpers/financial.helper")
+const authHelper = require('../helpers/auth.helper')
 
 const partnerController = {
     create: async (req, res, next) => {
-        let parter = await partnerRepository.register(req.body)
+        try {
+            let parter = await partnerRepository.register(req.body)
+            
+            if(parter.error){
+                throw new Error(parter.response.data)
+            }
 
-        res.cookie('token', parter.data.token, {
-            maxAge: 86400 * 1000, // 24 hours
-            httpOnly: true, // http only, prevents JavaScript cookie access
-            secure: true // cookie must be sent over https / ssl
-        });
+            authHelper.setCookiesAuth(parter.data, res)
+            
+            return res.status(201).json(parter.data)
+        } catch (err) {
+            return res.status(400).json(err.stack)
+        }
 
-        res.cookie('partner-id', parter.data.partnerId, {
-            maxAge: 86400 * 1000, // 24 hours
-            httpOnly: true, // http only, prevents JavaScript cookie access
-            secure: true // cookie must be sent over https / ssl
-        });
-        
-        return res.json(parter.data)
     },
 
     update: async (req, res, next) => {

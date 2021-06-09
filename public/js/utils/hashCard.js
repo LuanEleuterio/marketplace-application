@@ -14,9 +14,7 @@ const hashCard = {
                 function (error) {
                     reject(error);
             })
-            
         });
-    
         return await getHashCode(cardData)
     }
 }

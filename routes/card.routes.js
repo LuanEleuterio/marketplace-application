@@ -1,8 +1,8 @@
-const CardsController = require("../controllers/card.controller");
+const controller = require("../controllers/card.controller");
 
 module.exports = (app) => {
-    app.put("/cards/cancel/:cardId", CardsController.delete);
-    app.get("/cards/user", CardsController.renderCards);
-    app.get("/cards", CardsController.renderPartialsCards);
-    app.post("/card", CardsController.create);
+    app.put("/cards/cancel/:cardId", controller.delete);
+    app.get("/cards/user", controller.renderCards);
+    app.get("/cards", controller.renderPartialsCards);
+    app.post("/cards", controller.create);
 };

@@ -1,10 +1,10 @@
-const OrderController = require("../controllers/order.controller");
+const controller = require("../controllers/order.controller");
 
 module.exports = (app) => {
-    app.get("/orders/checkout", OrderController.renderCheckout);
-    app.get("/orders/user", OrderController.renderUser);
-    app.get("/orders/partner", OrderController.renderPartner);
-    app.put("/orders/cancel", OrderController.cancel)
+    app.get("/orders/checkout", controller.renderCheckout);
+    app.get("/orders/user", controller.renderUser);
+    app.get("/orders/partner", controller.renderPartner);
+    app.put("/orders/cancel", controller.cancel)
 
-    app.post("/orders", OrderController.create);
+    app.post("/orders", controller.create);
 }

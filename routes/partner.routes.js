@@ -1,10 +1,10 @@
-const partnerController = require("../controllers/partner.controller");
+const controller = require("../controllers/partner.controller");
 
 module.exports = (app) => {
-    app.get("/partner/profile", partnerController.renderProfile);
-    app.get("/partner/financial", partnerController.renderFinancial);
-    app.get("/partner/register", partnerController.renderRegister);
+    app.get("/partner/profile", controller.renderProfile);
+    app.get("/partner/financial", controller.renderFinancial);
+    app.get("/partner/register", controller.renderRegister);
 
-    app.post("/partner", partnerController.create);
-    app.put("/partner", partnerController.update);
+    app.post("/partner", controller.create);
+    app.put("/partner", controller.update);
 };  

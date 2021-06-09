@@ -63,11 +63,8 @@
                     <span class="col-lg-7 col-md-12">Quantidade: </span>
                     <div class="col-3">
                         <select id="quantity-product" class="form-select" aria-label="Default select example">
-                            <% for( let i = 1; i <= product.qtd; i++) {
-                                if(i === 1) {%>
-                                <option value="<%=i%>" selected><%=i%></option>
-                                <% continue }%>
-                                <option value="<%=i%>"><%=i%></option>
+                            <% for( let i = 0; i < product.qtd; i++) { %>
+                                <option value="<%=i + 1%>" <%= i === 0 ? "select" : "" %> ><%=i + 1%></option>
                             <%}%>
                         </select>
                     </div>

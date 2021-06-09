@@ -4,7 +4,7 @@ import sweetAlert from "./utils/sweetAlert.js"
 async function login(data) {
     
     try {
-        const result = await  fetch("https://luaneletro.shop/auth",{
+        const result = await  fetch("http://localhost:8081/auth",{
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
@@ -17,22 +17,17 @@ async function login(data) {
         let res = await result.json()
 
         localStorage.setItem("token", res.token)
-        console.log(res)
+
         if(res.type === "USER"){
             localStorage.setItem("user-id", res.userId)
             window.location.href = '/'
         }else{
             localStorage.setItem("partner-id", res.userId)
             window.location.href = '/partner/profile'
-            /*
-            if(res.signUpCompleted && res.hasJunoAccount){
-                window.location.href = '/partner/financial'
-            }else{
-                window.location.href = '/partner/profile'
-            }*/
         }
         
     }catch(err) { 
+        processing.finalize()
         sweetAlert.show("Opps...", "Usuário ou senha incorretos", "error", 2000)
     }
 }
@@ -68,8 +63,6 @@ const auth = {
                 };
             
                 await login(body);
-            
-                processing.finalize()
             })
         }
     },

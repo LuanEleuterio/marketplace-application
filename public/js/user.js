@@ -3,38 +3,34 @@ import hashCard from "./utils/hashCard.js"
 import processing from "./utils/processSpinner.js"
 import sweetAlert from "./utils/sweetAlert.js"
 
-function registerUser(data) {
+async function registerUser(data) {
     
     try {
-        fetch("https://luaneletro.shop/user",{
+        const result = await fetch("http://localhost:8081/user",{
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
         })
-            .then(res => {
-                if(!res.ok){    
-                    throw Error(res.statusText)
-                }else{
-                    return res.json()
-                }
-            })
-            .then(res => {
-                console.log(res)
-                localStorage.setItem("user-id", res.userId)
-                localStorage.setItem("token", res.token)
-                window.location.href = '/'
-            })
-            .catch((err) => console.log(err));
+
+        if(!result.ok) throw new Error('Falha ao criar usuário! Tente novamente')
+
+        const res = await result.json()
+
+        localStorage.setItem("user-id", res.userId)
+        localStorage.setItem("token", res.token)
+
+        sweetAlert.show("Legaaall", "Deu tudo certo!!!.", "success", 3000)
+        window.location.href = '/'
     } catch (err) { 
-        console.log(err);
+        sweetAlert.show("Opss...", "Ocorreu algum problema, tente novamente", "error", 3000)
     }
 }
 
 async function updateUser(data) {
     try {
-        const result = await fetch("https://luaneletro.shop/user",{
+        const result = await fetch("http://localhost:8081/user",{
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json',
@@ -53,7 +49,7 @@ async function updateUser(data) {
 
 async function deleteCard(cardId){
     try {
-        await fetch(`https://luaneletro.shop/cards/cancel/${cardId}`,{
+        await fetch(`http://localhost:8081/cards/cancel/${cardId}`,{
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json',
@@ -78,7 +74,7 @@ async function deleteCard(cardId){
 
 async function sendOrders(orders) {
     try {
-        const result = await fetch(`https://luaneletro.shop/orders`,{
+        const result = await fetch(`http://localhost:8081/orders`,{
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -103,7 +99,7 @@ async function sendOrders(orders) {
 
 async function sendCard(cardHash = ''){
     try {
-        await fetch("https://luaneletro.shop/card",{
+        await fetch("http://localhost:8081/cards",{
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -129,7 +125,7 @@ async function sendCard(cardHash = ''){
 
 async function cancelItemInOrder(data){
     try{
-        const result = await  fetch("https://luaneletro.shop/orders/cancel",{
+        const result = await  fetch("http://localhost:8081/orders/cancel",{
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json',
@@ -156,15 +152,17 @@ const user = {
     },
     sendUser: () => {
         const btnSendUser = document.querySelector("#btn-send-user")
-        if(btnSendUser != undefined){
-            const fullName = document.querySelector("#fullname")
-            const email = document.querySelector("#email")
-            const password = document.querySelector("#password")
-            const dtNasc = document.querySelector('#dtnasc')
-        
-            btnSendUser.addEventListener("click", (e) => {
+        if(btnSendUser != undefined){       
+            btnSendUser.addEventListener("click", async (e) => {
                 e.preventDefault()
+
+                const fullName = document.querySelector("#fullname")
+                const email = document.querySelector("#email")
+                const password = document.querySelector("#password")
+                const dtNasc = document.querySelector('#dtnasc')
         
+                processing.init()
+
                 const body = {
                     name: fullName.value,
                     email: email.value,
@@ -172,7 +170,9 @@ const user = {
                     dtnasc: dtNasc.value,
                 }
         
-                registerUser(body)
+                await registerUser(body)
+
+                processing.finalize()
             })
         }
     },
@@ -296,7 +296,7 @@ const user = {
                     orders: []
                 }
 
-                for( let i = 0; i< radioMethodPay.length; i++){
+                for( let i = 0; i < radioMethodPay.length; i++){
                     if(radioMethodPay[i].checked){
                         paymentMethod = radioMethodPay[i].value;
                         break;

@@ -1,8 +1,8 @@
-const userController = require("../controllers/user.controller");
+const controller = require("../controllers/user.controller");
 
 module.exports = (app) => {
-    app.get("/user/register", userController.renderRegister);
-    app.get("/user/profile", userController.renderProfile);
-    app.post("/user", userController.create);
-    app.put("/user", userController.update);
+    app.get("/user/register", controller.renderRegister);
+    app.get("/user/profile", controller.renderProfile);
+    app.post("/user", controller.create);
+    app.put("/user", controller.update);
 };
