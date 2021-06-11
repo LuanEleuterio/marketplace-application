@@ -26,7 +26,7 @@ async function registerUser(data) {
     });
     
     try {
-        const result = await fetch("http://localhost:8081/user",{
+        const result = await fetch("/user",{
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
@@ -60,7 +60,7 @@ async function registerUser(data) {
 
 async function updateUser(data) {
     try {
-        const result = await fetch("http://localhost:8081/user",{
+        const result = await fetch("/user",{
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json',
@@ -79,7 +79,7 @@ async function updateUser(data) {
 
 async function deleteCard(cardId){
     try {
-        await fetch(`http://localhost:8081/cards/cancel/${cardId}`,{
+        await fetch(`/cards/cancel/${cardId}`,{
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json',
@@ -115,7 +115,7 @@ async function sendOrders(orders) {
             payload: orders,
         });
 
-        const result = await fetch(`http://localhost:8081/orders`,{
+        const result = await fetch(`/orders`,{
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -150,7 +150,7 @@ async function sendOrders(orders) {
 
 async function sendCard(cardHash = ''){
     try {
-        await fetch("http://localhost:8081/cards",{
+        await fetch("/cards",{
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -176,7 +176,7 @@ async function sendCard(cardHash = ''){
 
 async function cancelItemInOrder(data){
     try{
-        const result = await  fetch("http://localhost:8081/orders/cancel",{
+        const result = await  fetch("/orders/cancel",{
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json',

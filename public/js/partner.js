@@ -5,7 +5,7 @@ import upload from "./upload.js"
 
 async function registerPartner(data) {
     try {
-        const result = await fetch("http://localhost:8081/partner",{
+        const result = await fetch("/partner",{
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
@@ -29,7 +29,7 @@ async function registerPartner(data) {
 
 async function registerProduct(data){
     try {
-        await fetch("http://localhost:8081/product",{
+        await fetch("/product",{
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -47,7 +47,7 @@ async function registerProduct(data){
 
 async function updateProduct(data){
     try {
-        const result = await fetch("http://localhost:8081/product",{
+        const result = await fetch("/product",{
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json',
@@ -66,7 +66,7 @@ async function updateProduct(data){
 
 async function updatePartner(data) {
     try {
-        const result = await fetch("http://localhost:8081/partner",{
+        const result = await fetch("/partner",{
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json',
@@ -84,7 +84,7 @@ async function updatePartner(data) {
 
 async function deleteProduct(productId){
     try {
-        await fetch(`http://localhost:8081/product/${productId}`,{
+        await fetch(`/product/${productId}`,{
             method: "DELETE",
             headers: {
                 'Content-Type': 'application/json',
@@ -101,7 +101,7 @@ async function deleteProduct(productId){
 
 async function createDigitalAccount(data){
     try {
-        await fetch("http://localhost:8081/digital-account",{
+        await fetch("/digital-account",{
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',

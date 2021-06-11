@@ -11,7 +11,7 @@ const loadCards = {
     },
 
     load: async () =>{
-        let response = await fetch('http://localhost:8081/cards')
+        let response = await fetch('/cards')
         return await response.text()  
     }
 }

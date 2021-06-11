@@ -7,7 +7,7 @@ module.exports = async (method, url, data = {}, config = {}) => {
         //http://localhost:8080
         //https://api.luaneletro.shop
         const request = await axios.create({
-            baseURL: `http://localhost:8080`,
+            baseURL: `https://api.luaneletro.shop`,
             headers: header
         })
 
