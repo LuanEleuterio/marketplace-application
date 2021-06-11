@@ -10,7 +10,7 @@ const orderController = {
             let order = await repository.create(token, req.body)   
 
             if(order.error){
-                throw new Error(auth.response.data)
+                throw new Error(order.response.data)
             }
 
             res.status(200).json(order.data)
@@ -23,8 +23,8 @@ const orderController = {
             let token = req.headers.authorization
             let itemCanceled = await repository.cancel(token, req.body)
 
-            if(order.error){
-                throw new Error(auth.response.data)
+            if(itemCanceled.error){
+                throw new Error(itemCanceled.response.data)
             }
 
             return res.status(200).json(itemCanceled.data)

@@ -4,7 +4,7 @@ import sweetAlert from "./utils/sweetAlert.js"
 async function login(data) {
     
     try {
-        const result = await  fetch("https://luaneletro.shop/auth",{
+        const result = await  fetch("http://localhost:8081/auth",{
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'

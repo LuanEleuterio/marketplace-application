@@ -2,11 +2,31 @@ import loadCards from "./utils/loadCards.js"
 import hashCard from "./utils/hashCard.js"
 import processing from "./utils/processSpinner.js"
 import sweetAlert from "./utils/sweetAlert.js"
+import Sentry from "../../node_modules/@sentry/browser/build/bundle.js"
+
+Sentry.init({
+    dsn: "https://9fef0ef412f74bcea0332d5704a2e513@o815513.ingest.sentry.io/5807077",
+    //integrations: [new Sentry.Integrations.BrowserTracing()],
+  
+    // We recommend adjusting this value in production, or using tracesSampler
+    // for finer control
+    tracesSampleRate: 1.0,
+});
 
 async function registerUser(data) {
+    const transaction = Sentry.startTransaction({
+        op: "Create User - APP",
+        name: "Criação de Usuário",
+    });
+
+    Sentry.setContext("User Body Send", {
+        title: "User Body Send",
+        stage: "1",
+        payload: data,
+    });
     
     try {
-        const result = await fetch("https://luaneletro.shop/user",{
+        const result = await fetch("http://localhost:8081/user",{
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
@@ -18,19 +38,29 @@ async function registerUser(data) {
 
         const res = await result.json()
 
+        Sentry.setExtra("User Created", {
+            title: "User Created",
+            stage: "2",
+            userId:  res.userId
+        })
+
+
         localStorage.setItem("user-id", res.userId)
         localStorage.setItem("token", res.token)
 
         sweetAlert.show("Legaaall", "Deu tudo certo!!!.", "success", 3000)
-        window.location.href = '/'
     } catch (err) { 
+        Sentry.captureException(err);
         sweetAlert.show("Opss...", "Ocorreu algum problema, tente novamente", "error", 3000)
+    } finally{
+        transaction.finish();
+        window.location.href = '/'
     }
 }
 
 async function updateUser(data) {
     try {
-        const result = await fetch("https://luaneletro.shop/user",{
+        const result = await fetch("http://localhost:8081/user",{
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json',
@@ -49,7 +79,7 @@ async function updateUser(data) {
 
 async function deleteCard(cardId){
     try {
-        await fetch(`https://luaneletro.shop/cards/cancel/${cardId}`,{
+        await fetch(`http://localhost:8081/cards/cancel/${cardId}`,{
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json',
@@ -73,8 +103,19 @@ async function deleteCard(cardId){
 }
 
 async function sendOrders(orders) {
+    const transaction = Sentry.startTransaction({
+        op: "Create Order - APP",
+        name: "Criação de Pedido",
+    });
+
     try {
-        const result = await fetch(`https://luaneletro.shop/orders`,{
+        Sentry.setContext("Order Body Send", {
+            title: "Order Body Send",
+            stage: "1",
+            payload: orders,
+        });
+
+        const result = await fetch(`http://localhost:8081/orders`,{
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -84,22 +125,32 @@ async function sendOrders(orders) {
         })
         if(!result.ok) throw new Error('Falha ao tentar entrar! Tente novamente')
 
+        const res = await result.json()
+
+        Sentry.setExtra("Order Created", {
+            title: "Order Created",
+            stage: "2",
+            orderId:  res.orderId
+        })
+
         return true
     }catch(err) { 
+        Sentry.captureException(err);
         sweetAlert.show(
             "Opss...", 
             "Problema ao finalizar pedido, tente novamente",
             "error",
             3000
         )
-
         return false
+    } finally{
+        transaction.finish();
     }
 }
 
 async function sendCard(cardHash = ''){
     try {
-        await fetch("https://luaneletro.shop/cards",{
+        await fetch("http://localhost:8081/cards",{
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -125,7 +176,7 @@ async function sendCard(cardHash = ''){
 
 async function cancelItemInOrder(data){
     try{
-        const result = await  fetch("https://luaneletro.shop/orders/cancel",{
+        const result = await  fetch("http://localhost:8081/orders/cancel",{
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json',

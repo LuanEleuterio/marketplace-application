@@ -1,6 +1,7 @@
 <main class="container container-user">
     <div>
         <div class="itens-order">
+            <h2 class="mb-3">Pedidos</h2>
             <% if(orders.length > 0) {
                 for( let order of orders){ %>
                     <div class="row order">
@@ -8,10 +9,6 @@
                             <div class="col-3">
                                 <p>PEDIDO REALIZADO</p>
                                 <span><%=order.createdAt.substr(0,10)%></span>
-                            </div>
-                            <div class="col-2">
-                                <p>STATUS</p>
-                                <span><%=order.status%></span>
                             </div>
                             <div class="col-3">
                                 <p>PEDIDO Nº</p>

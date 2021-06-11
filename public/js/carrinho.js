@@ -179,7 +179,7 @@ const carrinho = {
                 let resViacep = await fetch(`https://viacep.com.br/ws/${cep}/json/`)
                 let addressData = await  resViacep.json()
         
-                let resCorreios = await fetch(`https://luaneletro.shop/product/shipping?productId=${productId}&cepDestino=${cep}&productQtd=${qtdProd}`)
+                let resCorreios = await fetch(`http://localhost:8081/product/shipping?productId=${productId}&cepDestino=${cep}&productQtd=${qtdProd}`)
                 let shippingValue = await resCorreios.json()
         
                 document.querySelector("#streetShipping").innerText = `${addressData.logradouro} - ${addressData.localidade}`

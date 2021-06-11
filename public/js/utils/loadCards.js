@@ -11,7 +11,7 @@ const loadCards = {
     },
 
     load: async () =>{
-        let response = await fetch('https://luaneletro.shop/cards')
+        let response = await fetch('http://localhost:8081/cards')
         return await response.text()  
     }
 }
