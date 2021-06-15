@@ -29,7 +29,7 @@ async function registerPartner(data) {
 
 async function registerProduct(data){
     try {
-        await fetch("/product",{
+        const result = await fetch("/product",{
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -37,12 +37,13 @@ async function registerProduct(data){
             },
             body: JSON.stringify(data)
         })
-            .then(res => res.json())
-            .then(res => {
-                console.log(res)
-            })
-            .catch((err) => console.log(err));
-    } catch (err) {console.log(err)} 
+
+        if(!result.ok) throw new Error('Falha ao tentar atualizar! Tente novamente')    
+        return true
+    } catch (err) {
+        sweetAlert.show("Opss...", "Ocorreu algum problema, tente novamente", "error", 3000)
+        return false
+    } 
 }
 
 async function updateProduct(data){
@@ -84,19 +85,19 @@ async function updatePartner(data) {
 
 async function deleteProduct(productId){
     try {
-        await fetch(`/product/${productId}`,{
+        const result = await fetch(`/product/${productId}`,{
             method: "DELETE",
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             }
         })
-        .then(res => res.json())
-        .then(res => {
-            console.log(res)
-        })
-        .catch((err) => console.log(err));
-    } catch (err) {console.log(err)}
+        if(!result.ok) throw new Error('Falha ao tentar atualizar! Tente novamente')    
+        return true
+    } catch (err) {
+        sweetAlert.show("Opss...", "Ocorreu algum problema, tente novamente", "error", 3000)
+        return false
+    }
 }
 
 async function createDigitalAccount(data){
@@ -120,7 +121,7 @@ async function createDigitalAccount(data){
 const partner = {
     init: async () => {
         if(location.pathname == '/partner/products'){
-            await loadProducts.init()
+            await loadProducts.init(false)
         }
         partner.sendPartner()
         partner.createDigitalAccount()
@@ -342,11 +343,11 @@ const partner = {
                     }
                 }
 
-                await registerProduct(body)
+                const okProduct = await registerProduct(body)
                 
                 processing.finalize()
 
-                window.location.href = '/partner/products'
+                if(okProduct) window.location.href = '/partner/products'
             })
         }
     },
@@ -406,8 +407,9 @@ const partner = {
             for(let btnDelete of btnDeleteProduct){
                 btnDelete.addEventListener("click", async (e) => {
                     let productId = btnDelete.attributes[0].value
-                    await deleteProduct(productId)
-                    await loadProducts.init()
+                    const okDelete = await deleteProduct(productId)
+                    console.log(okDelete)
+                    if(okDelete) await loadProducts.init(true)
                 })  
             }
         }

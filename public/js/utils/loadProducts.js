@@ -1,7 +1,7 @@
 import partner from "../partner.js"
 
 const loadProducts = {
-    init: async () =>{ 
+    init: async (reloadProducts) =>{ 
         let itensProducts = document.querySelector("#itens-products")
         let data = await loadProducts.load()
 
@@ -9,7 +9,7 @@ const loadProducts = {
 
         //Chamo o deleteProduct para criar novamente os Event Listeners
         //de exlusão de products, tendo em vista que o itensProducts recebeu novos elementos
-        partner.deleteProduct()
+        if(reloadProducts) partner.deleteProduct()
     },
 
     load: async () =>{

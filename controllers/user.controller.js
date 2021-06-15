@@ -6,8 +6,6 @@ const userController = {
         try {
             let user = await userRepository.register(req.body)
 
-            console.log(user.data)
-
             if(user.error){
                 throw new Error(user.response.data)
             }

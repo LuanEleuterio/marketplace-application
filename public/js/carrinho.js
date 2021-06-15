@@ -230,7 +230,7 @@ const carrinho = {
         if(cepDestino != undefined){
             //let reg = new RegExp("^[0-9]{5})-?([0-9]{3}$")
             cepDestino.addEventListener("keyup", (e) => {
-                console.log(e.target)
+                //console.log(e.target)
             })
         }
     }

@@ -117,8 +117,6 @@ const orderController = {
             }
     
             let totalOrder = (parseFloat(carrinhoOrder.subtotal) + totalFrete).toFixed(2)
-
-            console.log(carrinhoOrder)
             
             res.render("user/finalizeOrder",{
                 layout: "layouts/user",

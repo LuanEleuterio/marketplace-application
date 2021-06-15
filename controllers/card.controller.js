@@ -1,18 +1,32 @@
 const repository = require('../repositories/card.repository')
-const gatewayRepository = require('../repositories/gateway.repository')
 
 const userController = {
     create: async (req, res, next) => {
         try{
-            let card = await repository.create(req.headers.authorization, req.body)          
-            res.json(card.data)
+            let card = await repository.create(req.headers.authorization, req.body)    
+
+            if(card?.response?.data?.error){
+                throw new Error(card.response.data)
+            }
+
+            res.status(201).cardjson(card.data)
         }catch(err){
-            res.json(err)
+            res.status(400).json(err)
         }
     },
     delete: async (req, res, next) => {
-        let cardDeleted = await repository.delete(req.headers.authorization, req.params.cardId)
-        res.json(cardDeleted.data)
+        try{
+            let cardDeleted = await repository.delete(req.headers.authorization, req.params.cardId)
+
+            if(cardDeleted?.response?.data?.error){
+                throw new Error(cardDeleted.response.data)
+            }
+
+            res.status(200).json(cardDeleted.data)
+        }catch(err){
+            res.status(400).json(err)
+        }
+     
     },
     renderCards: async (req, res, next) => {
         let data = req.cookies['_luaneletro-logged']

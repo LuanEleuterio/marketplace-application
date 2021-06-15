@@ -2,28 +2,8 @@ import loadCards from "./utils/loadCards.js"
 import hashCard from "./utils/hashCard.js"
 import processing from "./utils/processSpinner.js"
 import sweetAlert from "./utils/sweetAlert.js"
-import Sentry from "../../node_modules/@sentry/browser/build/bundle.js"
-
-Sentry.init({
-    dsn: "https://9fef0ef412f74bcea0332d5704a2e513@o815513.ingest.sentry.io/5807077",
-    //integrations: [new Sentry.Integrations.BrowserTracing()],
-  
-    // We recommend adjusting this value in production, or using tracesSampler
-    // for finer control
-    tracesSampleRate: 1.0,
-});
 
 async function registerUser(data) {
-    const transaction = Sentry.startTransaction({
-        op: "Create User - APP",
-        name: "Criação de Usuário",
-    });
-
-    Sentry.setContext("User Body Send", {
-        title: "User Body Send",
-        stage: "1",
-        payload: data,
-    });
     
     try {
         const result = await fetch("/user",{
@@ -38,23 +18,13 @@ async function registerUser(data) {
 
         const res = await result.json()
 
-        Sentry.setExtra("User Created", {
-            title: "User Created",
-            stage: "2",
-            userId:  res.userId
-        })
-
-
         localStorage.setItem("user-id", res.userId)
         localStorage.setItem("token", res.token)
 
         sweetAlert.show("Legaaall", "Deu tudo certo!!!.", "success", 3000)
-    } catch (err) { 
-        Sentry.captureException(err);
-        sweetAlert.show("Opss...", "Ocorreu algum problema, tente novamente", "error", 3000)
-    } finally{
-        transaction.finish();
         window.location.href = '/'
+    } catch (err) { 
+        sweetAlert.show("Opss...", "Ocorreu algum problema, tente novamente", "error", 3000)
     }
 }
 
@@ -72,6 +42,7 @@ async function updateUser(data) {
         if(!result.ok) throw new Error('Falha ao tentar atualizar! Tente novamente')
 
         sweetAlert.show("Atualizado!", "Seus dados foram atualizados.", "success", 3000)
+
     } catch (err) { 
         sweetAlert.show("Opss...", "Ocorreu algum problema, tente novamente", "error", 3000)
     }
@@ -79,42 +50,26 @@ async function updateUser(data) {
 
 async function deleteCard(cardId){
     try {
-        await fetch(`/cards/cancel/${cardId}`,{
+        const result = await fetch(`/cards/cancel/${cardId}`,{
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             }
         })
-        .then(res => {
-            if(!res.ok){    
-                throw Error(res.statusText)
-            }else{
-                return res.json()
-            }
-        })
-        .then(res => {
-            console.log(res)
-        })
-        .catch((err) => console.log(err));
+
+        if(!result.ok) throw new Error('Falha ao tentar atualizar! Tente novamente')
+
+        return true
     } catch (err) { 
-        console.log(err);
+        sweetAlert.show("Opss...", "Ocorreu algum problema, tente novamente", "error", 3000)
+        return false
     }
 }
 
 async function sendOrders(orders) {
-    const transaction = Sentry.startTransaction({
-        op: "Create Order - APP",
-        name: "Criação de Pedido",
-    });
-
+    
     try {
-        Sentry.setContext("Order Body Send", {
-            title: "Order Body Send",
-            stage: "1",
-            payload: orders,
-        });
-
         const result = await fetch(`/orders`,{
             method: "POST",
             headers: {
@@ -127,15 +82,8 @@ async function sendOrders(orders) {
 
         const res = await result.json()
 
-        Sentry.setExtra("Order Created", {
-            title: "Order Created",
-            stage: "2",
-            orderId:  res.orderId
-        })
-
         return true
     }catch(err) { 
-        Sentry.captureException(err);
         sweetAlert.show(
             "Opss...", 
             "Problema ao finalizar pedido, tente novamente",
@@ -143,14 +91,12 @@ async function sendOrders(orders) {
             3000
         )
         return false
-    } finally{
-        transaction.finish();
     }
 }
 
 async function sendCard(cardHash = ''){
     try {
-        await fetch("/cards",{
+        const result = await fetch("/cards",{
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -158,19 +104,14 @@ async function sendCard(cardHash = ''){
             },
             body: JSON.stringify(cardHash)
         })
-            .then(res => {
-                if(!res.ok){    
-                    throw Error(res.statusText)
-                }else{
-                    return res.json()
-                }
-            })
-            .then(res => {
-               console.log(res)
-            })
-            .catch((err) => console.log(err));
+
+        if(!result.ok) throw new Error('Falha ao tentar cadastar cartão! Tente novamente')
+        
+        return true
+
     } catch (err) { 
-        console.log(err);
+        sweetAlert.show("Opss...", "Ocorreu algum problema, tente novamente", "error", 3000)
+        return false
     }
 }
 
@@ -296,9 +237,9 @@ const user = {
                     holderName: cardData.holderName
                 }
         
-                await sendCard(body)
+                const okCard = await sendCard(body)
         
-                await loadCards.init()
+                if(okCard) await loadCards.init()
         
                 btnSendSpan.classList.remove('off')
                 btnSpinnerSend.classList.add('off')
@@ -312,8 +253,8 @@ const user = {
         if(btnDeleteCard != undefined){
             for( let btnDelete of btnDeleteCard){
                 btnDelete.addEventListener("click", async (e) =>{
-                    await deleteCard(btnDelete.attributes[0].value)
-                    await loadCards.init()
+                    const okDelete = await deleteCard(btnDelete.attributes[0].value)
+                    if(okDelete) await loadCards.init()
                 })
             }
         }

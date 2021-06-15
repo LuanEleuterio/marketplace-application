@@ -6,15 +6,24 @@ const viewHelper = require("../helpers/view.helper")
 
 const productController = {
     create: async (req, res, next) =>{       
-        let product = await repository.create(req.headers.authorization, req.body)
-        return res.json(product.data)
+        try{
+            let product = await repository.create(req.headers.authorization, req.body)
+
+            if(product?.response?.data?.error){
+                throw new Error(product.response.data)
+            }
+
+            res.status(200).json(product.data)
+        }catch(err){
+            res.status(400).json(err)
+        }
     },
 
     update:  async (req, res, next) => {
         try{
             let updatedProduct = await repository.update(req.headers.authorization, req.body)
             
-            if(updatedProduct.error){
+            if(updatedProduct?.response?.data?.error){
                 throw new Error(updatedProduct.response.data)
             }
             
@@ -25,8 +34,18 @@ const productController = {
     },
 
     delete:  async (req, res, next) => {
-        let deletedProduct = await repository.delete(req.headers.authorization, req.params.productId)
-        return res.json(deletedProduct.data)
+        try {
+            let deletedProduct = await repository.delete(req.headers.authorization, req.params.productId)
+           
+            if(deletedProduct?.response?.data?.error){
+                throw new Error(deletedProduct.response.data)
+            }
+           
+            return res.json(deletedProduct.data)
+        } catch (err) {
+            return res.status(400).json(err)
+        }
+
     },
 
     calculateShipping: async (req, res, next) => {  
