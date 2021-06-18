@@ -5,11 +5,13 @@ const userController = {
         try{
             let card = await repository.create(req.headers.authorization, req.body)    
 
+            console.log(card)
+
             if(card?.response?.data?.error){
                 throw new Error(card.response.data)
             }
 
-            res.status(201).cardjson(card.data)
+            res.status(201).json(card.data)
         }catch(err){
             res.status(400).json(err)
         }

@@ -102,7 +102,7 @@ async function deleteProduct(productId){
 
 async function createDigitalAccount(data){
     try {
-        await fetch("/digital-account",{
+        const result = await fetch("/digital-account",{
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -110,12 +110,15 @@ async function createDigitalAccount(data){
             },
             body: JSON.stringify(data)
         })
-            .then(res => res.json())
-            .then(res => {
-                console.log(res)
-            })
-            .catch((err) => console.log(err));
-    } catch (err) {console.log(err)} 
+
+        if(!result.ok) throw new Error('Falha ao tentar atualizar! Tente novamente')    
+        
+        sweetAlert.show("Deu Certoo!", "Conta Digital criada!!!", "success", 3000)
+        return true
+    } catch (err) {
+        sweetAlert.show("Opss...", "Ocorreu algum problema, tente novamente", "error", 3000)
+        return false
+    } 
 }
 
 const partner = {

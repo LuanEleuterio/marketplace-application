@@ -4,9 +4,14 @@ const gatewayController = {
     createDigitalAccount: async (req, res, next) => {
         try{
             let digitalAccount = await gatewayRepository.createDigitalAccount(req.headers.authorization, req.body)  
-            res.json(digitalAccount.data)
+            
+            if(digitalAccount?.response?.data?.error){
+                throw new Error(digitalAccount.response.data)
+            }
+
+            res.status(201).json(digitalAccount.data)
         }catch(err){
-            res.json(err.stack)
+            res.status(400).json(err.stack)
         }
     }
 }

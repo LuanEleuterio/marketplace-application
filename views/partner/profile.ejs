@@ -1,14 +1,16 @@
 <main class="container container-partner">
     <div class="box-partner">
-        <%if(!partner.signUpCompleted){%>
-            <span class="ms-4 fs-6" style="color:#dc3545">É necessário completar o cadastro para vender na plataforma</span>
-        <%}else if(!partner.hasJunoAccount){%>
+        <%if(partner.signUpCompleted && !partner.hasJunoAccount){%>
             <span class="ms-4 fs-6" style="color:#dc3545">É necessário ter uma conta Juno para vender na plataforma</span>
         <%}%>
         <div class="partner-data mb-4">
             <div class="box-data">
                 <div class="row col-12 mb-3">
-                    <h2 class="col-9">Dados Gerais</h2>
+                    <h2 class="col-9">Dados Gerais
+                        <%if(!partner.signUpCompleted){%>
+                            <span class="ms-4 fs-6" style="color:#dc3545">É necessário completar o cadastro para vender na plataforma</span>
+                        <%}%>
+                    </h2>
                     <button class="btn btn-warning col-3" id="btn-update-partner">Alterar dados</button>
                 </div>
                 <form class="row">
@@ -49,11 +51,7 @@
         <div class="partner-data mb-4">
             <div class="box-data">
                 <div class="row col-12 mb-3">
-                    <h2 class="col-9">Endereço
-                        <%if(!partner.signUpCompleted){%>
-                            <span class="ms-4 fs-6" style="color:#dc3545">É necessário completar o cadastro para vender na plataforma</span>
-                        <%}%>
-                    </h2>
+                    <h2 class="col-9">Endereço</h2>
                     <button class="btn btn-warning col-3" id="btn-update-address">Alterar dados</button>
                 </div>
                 <form class="row">
@@ -88,7 +86,7 @@
                 <div class="row col-12 mb-3">
                     <h2 class="col-9">Dados Bancários
                         <%if(!partner.signUpCompleted){%>
-                            <span class="fs-6" style="color:#dc3545">*</span>
+                            <span class=" fs-6" style="color:#dc3545">É necessário completar o cadastro para vender na plataforma</span>
                         <%}%>
                     </h2>
                     <button class="btn btn-warning col-3" id="btn-update-bank">Alterar dados</button>
@@ -96,7 +94,11 @@
                 <form class="row">
                     <div class="row">
                         <div class="col-4 mb-2">
-                            <label for="bankNumber" class="form-label">Banco</label>
+                            <label for="bankNumber" class="form-label">Banco
+                                <%if(!partner.signUpCompleted){%>
+                                    <span class="fs-6" style="color:#dc3545">*</span>
+                                <%}%>
+                            </label>
                             <select class="form-select" name="bankNumber" id="bankNumber">
                                 <%if(bankAndBusiness !== undefined){%>
                                     <% for( let bank of bankAndBusiness.banks ) {
@@ -110,23 +112,43 @@
                             </select>
                         </div>
                         <div class="col-4 mb-2">
-                            <label for="agencyBank" class="form-label">Agência</label>
+                            <label for="agencyBank" class="form-label">Agência
+                                <%if(!partner.signUpCompleted){%>
+                                    <span class="fs-6" style="color:#dc3545">*</span>
+                                <%}%>
+                            </label>
                             <input class="form-control" type="text" name="cep" id="agencyBank" value="<%=partner?.bankAccount?.agencyNumber%>" placeholder="Agência">
                         </div>
                         <div class="col-4 mb-2">
-                            <label for="accountBank" class="form-label">Conta</label>
+                            <label for="accountBank" class="form-label">Conta
+                                <%if(!partner.signUpCompleted){%>
+                                    <span class="fs-6" style="color:#dc3545">*</span>
+                                <%}%>
+                            </label>
                             <input class="form-control" type="text" name="cep" id="accountBank" value="<%=partner?.bankAccount?.accountNumber%>" placeholder="Conta">
                         </div>
                         <div class="col-4">
-                            <label for="ownerBank" class="form-label">Titular</label>
+                            <label for="ownerBank" class="form-label">Titular
+                                <%if(!partner.signUpCompleted){%>
+                                    <span class="fs-6" style="color:#dc3545">*</span>
+                                <%}%>
+                            </label>
                             <input class="form-control" type="text" name="cep" id="ownerBank" value="<%=partner?.bankAccount?.accountHolder?.name%>" placeholder="Titular">
                         </div>
                         <div class="col-4">
-                            <label for="cpfOwner" class="form-label">CPF Titular</label>
+                            <label for="cpfOwner" class="form-label">CPF Titular
+                                <%if(!partner.signUpCompleted){%>
+                                    <span class="fs-6" style="color:#dc3545">*</span>
+                                <%}%>
+                            </label>
                             <input class="form-control" type="text" name="cep" id="cpfOwner" value="<%=partner?.bankAccount?.accountHolder?.document%>" placeholder="CPF Titular">
                         </div>
                         <div class="col-4">
-                            <label for="accountType" class="form-label">Tipo da Conta</label>
+                            <label for="accountType" class="form-label">Tipo da Conta
+                                <%if(!partner.signUpCompleted){%>
+                                    <span class="fs-6" style="color:#dc3545">*</span>
+                                <%}%>
+                            </label>
                             <input class="form-control" type="text" name="cep" id="accountType" value="<%=partner?.bankAccount?.accountType%>" placeholder="Tipo da Conta" disabled>
                         </div>
                     </div>
