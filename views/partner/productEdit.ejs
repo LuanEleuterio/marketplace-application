@@ -70,8 +70,8 @@
                             </div>
                         </button>
                         <img src="<%=viewHelper.showImage(product.img_url)%>" alt="Imagem do Produto" id="image-loaded">
-                        <input class="form-control off" type="text" id="upload" value="<%=product.img_url%>">
-                        <input class="off" id="product-image" name="product-image" type="hidden" id="upload">
+                        <input class="form-control off" type="file" id="upload">
+                        <input class="off" id="product-image" name="product-image" type="hidden" id="upload"  value="<%=product.img_url%>">
                     </div>
                 </div>
                 <div class="row pb-3 justify-content-center">

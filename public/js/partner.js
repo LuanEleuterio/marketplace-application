@@ -365,7 +365,7 @@ const partner = {
                 const nameProd = document.querySelector('#nameProd')
                 const descProd = document.querySelector('#descriptionProd')
                 const priceProd = document.querySelector('#price')
-                const imgProd = document.querySelector('#upload')
+                const imgProd = document.querySelector('#product-image')
                 const qtdProd = document.querySelector("#quantity")
                 const manufacturer = document.querySelector("#manufacturer")
                 const marca = document.querySelector("#marca")
@@ -424,6 +424,7 @@ const partner = {
 
         if(btnImage != undefined){
             btnImage.addEventListener("click", (e) => {
+                console.log(field)
                 field.click()
             })
         }
@@ -432,7 +433,7 @@ const partner = {
             field.addEventListener("change", async (e) => {
                 let btnSendSpan = document.querySelector(".btn-span-image")
                 let btnSpinnerSend = document.querySelector(".btn-spinner-image")
-                
+                console.log(btnSendSpan, btnSpinnerSend)
                 btnSendSpan.classList.add('off')
                 btnSpinnerSend.classList.remove('off')
 
