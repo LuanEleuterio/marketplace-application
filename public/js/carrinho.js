@@ -44,6 +44,7 @@ const carrinho = {
         carrinho.removeCarrinho()
         carrinho.calculateShipping()
         carrinho.cepRegex()
+        carrinho.finalizeOrder()
     },
 
     addCarrinho: () => {
@@ -197,7 +198,7 @@ const carrinho = {
         if( btnFinalizeOrder != undefined){
             btnFinalizeOrder.addEventListener("click", (e) => {
                 const productsItens = document.querySelectorAll('.product-carrinho')
-                
+
                 let data = {
                     products: []
                 }
