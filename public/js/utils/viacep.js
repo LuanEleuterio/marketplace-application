@@ -16,6 +16,7 @@ const viacep = {
                 fetch(`https://viacep.com.br/ws/${cep}/json/`)
                 .then(data => data.json())
                 .then(data => {
+                    console.log(data)
                     document.querySelector('#street').value = data.logradouro
                     document.querySelector('#state').value = data.uf
                     document.querySelector('#city').value = data.localidade
